@@ -1,0 +1,31 @@
+{
+  "name": "election-helpers",
+  "version": "0.0.1",
+  "description": "Election helpers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejfox/election-helpers.git"
+  },
+  "keywords": [
+    "elections",
+    "data"
+  ],
+  "author": "EJ Fox <ejfox@ejfox.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ejfox/election-helpers/issues"
+  },
+  "homepage": "https://github.com/ejfox/election-helpers#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
