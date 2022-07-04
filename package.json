@@ -9,7 +9,8 @@
     "serve": "npx http-serve docs",
     "watch": "watch 'npm run docs' .",
     "markdown": "npx jsdoc-to-markdown index.js > docs.md",
-    "publish": "npm docs;gh-pages -d docs -b gh-pages"
+    "publish": "npm docs;gh-pages -d docs -b gh-pages",
+    "release": "npx release-it"
   },
   "repository": {
     "type": "git",
