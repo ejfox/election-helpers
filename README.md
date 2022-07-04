@@ -1,5 +1,8 @@
 # Election Helpers
 
+
+![](https://img.shields.io/npm/v/election-helpers)
+
 ## Read [docs.md](https://github.com/ejfox/election-helpers/blob/master/docs.md) or [GH pages](https://ejfox.github.io/election-helpers/global.html) for documentation 
 
 1. 💽 Curated sources for historical election data with built-in data normalization for a variety of sources
