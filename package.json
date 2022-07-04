@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "docs": "npx jsdoc index.js -c ./jsdoc.config.json -d ./docs --verbose",
+    "docs": "npx jsdoc index.js -c ./jsdoc.config.json -d ./docs --verbose;npm run markdown",
     "serve": "npx http-serve docs",
-    "watch": "watch 'npm run docs' ."
+    "watch": "watch 'npm run docs' .",
+    "markdown": "npx jsdoc-to-markdown index.js > docs.md",
+    "publish": "npm docs;gh-pages -d docs -b gh-pages"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,7 @@
   "homepage": "https://github.com/ejfox/election-helpers#readme",
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
+    "gh-pages": "^4.0.0",
     "jsdoc-baseline": "^0.1.5",
     "jsdoc-template": "^1.2.0",
     "watch": "^1.0.2"
