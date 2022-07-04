@@ -1,0 +1,290 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.6.10">
+  <meta charset="utf-8">
+  <title>election-helpers 0.0.1 &raquo; Source: index.js</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>1</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-banner" role="banner">
+        </div>
+        <div id="jsdoc-main" role="main">
+          <header class="page-header">
+            <h1>Source: index.js</h1>
+          </header>
+          <article>
+            <pre class="prettyprint linenums"><code>/**
+ * @description Get the state code from the county fips string
+ * @param {string} countyFips - The county fips code.
+ * @returns {string} - The state fips code.
+ * @example
+ * getStateCodeFromCountyFips(&#x27;01001&#x27;)
+ * // returns &#x27;01&#x27;
+ * @example
+ * getStateCodeFromCountyFips(01000)
+ * // throws Error
+ * @example
+ * getStateCodeFromCountyFips(&#x27;01&#x27;)
+ * // throws Error
+ * 
+ */
+export function getStateCodeFromCountyFips(countyFips) {
+  return countyFips.slice(0, 2)
+}
+
+/**
+ * @desc Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.
+ * @param {number} candidateVote - The number of votes the candidate has received.
+ * @param {number} totalVotes - The total number of votes in the election.
+ * @returns {number} - The percentage of votes the candidate has received.
+ * @example
+ * getPercentageOfVotes(100, 200)
+ * // returns 50
+ */
+export function candidateVotePercentage(candidateVote, totalVote) {
+  const rawPercentage &#x3D; (candidateVote / totalVote) * 100
+  return rawPercentage.toFixed(config.votePercentDecimalPlaces)
+}
+
+/**
+ * @desc Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
+ * 
+ * @param {Array} candidates - An array of candidate objects.
+ * @param {Function} sortFunction - The function to use to sort the candidates (like d3.descending)
+ * @returns {Array} - A sorted array of candidate objects.
+ * @throws {Error} - If the candidates array is invalid.
+
+ */
+export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
+  if (!raceCandidateArray)
+    return console.error(
+      &quot;Trying to sort candidates but didn&#x27;t get anything to sort&quot;,
+      {
+        raceCandidateArray,
+      }
+    )
+
+  if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 0)
+    return console.error(
+      &#x27;Trying to sort a candidate array with zero candidates&#x27;
+    )
+  if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 1)
+    return console.log(
+      &#x27;Trying to sort a candidate array with only one candidate, which seems kinda weird&#x27;
+    )
+  if(sortFunction) {
+    return raceCandidateArray.sort(function (x, y) {
+      return sortFunction(+x.candidatevotes, +y.candidatevotes)
+    })
+  } else {
+    return raceCandidateArray
+  }
+  
+}
+
+/**
+ * @param {string} stateFips - The state fips code.
+ * @returns {string} - The state name
+ * @throws {Error} - If the state fips code is invalid.
+ * @example
+ * stateNameHash[&#x27;01&#x27;]
+ * // returns &#x27;Alabama&#x27;
+ * 
+ */
+const stateNameHash &#x3D; {
+  &#x27;01&#x27;: &#x27;Alabama&#x27;,
+  &#x27;02&#x27;: &#x27;Alaska&#x27;,
+  &#x27;04&#x27;: &#x27;Arizona&#x27;,
+  &#x27;05&#x27;: &#x27;Arkansas&#x27;,
+  &#x27;06&#x27;: &#x27;California&#x27;,
+  &#x27;08&#x27;: &#x27;Colorado&#x27;,
+  &#x27;09&#x27;: &#x27;Connecticut&#x27;,
+  10: &#x27;Delaware&#x27;,
+  11: &#x27;District of Columbia&#x27;,
+  12: &#x27;Florida&#x27;,
+  13: &#x27;Georgia&#x27;,
+  15: &#x27;Hawaii&#x27;,
+  16: &#x27;Idaho&#x27;,
+  17: &#x27;Illinois&#x27;,
+  18: &#x27;Indiana&#x27;,
+  19: &#x27;Iowa&#x27;,
+  20: &#x27;Kansas&#x27;,
+  21: &#x27;Kentucky&#x27;,
+  22: &#x27;Louisiana&#x27;,
+  23: &#x27;Maine&#x27;,
+  24: &#x27;Maryland&#x27;,
+  25: &#x27;Massachusetts&#x27;,
+  26: &#x27;Michigan&#x27;,
+  27: &#x27;Minnesota&#x27;,
+  28: &#x27;Mississippi&#x27;,
+  29: &#x27;Missouri&#x27;,
+  30: &#x27;Montana&#x27;,
+  31: &#x27;Nebraska&#x27;,
+  32: &#x27;Nevada&#x27;,
+  33: &#x27;New Hampshire&#x27;,
+  34: &#x27;New Jersey&#x27;,
+  35: &#x27;New Mexico&#x27;,
+  36: &#x27;New York&#x27;,
+  37: &#x27;North Carolina&#x27;,
+  38: &#x27;North Dakota&#x27;,
+  39: &#x27;Ohio&#x27;,
+  40: &#x27;Oklahoma&#x27;,
+  41: &#x27;Oregon&#x27;,
+  42: &#x27;Pennsylvania&#x27;,
+  44: &#x27;Rhode Island&#x27;,
+  45: &#x27;South Carolina&#x27;,
+  46: &#x27;South Dakota&#x27;,
+  47: &#x27;Tennessee&#x27;,
+  48: &#x27;Texas&#x27;,
+  49: &#x27;Utah&#x27;,
+  50: &#x27;Vermont&#x27;,
+  51: &#x27;Virginia&#x27;,
+  53: &#x27;Washington&#x27;,
+  54: &#x27;West Virginia&#x27;,
+  55: &#x27;Wisconsin&#x27;,
+  56: &#x27;Wyoming&#x27;,
+}
+
+/**
+ * 
+ * @param {string} stateFips
+ * @returns {string} - The state name
+ * @throws {Error} - If the state fips code is invalid.
+ * @example
+ * getStateNameFromStateFips(&#x27;01&#x27;)
+ * // returns &#x27;Alabama&#x27;
+ * 
+ */
+
+export function stateFipsToName(stateFips) {
+  return stateNameHash[stateFips]
+}
+
+/**
+ * 
+ * @param {string} stateName 
+ * @returns {string} - The state fips code
+ * @throws {Error} - If the state name is invalid.
+ * @example
+ * getStateFipsFromStateName(&#x27;Alabama&#x27;)
+ * // returns &#x27;01&#x27;
+ */
+export function stateNameToFips(stateName) {
+  return Object.keys(stateNameHash).find(
+    (key) &#x3D;&gt; stateNameHash[key] &#x3D;&#x3D;&#x3D; stateName
+  )
+}
+
+/**
+ * 
+ * @param {string} stateAbbr - Two letter state abbreviation
+ * @returns {string} - The state name
+ * @throws {Error} - If the state abbreviation is invalid.
+ * @example
+ * getStateNameFromStateAbbr(&#x27;AL&#x27;)
+ * // returns &#x27;Alabama&#x27;
+ * 
+ */
+export function stateAbbrToName(stateAbbr) {
+  const stateAbbrHash &#x3D; {
+    AL: &#x27;Alabama&#x27;,
+    AK: &#x27;Alaska&#x27;,
+    AS: &#x27;American Samoa&#x27;,
+    AZ: &#x27;Arizona&#x27;,
+    AR: &#x27;Arkansas&#x27;,
+    CA: &#x27;California&#x27;,
+    CO: &#x27;Colorado&#x27;,
+    CT: &#x27;Connecticut&#x27;,
+    DE: &#x27;Delaware&#x27;,
+    DC: &#x27;District Of Columbia&#x27;,
+    FM: &#x27;Federated States Of Micronesia&#x27;,
+    FL: &#x27;Florida&#x27;,
+    GA: &#x27;Georgia&#x27;,
+    GU: &#x27;Guam&#x27;,
+    HI: &#x27;Hawaii&#x27;,
+    ID: &#x27;Idaho&#x27;,
+    IL: &#x27;Illinois&#x27;,
+    IN: &#x27;Indiana&#x27;,
+    IA: &#x27;Iowa&#x27;,
+    KS: &#x27;Kansas&#x27;,
+    KY: &#x27;Kentucky&#x27;,
+    LA: &#x27;Louisiana&#x27;,
+    ME: &#x27;Maine&#x27;,
+    MH: &#x27;Marshall Islands&#x27;,
+    MD: &#x27;Maryland&#x27;,
+    MA: &#x27;Massachusetts&#x27;,
+    MI: &#x27;Michigan&#x27;,
+    MN: &#x27;Minnesota&#x27;,
+    MS: &#x27;Mississippi&#x27;,
+    MO: &#x27;Missouri&#x27;,
+    MT: &#x27;Montana&#x27;,
+    NE: &#x27;Nebraska&#x27;,
+    NV: &#x27;Nevada&#x27;,
+    NH: &#x27;New Hampshire&#x27;,
+    NJ: &#x27;New Jersey&#x27;,
+    NM: &#x27;New Mexico&#x27;,
+    NY: &#x27;New York&#x27;,
+    NC: &#x27;North Carolina&#x27;,
+    ND: &#x27;North Dakota&#x27;,
+    MP: &#x27;Northern Mariana Islands&#x27;,
+    OH: &#x27;Ohio&#x27;,
+    OK: &#x27;Oklahoma&#x27;,
+    OR: &#x27;Oregon&#x27;,
+    PW: &#x27;Palau&#x27;,
+    PA: &#x27;Pennsylvania&#x27;,
+    PR: &#x27;Puerto Rico&#x27;,
+    RI: &#x27;Rhode Island&#x27;,
+    SC: &#x27;South Carolina&#x27;,
+    SD: &#x27;South Dakota&#x27;,
+    TN: &#x27;Tennessee&#x27;,
+    TX: &#x27;Texas&#x27;,
+    UT: &#x27;Utah&#x27;,
+    VT: &#x27;Vermont&#x27;,
+    VI: &#x27;Virgin Islands&#x27;,
+    VA: &#x27;Virginia&#x27;,
+    WA: &#x27;Washington&#x27;,
+    WV: &#x27;West Virginia&#x27;,
+    WI: &#x27;Wisconsin&#x27;,
+    WY: &#x27;Wyoming&#x27;,
+  }
+  return stateAbbrHash[stateAbbr]
+}
+</code></pre>
+          </article>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.10 on July 4, 2022.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>

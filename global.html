@@ -1,0 +1,520 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="generator" content="JSDoc 3.6.10">
+  <meta charset="utf-8">
+  <title>election-helpers 0.0.1 &raquo; Globals</title>
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
+  <link href="css/baseline.css" rel="stylesheet">
+</head>
+
+<body onload="prettyPrint()">
+  <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
+    <div id="jsdoc-navbar-container">
+      <div id="jsdoc-navbar-content">
+        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>1</a>
+      </div>
+    </div>
+  </nav>
+  <div id="jsdoc-body-container">
+    <div id="jsdoc-content">
+      <div id="jsdoc-content-container">
+        <div id="jsdoc-main" role="main">
+          <h1>Globals</h1>
+          <section id="summary">
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Property</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="global.html#stateNameHash">stateNameHash</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                </div>
+                <div class="summary-column">
+                </div>
+              </div>
+            </div>
+            <div class="summary-callout">
+              <h2 class="summary-callout-heading">Methods</h2>
+              <div class="summary-content">
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="global.html#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="global.html#getStateCodeFromCountyFips">getStateCodeFromCountyFips(countyFips)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="global.html#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="global.html#stateAbbrToName">stateAbbrToName(stateAbbr)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="summary-column">
+                  <dl class="dl-summary-callout">
+                    <dt><a href="global.html#stateFipsToName">stateFipsToName(stateFips)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="global.html#stateNameToFips">stateNameToFips(stateName)</a></dt>
+                    <dd>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Property</h2>
+            <section>
+              <div class="symbol-detail-labels"><span class="label label-constant">constant</span></div>
+              <h3 id="stateNameHash"><span class="symbol-name">stateNameHash</span></h3>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>stateNameHash[&#x27;01&#x27;]
+// returns &#x27;Alabama&#x27;</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateFips</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The state fips code.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Throws</dt>
+                <dd>
+                  <p><code>Error</code> 
+                  <ul>
+                    </p>
+                    <li>If the state fips code is invalid.</li>
+                  </ul>
+                </dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The state name</li>
+                  </ul>
+                </dd>
+              </dl>
+            </section>
+            <h2>Methods</h2>
+            <section>
+              <h3 id="candidateVotePercentage"><span class="symbol-name">candidateVotePercentage</span><span class="signature"><span class="signature-params">(candidateVote, totalVotes)</span>&nbsp;&rarr; <span class="signature-returns"> number</span></span></h3>
+              <p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getPercentageOfVotes(100, 200)
+// returns 50</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>candidateVote</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The number of votes the candidate has received.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>totalVotes</p>
+                      </td>
+                      <td>
+                        <p>number</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The total number of votes in the election.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>number</code> 
+                  <ul>
+                    </p>
+                    <li>The percentage of votes the candidate has received.</li>
+                  </ul>
+                </dd>
+              </dl>
+              <h3 id="getStateCodeFromCountyFips"><span class="symbol-name">getStateCodeFromCountyFips</span><span class="signature"><span class="signature-params">(countyFips)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <p>Get the state code from the county fips string</p>
+              <section>
+                <h4>
+                  Examples
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateCodeFromCountyFips(&#x27;01001&#x27;)
+// returns &#x27;01&#x27;</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>getStateCodeFromCountyFips(01000)
+// throws Error</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>getStateCodeFromCountyFips(&#x27;01&#x27;)
+// throws Error</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>countyFips</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The county fips code.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The state fips code.</li>
+                  </ul>
+                </dd>
+              </dl>
+              <h3 id="sortCandidatesByVotes"><span class="symbol-name">sortCandidatesByVotes</span><span class="signature"><span class="signature-params">(candidates, sortFunction)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
+              <p>Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.</p>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>candidates</p>
+                      </td>
+                      <td>
+                        <p>Array</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>An array of candidate objects.</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>sortFunction</p>
+                      </td>
+                      <td>
+                        <p>function()</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The function to use to sort the candidates (like d3.descending)</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Throws</dt>
+                <dd>
+                  <p><code>Error</code> 
+                  <ul>
+                    </p>
+                    <li>If the candidates array is invalid.</li>
+                  </ul>
+                </dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>Array</code> 
+                  <ul>
+                    </p>
+                    <li>A sorted array of candidate objects.</li>
+                  </ul>
+                </dd>
+              </dl>
+              <h3 id="stateAbbrToName"><span class="symbol-name">stateAbbrToName</span><span class="signature"><span class="signature-params">(stateAbbr)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateNameFromStateAbbr(&#x27;AL&#x27;)
+// returns &#x27;Alabama&#x27;</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateAbbr</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>Two letter state abbreviation</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Throws</dt>
+                <dd>
+                  <p><code>Error</code> 
+                  <ul>
+                    </p>
+                    <li>If the state abbreviation is invalid.</li>
+                  </ul>
+                </dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The state name</li>
+                  </ul>
+                </dd>
+              </dl>
+              <h3 id="stateFipsToName"><span class="symbol-name">stateFipsToName</span><span class="signature"><span class="signature-params">(stateFips)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateNameFromStateFips(&#x27;01&#x27;)
+// returns &#x27;Alabama&#x27;</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateFips</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Throws</dt>
+                <dd>
+                  <p><code>Error</code> 
+                  <ul>
+                    </p>
+                    <li>If the state fips code is invalid.</li>
+                  </ul>
+                </dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The state name</li>
+                  </ul>
+                </dd>
+              </dl>
+              <h3 id="stateNameToFips"><span class="symbol-name">stateNameToFips</span><span class="signature"><span class="signature-params">(stateName)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateFipsFromStateName(&#x27;Alabama&#x27;)
+// returns &#x27;01&#x27;</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateName</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Throws</dt>
+                <dd>
+                  <p><code>Error</code> 
+                  <ul>
+                    </p>
+                    <li>If the state name is invalid.</li>
+                  </ul>
+                </dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The state fips code</li>
+                  </ul>
+                </dd>
+              </dl>
+            </section>
+          </section>
+        </div>
+      </div>
+      <nav id="jsdoc-toc-nav" role="navigation"></nav>
+    </div>
+  </div>
+  <footer id="jsdoc-footer" class="jsdoc-footer">
+    <div id="jsdoc-footer-container">
+      <p>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.10 on July 4, 2022.
+      </p>
+    </div>
+  </footer>
+  <script src="scripts/jquery.min.js"></script>
+  <script src="scripts/tree.jquery.js"></script>
+  <script src="scripts/prettify.js"></script>
+  <script src="scripts/jsdoc-toc.js"></script>
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/scrollanchor.js"></script>
+</body>
+
+</html>
