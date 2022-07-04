@@ -1,5 +1,7 @@
 # Election Helpers
 
+## Read [docs.md](https://github.com/ejfox/election-helpers/blob/master/docs.md) or [GH pages](https://ejfox.github.io/election-helpers/global.html) for documentation 
+
 1. 💽 Curated sources for historical election data with built-in data normalization for a variety of sources
 2. 🗺️ Boundaries for building custom election maps visualizations
 3. 📈 Functions for analyzing and modeling election results
