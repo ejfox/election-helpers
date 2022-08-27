@@ -1,73 +1,4 @@
 /**
- * @description Get the state code from the county fips string
- * @param {string} countyFips - The county fips code.
- * @returns {string} - The state fips code.
- * @example
- * getStateCodeFromCountyFips('01001')
- * // returns '01'
- * @example
- * getStateCodeFromCountyFips(01000)
- * // throws Error
- * @example
- * getStateCodeFromCountyFips('01')
- * // throws Error
- * 
- */
-export function getStateCodeFromCountyFips(countyFips) {
-  return countyFips.slice(0, 2)
-}
-
-/**
- * @desc Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.
- * @param {number} candidateVote - The number of votes the candidate has received.
- * @param {number} totalVotes - The total number of votes in the election.
- * @returns {number} - The percentage of votes the candidate has received.
- * @example
- * getPercentageOfVotes(100, 200)
- * // returns 50
- */
-export function candidateVotePercentage(candidateVote, totalVote) {
-  const rawPercentage = (candidateVote / totalVote) * 100
-  return rawPercentage.toFixed(config.votePercentDecimalPlaces)
-}
-
-/**
- * @desc Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
- * 
- * @param {Array} candidates - An array of candidate objects.
- * @param {Function} sortFunction - The function to use to sort the candidates (like d3.descending)
- * @returns {Array} - A sorted array of candidate objects.
- * @throws {Error} - If the candidates array is invalid.
-
- */
-export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
-  if (!raceCandidateArray)
-    return console.error(
-      "Trying to sort candidates but didn't get anything to sort",
-      {
-        raceCandidateArray,
-      }
-    )
-
-  if (raceCandidateArray.length === 0)
-    return console.error(
-      'Trying to sort a candidate array with zero candidates'
-    )
-  if (raceCandidateArray.length === 1)
-    return console.log(
-      'Trying to sort a candidate array with only one candidate, which seems kinda weird'
-    )
-  if(sortFunction) {
-    return raceCandidateArray.sort(function (x, y) {
-      return sortFunction(+x.candidatevotes, +y.candidatevotes)
-    })
-  } else {
-    return raceCandidateArray
-  }
-  
-}
-
-/**
  * @param {string} stateFips - The state fips code.
  * @returns {string} - The state name
  * @throws {Error} - If the state fips code is invalid.
@@ -128,36 +59,6 @@ const stateNameHash = {
   54: 'West Virginia',
   55: 'Wisconsin',
   56: 'Wyoming',
-}
-
-/**
- * 
- * @param {string} stateFips
- * @returns {string} - The state name
- * @throws {Error} - If the state fips code is invalid.
- * @example
- * getStateNameFromStateFips('01')
- * // returns 'Alabama'
- * 
- */
-
-export function stateFipsToName(stateFips) {
-  return stateNameHash[stateFips]
-}
-
-/**
- * 
- * @param {string} stateName 
- * @returns {string} - The state fips code
- * @throws {Error} - If the state name is invalid.
- * @example
- * getStateFipsFromStateName('Alabama')
- * // returns '01'
- */
-export function stateNameToFips(stateName) {
-  return Object.keys(stateNameHash).find(
-    (key) => stateNameHash[key] === stateName
-  )
 }
 
 /**
@@ -233,4 +134,195 @@ export function stateAbbrToName(stateAbbr) {
     WY: 'Wyoming',
   }
   return stateAbbrHash[stateAbbr]
+}
+
+
+/**
+ * 
+ * @param {string} stateFips - The state fips code.
+ * @returns {string} - The state abbreviation
+ * @throws {Error} - If the state fips code is invalid.
+ * @example
+ * getStateAbbrFromStateFips('01')
+ * // returns 'AL'
+ * 
+ * @example
+ * getStateAbbrFromStateFips('36')
+ * // returns 'NY'
+ * 
+ * @example
+ * getStateAbbrFromStateFips('XX')
+ * // throws an error
+ */
+
+export function stateFipsToAbbr(stateFips) {
+  const stateFipsHash = {
+    01: 'AL',
+    02: 'AK',
+    04: 'AZ',
+    05: 'AR',
+    06: 'CA',
+    08: 'CO',
+    09: 'CT',
+    10: 'DE',
+    11: 'DC',
+    12: 'FL',
+    13: 'GA',
+    15: 'HI',
+    16: 'ID',
+    17: 'IL',
+    18: 'IN',
+    19: 'IA',
+    20: 'KS',
+    21: 'KY',
+    22: 'LA',
+    23: 'ME',
+    24: 'MD',
+    25: 'MA',
+    26: 'MI',
+    27: 'MN',
+    28: 'MS',
+    29: 'MO',
+    30: 'MT',
+    31: 'NE',
+    32: 'NV',
+    33: 'NH',
+    34: 'NJ',
+    35: 'NM',
+    36: 'NY',
+    37: 'NC',
+    38: 'ND',
+    39: 'OH',
+    40: 'OK',
+    41: 'OR',
+    42: 'PA',
+    44: 'RI',
+    45: 'SC',
+    46: 'SD',
+    47: 'TN',
+    48: 'TX',
+    49: 'UT',
+    50: 'VT',
+    51: 'VA',
+    53: 'WA',
+    54: 'WV',
+    55: 'WI',
+    56: 'WY',
+  }
+  return stateFipsHash[stateFips]
+}
+
+
+
+/**
+ * @description Get the state code from the county fips string
+ * @param {string} countyFips - The county fips code.
+ * @returns {string} - The state fips code.
+ * @example
+ * getStateCodeFromCountyFips('01001')
+ * // returns '01'
+ * @example
+ * getStateCodeFromCountyFips(01000)
+ * // throws Error
+ * @example
+ * getStateCodeFromCountyFips('01')
+ * // throws Error
+ * 
+ */
+export function getStateCodeFromCountyFips(countyFips) {
+  return countyFips.slice(0, 2)
+}
+
+/**
+ * @desc Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.
+ * @param {number} candidateVote - The number of votes the candidate has received.
+ * @param {number} totalVotes - The total number of votes in the election.
+ * @returns {number} - The percentage of votes the candidate has received.
+ * @example
+ * getPercentageOfVotes(100, 200)
+ * // returns 50
+ */
+export function candidateVotePercentage(candidateVote, totalVote) {
+  const rawPercentage = (candidateVote / totalVote) * 100
+  return rawPercentage.toFixed(config.votePercentDecimalPlaces)
+}
+
+/**
+ * @desc Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
+ * 
+ * @param {Array} candidates - An array of candidate objects.
+ * @param {Function} sortFunction - The function to use to sort the candidates (like d3.descending)
+ * @returns {Array} - A sorted array of candidate objects.
+ * @throws {Error} - If the candidates array is invalid.
+
+ */
+export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
+  if (!raceCandidateArray)
+    return console.error(
+      "Trying to sort candidates but didn't get anything to sort",
+      {
+        raceCandidateArray,
+      }
+    )
+
+  if (raceCandidateArray.length === 0)
+    return console.error(
+      'Trying to sort a candidate array with zero candidates'
+    )
+  if (raceCandidateArray.length === 1)
+    return console.log(
+      'Trying to sort a candidate array with only one candidate, which seems kinda weird'
+    )
+  if(sortFunction) {
+    return raceCandidateArray.sort(function (x, y) {
+      return sortFunction(+x.candidatevotes, +y.candidatevotes)
+    })
+  } else {
+    return raceCandidateArray
+  }
+  
+}
+
+/**
+ * 
+ * @param {string} stateFips
+ * @returns {string} - The state name
+ * @throws {Error} - If the state fips code is invalid.
+ * @example
+ * stateFipsToName('01')
+ * // returns 'Alabama'
+ * 
+ */
+
+export function stateFipsToName(stateFips) {
+  return stateNameHash[stateFips]
+}
+
+
+/**
+ * @description Get the state fips code from the abbreviation, like 'NY' to '36'
+ * @param {string} stateAbbreviation - The state abbreviation.
+ * @returns {string} - The state fips code.
+ * @example
+ * getStateFipsFromAbbreviation('NY')
+ * // returns '36'
+*/
+export function stateAbbrToFips(stateAbbr) {
+  const stateFips = Object.keys(stateNameHash).find(key => stateNameHash[key] === stateAbbr)
+  return stateFips
+}
+
+/**
+ * 
+ * @param {string} stateName 
+ * @returns {string} - The state fips code
+ * @throws {Error} - If the state name is invalid.
+ * @example
+ * getStateFipsFromStateName('Alabama')
+ * // returns '01'
+ */
+export function stateNameToFips(stateName) {
+  return Object.keys(stateNameHash).find(
+    (key) => stateNameHash[key] === stateName
+  )
 }
