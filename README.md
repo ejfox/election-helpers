@@ -2,9 +2,9 @@
 
 ## Read [docs.md](https://github.com/ejfox/election-helpers/blob/master/docs.md) or [GH pages](https://ejfox.github.io/election-helpers/global.html) for documentation 
 
-![npm](https://img.shields.io/npm/v/election-helpers?color=%235B70D9) [View on NPM](https://www.npmjs.com/package/election-helpers)
+![npm](https://img.shields.io/npm/v/election-helpers?color=%235B70D9) 
 
-
+[View on NPM](https://www.npmjs.com/package/election-helpers)
 
 1. 💽 Curated sources for historical election data with built-in data normalization for a variety of sources
 2. 🗺️ Boundaries for building custom election maps visualizations
