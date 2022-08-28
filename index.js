@@ -388,5 +388,6 @@ export function boundariesAvailableForRaceType(raceType) {
  */
 export function isBoundaryAvailableForRaceType(raceType, boundaryType) {
   const availableBoundaries = boundariesAvailableForRaceType(raceType)
+  if(!availableBoundaries) return false
   return availableBoundaries.includes(boundaryType)
 }
