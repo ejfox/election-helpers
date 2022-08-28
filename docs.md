@@ -8,6 +8,10 @@
 ## Functions
 
 <dl>
+<dt><a href="#stateAbbrToName">stateAbbrToName(stateAbbr)</a> ⇒ <code>string</code></dt>
+<dd></dd>
+<dt><a href="#getStateAbbrFromStateFips">getStateAbbrFromStateFips(stateFips)</a> ⇒ <code>string</code></dt>
+<dd></dd>
 <dt><a href="#getStateCodeFromCountyFips">getStateCodeFromCountyFips(countyFips)</a> ⇒ <code>string</code></dt>
 <dd><p>Get the state code from the county fips string</p>
 </dd>
@@ -19,9 +23,14 @@
 </dd>
 <dt><a href="#stateFipsToName">stateFipsToName(stateFips)</a> ⇒ <code>string</code></dt>
 <dd></dd>
+<dt><a href="#stateAbbrToFips">stateAbbrToFips(stateAbbreviation)</a> ⇒ <code>string</code></dt>
+<dd><p>Get the state fips code from the abbreviation, like &#39;NY&#39; to &#39;36&#39;</p>
+</dd>
 <dt><a href="#stateNameToFips">stateNameToFips(stateName)</a> ⇒ <code>string</code></dt>
 <dd></dd>
-<dt><a href="#stateAbbrToName">stateAbbrToName(stateAbbr)</a> ⇒ <code>string</code></dt>
+<dt><a href="#boundariesAvailableForRaceType">boundariesAvailableForRaceType(raceType)</a> ⇒ <code>array</code></dt>
+<dd></dd>
+<dt><a href="#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
 <dd></dd>
 </dl>
 
@@ -43,6 +52,54 @@
 ```js
 stateNameHash['01']
 // returns 'Alabama'
+```
+<a name="stateAbbrToName"></a>
+
+## stateAbbrToName(stateAbbr) ⇒ <code>string</code>
+**Kind**: global function  
+**Returns**: <code>string</code> - - The state name  
+**Throws**:
+
+- <code>Error</code> - If the state abbreviation is invalid.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| stateAbbr | <code>string</code> | Two letter state abbreviation |
+
+**Example**  
+```js
+getStateNameFromStateAbbr('AL')
+// returns 'Alabama'
+```
+<a name="getStateAbbrFromStateFips"></a>
+
+## getStateAbbrFromStateFips(stateFips) ⇒ <code>string</code>
+**Kind**: global function  
+**Returns**: <code>string</code> - - The state abbreviation  
+**Throws**:
+
+- <code>Error</code> - If the state fips code is invalid.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| stateFips | <code>string</code> | The state fips code. |
+
+**Example**  
+```js
+getStateAbbrFromStateFips('01')
+// returns 'AL'
+```
+**Example**  
+```js
+getStateAbbrFromStateFips('36')
+// returns 'NY'
+```
+**Example**  
+```js
+getStateAbbrFromStateFips('XX')
+// throws an error
 ```
 <a name="getStateCodeFromCountyFips"></a>
 
@@ -122,8 +179,25 @@ Given an array of candidate objects, returns a sorted array of candidate objects
 
 **Example**  
 ```js
-getStateNameFromStateFips('01')
+stateFipsToName('01')
 // returns 'Alabama'
+```
+<a name="stateAbbrToFips"></a>
+
+## stateAbbrToFips(stateAbbreviation) ⇒ <code>string</code>
+Get the state fips code from the abbreviation, like 'NY' to '36'
+
+**Kind**: global function  
+**Returns**: <code>string</code> - - The state fips code.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| stateAbbreviation | <code>string</code> | The state abbreviation. |
+
+**Example**  
+```js
+getStateFipsFromAbbreviation('NY')
+// returns '36'
 ```
 <a name="stateNameToFips"></a>
 
@@ -144,22 +218,58 @@ getStateNameFromStateFips('01')
 getStateFipsFromStateName('Alabama')
 // returns '01'
 ```
-<a name="stateAbbrToName"></a>
+<a name="boundariesAvailableForRaceType"></a>
 
-## stateAbbrToName(stateAbbr) ⇒ <code>string</code>
+## boundariesAvailableForRaceType(raceType) ⇒ <code>array</code>
 **Kind**: global function  
-**Returns**: <code>string</code> - - The state name  
-**Throws**:
+**Returns**: <code>array</code> - - An array of the available district types  
 
-- <code>Error</code> - If the state abbreviation is invalid.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| stateAbbr | <code>string</code> | Two letter state abbreviation |
+| Param | Type |
+| --- | --- |
+| raceType | <code>string</code> | 
 
 **Example**  
 ```js
-getStateNameFromStateAbbr('AL')
-// returns 'Alabama'
+boundariesAvailableForRaceType('president')
+// returns ['state', 'county']
+```
+**Example**  
+```js
+boundariesAvailableForRaceType('senate')
+// returns ['state']
+```
+**Example**  
+```js
+boundariesAvailableForRaceType('house')
+// returns ['district']
+```
+**Example**  
+```js
+boundariesAvailableForRaceType(2016)
+// returns null
+```
+<a name="isBoundaryAvailableForRaceType"></a>
+
+## isBoundaryAvailableForRaceType(raceType, boundaryType)
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| raceType | <code>string</code> | The race type, like 'president', 'house', or 'senate' |
+| boundaryType | <code>string</code> | The type of boundary, like 'county', 'state', or 'district' |
+
+**Example**  
+```js
+isBoundaryAvailableForRaceType('president', 'county')
+// returns true
+```
+**Example**  
+```js
+isBoundaryAvailableForRaceType('president', 'state')
+// returns true
+```
+**Example**  
+```js
+isBoundaryAvailableForRaceType('president', 'district')
+// returns false
 ```

@@ -171,13 +171,13 @@ export function getStateAbbrFromStateFips(stateFips) {
 
 export function stateFipsToAbbr(stateFips) {
   const stateFipsHash = {
-    01: 'AL',
-    02: 'AK',
-    04: 'AZ',
-    05: 'AR',
-    06: 'CA',
-    08: 'CO',
-    09: 'CT',
+    1: 'AL',
+    2: 'AK',
+    4: 'AZ',
+    5: 'AR',
+    0: 'CA',
+    8: 'CO',
+    9: 'CT',
     10: 'DE',
     11: 'DC',
     12: 'FL',
