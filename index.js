@@ -155,6 +155,20 @@ export function stateAbbrToName(stateAbbr) {
  * // throws an error
  */
 
+export function getStateAbbrFromStateFips(stateFips) {
+  if (!stateFips) {
+    throw new Error('stateFips is required')
+  }
+  if (stateFips.length !== 2) {
+    throw new Error('stateFips must be two characters')
+  }
+  if (!stateNameHash[stateFips]) {
+    throw new Error('stateFips is invalid')
+  }
+  return stateFipsToAbbr(stateFips)
+}
+
+
 export function stateFipsToAbbr(stateFips) {
   const stateFipsHash = {
     01: 'AL',
@@ -325,4 +339,54 @@ export function stateNameToFips(stateName) {
   return Object.keys(stateNameHash).find(
     (key) => stateNameHash[key] === stateName
   )
+}
+
+/**
+ * @param {string} raceType
+ * @returns {array} - An array of the available district types
+ * @example
+ * boundariesAvailableForRaceType('president')
+ * // returns ['state', 'county']
+ * @example
+ * boundariesAvailableForRaceType('senate')
+ * // returns ['state']
+ * @example
+ * boundariesAvailableForRaceType('house')
+ * // returns ['district']
+ * @example
+ * boundariesAvailableForRaceType(2016)
+ * // returns null
+ */
+
+export function boundariesAvailableForRaceType(raceType) {
+  const availableBoundaries = []
+  if ( raceType === 'president' ) {
+    availableBoundaries.push('state')
+    availableBoundaries.push('county')
+  } else if ( raceType === 'senate' ) {
+    availableBoundaries.push('county')
+  }
+  else if ( raceType === 'house' ) {
+    availableBoundaries.push('district')
+  }
+  else return null
+  return availableBoundaries
+}
+
+/**
+ * @param {string} raceType - The race type, like 'president', 'house', or 'senate'
+ * @param {string} boundaryType - The type of boundary, like 'county', 'state', or 'district'
+ * @example
+ * isBoundaryAvailableForRaceType('president', 'county')
+ * // returns true
+ * @example
+ * isBoundaryAvailableForRaceType('president', 'state')
+ * // returns true
+ * @example
+ * isBoundaryAvailableForRaceType('president', 'district')
+ * // returns false
+ */
+export function isBoundaryAvailableForRaceType(raceType, boundaryType) {
+  const availableBoundaries = boundariesAvailableForRaceType(raceType)
+  return availableBoundaries.includes(boundaryType)
 }
