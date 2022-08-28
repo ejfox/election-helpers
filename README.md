@@ -2,7 +2,7 @@
 
 ## Read [docs.md](https://github.com/ejfox/election-helpers/blob/master/docs.md) or [GH pages](https://ejfox.github.io/election-helpers/global.html) for documentation 
 
-![npm](https://img.shields.io/npm/v/election-helpers?color=%235B70D9)
+![npm](https://img.shields.io/npm/v/election-helpers?color=%235B70D9) [View on NPM](https://www.npmjs.com/package/election-helpers)
 
 
 
