@@ -31,6 +31,7 @@
     "gh-pages": "^4.0.0",
     "jsdoc-baseline": "^0.1.5",
     "jsdoc-template": "^1.2.0",
+    "jsdoc-to-markdown": "^7.1.1",
     "watch": "^1.0.2"
   },
   "config": {

@@ -8,6 +8,8 @@
 ## Functions
 
 <dl>
+<dt><a href="#getStateFipsFromStateAbbr">getStateFipsFromStateAbbr(stateAbbr)</a> ⇒ <code>string</code></dt>
+<dd></dd>
 <dt><a href="#stateAbbrToName">stateAbbrToName(stateAbbr)</a> ⇒ <code>string</code></dt>
 <dd></dd>
 <dt><a href="#getStateAbbrFromStateFips">getStateAbbrFromStateFips(stateFips)</a> ⇒ <code>string</code></dt>
@@ -52,6 +54,23 @@
 ```js
 stateNameHash['01']
 // returns 'Alabama'
+```
+<a name="getStateFipsFromStateAbbr"></a>
+
+## getStateFipsFromStateAbbr(stateAbbr) ⇒ <code>string</code>
+**Kind**: global function  
+**Returns**: <code>string</code> - - The fips code for the state  
+
+| Param | Type |
+| --- | --- |
+| stateAbbr | <code>string</code> | 
+
+**Example**  
+```js
+getStateFipsFromStateAbbr('CA')
+// => '06'
+getStateFipsFromStateAbbr('NY')
+// => '36'
 ```
 <a name="stateAbbrToName"></a>
 

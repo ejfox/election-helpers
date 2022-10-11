@@ -2,9 +2,9 @@
 <html>
 
 <head>
-  <meta name="generator" content="JSDoc 3.6.10">
+  <meta name="generator" content="JSDoc 3.6.11">
   <meta charset="utf-8">
-  <title>election-helpers 0.0.1 &raquo; Globals</title>
+  <title>election-helpers 0.0.5 &raquo; Globals</title>
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
@@ -15,7 +15,7 @@
   <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
     <div id="jsdoc-navbar-container">
       <div id="jsdoc-navbar-content">
-        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>1</a>
+        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>5</a>
       </div>
     </div>
   </nav>
@@ -46,7 +46,13 @@
               <div class="summary-content">
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
+                    <dt><a href="global.html#boundariesAvailableForRaceType">boundariesAvailableForRaceType(raceType)</a></dt>
+                    <dd>
+                    </dd>
                     <dt><a href="global.html#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="global.html#getStateAbbrFromStateFips">getStateAbbrFromStateFips(stateFips)</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="global.html#getStateCodeFromCountyFips">getStateCodeFromCountyFips(countyFips)</a></dt>
@@ -56,16 +62,25 @@
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
+                    <dt><a href="global.html#getStateFipsFromStateAbbr">getStateFipsFromStateAbbr(stateAbbr)</a></dt>
+                    <dd>
+                    </dd>
+                    <dt><a href="global.html#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
+                    <dd>
+                    </dd>
                     <dt><a href="global.html#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="global.html#stateAbbrToName">stateAbbrToName(stateAbbr)</a></dt>
+                    <dt><a href="global.html#stateAbbrToFips">stateAbbrToFips(stateAbbreviation)</a></dt>
                     <dd>
                     </dd>
                   </dl>
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
+                    <dt><a href="global.html#stateAbbrToName">stateAbbrToName(stateAbbr)</a></dt>
+                    <dd>
+                    </dd>
                     <dt><a href="global.html#stateFipsToName">stateFipsToName(stateFips)</a></dt>
                     <dd>
                     </dd>
@@ -141,6 +156,66 @@
             </section>
             <h2>Methods</h2>
             <section>
+              <h3 id="boundariesAvailableForRaceType"><span class="symbol-name">boundariesAvailableForRaceType</span><span class="signature"><span class="signature-params">(raceType)</span>&nbsp;&rarr; <span class="signature-returns"> array</span></span></h3>
+              <section>
+                <h4>
+                  Examples
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>boundariesAvailableForRaceType(&#x27;president&#x27;)
+// returns [&#x27;state&#x27;, &#x27;county&#x27;]</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>boundariesAvailableForRaceType(&#x27;senate&#x27;)
+// returns [&#x27;state&#x27;]</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>boundariesAvailableForRaceType(&#x27;house&#x27;)
+// returns [&#x27;district&#x27;]</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>boundariesAvailableForRaceType(2016)
+// returns null</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>raceType</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>array</code> 
+                  <ul>
+                    </p>
+                    <li>An array of the available district types</li>
+                  </ul>
+                </dd>
+              </dl>
               <h3 id="candidateVotePercentage"><span class="symbol-name">candidateVotePercentage</span><span class="signature"><span class="signature-params">(candidateVote, totalVotes)</span>&nbsp;&rarr; <span class="signature-returns"> number</span></span></h3>
               <p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
               <section>
@@ -205,6 +280,71 @@
                   </ul>
                 </dd>
               </dl>
+              <h3 id="getStateAbbrFromStateFips"><span class="symbol-name">getStateAbbrFromStateFips</span><span class="signature"><span class="signature-params">(stateFips)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <section>
+                <h4>
+                  Examples
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateAbbrFromStateFips(&#x27;01&#x27;)
+// returns &#x27;AL&#x27;</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>getStateAbbrFromStateFips(&#x27;36&#x27;)
+// returns &#x27;NY&#x27;</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>getStateAbbrFromStateFips(&#x27;XX&#x27;)
+// throws an error</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateFips</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The state fips code.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Throws</dt>
+                <dd>
+                  <p><code>Error</code> 
+                  <ul>
+                    </p>
+                    <li>If the state fips code is invalid.</li>
+                  </ul>
+                </dd>
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The state abbreviation</li>
+                  </ul>
+                </dd>
+              </dl>
               <h3 id="getStateCodeFromCountyFips"><span class="symbol-name">getStateCodeFromCountyFips</span><span class="signature"><span class="signature-params">(countyFips)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
               <p>Get the state code from the county fips string</p>
               <section>
@@ -262,6 +402,119 @@
                     <li>The state fips code.</li>
                   </ul>
                 </dd>
+              </dl>
+              <h3 id="getStateFipsFromStateAbbr"><span class="symbol-name">getStateFipsFromStateAbbr</span><span class="signature"><span class="signature-params">(stateAbbr)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateFipsFromStateAbbr(&#x27;CA&#x27;)
+// &#x3D;&gt; &#x27;06&#x27;
+getStateFipsFromStateAbbr(&#x27;NY&#x27;)
+// &#x3D;&gt; &#x27;36&#x27;</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateAbbr</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The fips code for the state</li>
+                  </ul>
+                </dd>
+              </dl>
+              <h3 id="isBoundaryAvailableForRaceType"><span class="symbol-name">isBoundaryAvailableForRaceType</span><span class="signature"><span class="signature-params">(raceType, boundaryType)</span></span></h3>
+              <section>
+                <h4>
+                  Examples
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>isBoundaryAvailableForRaceType(&#x27;president&#x27;, &#x27;county&#x27;)
+// returns true</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>isBoundaryAvailableForRaceType(&#x27;president&#x27;, &#x27;state&#x27;)
+// returns true</code></pre>
+                </div>
+                <div>
+                  <pre class="prettyprint"><code>isBoundaryAvailableForRaceType(&#x27;president&#x27;, &#x27;district&#x27;)
+// returns false</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameters</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>raceType</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The race type, like 'president', 'house', or 'senate'</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p>boundaryType</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The type of boundary, like 'county', 'state', or 'district'</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
               </dl>
               <h3 id="sortCandidatesByVotes"><span class="symbol-name">sortCandidatesByVotes</span><span class="signature"><span class="signature-params">(candidates, sortFunction)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
               <p>Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.</p>
@@ -323,6 +576,56 @@
                   <ul>
                     </p>
                     <li>A sorted array of candidate objects.</li>
+                  </ul>
+                </dd>
+              </dl>
+              <h3 id="stateAbbrToFips"><span class="symbol-name">stateAbbrToFips</span><span class="signature"><span class="signature-params">(stateAbbreviation)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <p>Get the state fips code from the abbreviation, like 'NY' to '36'</p>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateFipsFromAbbreviation(&#x27;NY&#x27;)
+// returns &#x27;36&#x27;</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateAbbreviation</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                        <p>The state abbreviation.</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The state fips code.</li>
                   </ul>
                 </dd>
               </dl>
@@ -389,7 +692,7 @@
                   Example
                 </h4>
                 <div>
-                  <pre class="prettyprint"><code>getStateNameFromStateFips(&#x27;01&#x27;)
+                  <pre class="prettyprint"><code>stateFipsToName(&#x27;01&#x27;)
 // returns &#x27;Alabama&#x27;</code></pre>
                 </div>
               </section>
@@ -505,7 +808,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.10 on July 4, 2022.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.11 on October 11, 2022.
       </p>
     </div>
   </footer>
