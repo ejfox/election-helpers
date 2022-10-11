@@ -10,7 +10,6 @@
 export function getStateFipsFromStateAbbr(stateAbbr) {
   const focusStateName = stateAbbrToName(stateAbbr)
   const focusStateFips = stateNameToFips(focusStateName)
-  // console.log({ stateAbbr, focusStateName, focusStateFips })
   return focusStateFips
 }
 
@@ -181,7 +180,7 @@ export function getStateAbbrFromStateFips(stateFips) {
   if (!stateNameHash[stateFips]) {
     throw new Error('stateFips is invalid')
   }
-  return stateFipsToAbbr(stateFips)
+  return stateFipsToAbbr(+stateFips)
 }
 
 
