@@ -1,4 +1,20 @@
 /**
+ * @param {string} stateAbbr
+ * @returns {string} - The fips code for the state
+ * @example
+ * getStateFipsFromStateAbbr('CA')
+ * // => '06'
+ * getStateFipsFromStateAbbr('NY')
+ * // => '36'
+ */
+export function getStateFipsFromStateAbbr(stateAbbr) {
+  const focusStateName = stateAbbrToName(stateAbbr)
+  const focusStateFips = stateNameToFips(focusStateName)
+  // console.log({ stateAbbr, focusStateName, focusStateFips })
+  return focusStateFips
+}
+
+/**
  * @param {string} stateFips - The state fips code.
  * @returns {string} - The state name
  * @throws {Error} - If the state fips code is invalid.
@@ -7,7 +23,7 @@
  * // returns 'Alabama'
  * 
  */
-const stateNameHash = {
+export const stateNameHash = {
   '01': 'Alabama',
   '02': 'Alaska',
   '04': 'Arizona',
