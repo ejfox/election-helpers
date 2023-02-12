@@ -190,7 +190,7 @@ export function stateFipsToAbbr(stateFips) {
     2: 'AK',
     4: 'AZ',
     5: 'AR',
-    0: 'CA',
+    6: 'CA',
     8: 'CO',
     9: 'CT',
     10: 'DE',
