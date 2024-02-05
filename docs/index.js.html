@@ -2,9 +2,9 @@
 <html>
 
 <head>
-  <meta name="generator" content="JSDoc 3.6.10">
+  <meta name="generator" content="JSDoc 3.6.11">
   <meta charset="utf-8">
-  <title>election-helpers 0.0.1 &raquo; Source: index.js</title>
+  <title>election-helpers 0.0.5 &raquo; Source: index.js</title>
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
@@ -15,7 +15,7 @@
   <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
     <div id="jsdoc-navbar-container">
       <div id="jsdoc-navbar-content">
-        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>1</a>
+        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>5</a>
       </div>
     </div>
   </nav>
@@ -30,72 +30,18 @@
           </header>
           <article>
             <pre class="prettyprint linenums"><code>/**
- * @description Get the state code from the county fips string
- * @param {string} countyFips - The county fips code.
- * @returns {string} - The state fips code.
+ * @param {string} stateAbbr
+ * @returns {string} - The fips code for the state
  * @example
- * getStateCodeFromCountyFips(&#x27;01001&#x27;)
- * // returns &#x27;01&#x27;
- * @example
- * getStateCodeFromCountyFips(01000)
- * // throws Error
- * @example
- * getStateCodeFromCountyFips(&#x27;01&#x27;)
- * // throws Error
- * 
+ * getStateFipsFromStateAbbr(&#x27;CA&#x27;)
+ * // &#x3D;&gt; &#x27;06&#x27;
+ * getStateFipsFromStateAbbr(&#x27;NY&#x27;)
+ * // &#x3D;&gt; &#x27;36&#x27;
  */
-export function getStateCodeFromCountyFips(countyFips) {
-  return countyFips.slice(0, 2)
-}
-
-/**
- * @desc Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.
- * @param {number} candidateVote - The number of votes the candidate has received.
- * @param {number} totalVotes - The total number of votes in the election.
- * @returns {number} - The percentage of votes the candidate has received.
- * @example
- * getPercentageOfVotes(100, 200)
- * // returns 50
- */
-export function candidateVotePercentage(candidateVote, totalVote) {
-  const rawPercentage &#x3D; (candidateVote / totalVote) * 100
-  return rawPercentage.toFixed(config.votePercentDecimalPlaces)
-}
-
-/**
- * @desc Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
- * 
- * @param {Array} candidates - An array of candidate objects.
- * @param {Function} sortFunction - The function to use to sort the candidates (like d3.descending)
- * @returns {Array} - A sorted array of candidate objects.
- * @throws {Error} - If the candidates array is invalid.
-
- */
-export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
-  if (!raceCandidateArray)
-    return console.error(
-      &quot;Trying to sort candidates but didn&#x27;t get anything to sort&quot;,
-      {
-        raceCandidateArray,
-      }
-    )
-
-  if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 0)
-    return console.error(
-      &#x27;Trying to sort a candidate array with zero candidates&#x27;
-    )
-  if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 1)
-    return console.log(
-      &#x27;Trying to sort a candidate array with only one candidate, which seems kinda weird&#x27;
-    )
-  if(sortFunction) {
-    return raceCandidateArray.sort(function (x, y) {
-      return sortFunction(+x.candidatevotes, +y.candidatevotes)
-    })
-  } else {
-    return raceCandidateArray
-  }
-  
+export function getStateFipsFromStateAbbr(stateAbbr) {
+  const focusStateName &#x3D; stateAbbrToName(stateAbbr)
+  const focusStateFips &#x3D; stateNameToFips(focusStateName)
+  return focusStateFips
 }
 
 /**
@@ -107,7 +53,7 @@ export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
  * // returns &#x27;Alabama&#x27;
  * 
  */
-const stateNameHash &#x3D; {
+export const stateNameHash &#x3D; {
   &#x27;01&#x27;: &#x27;Alabama&#x27;,
   &#x27;02&#x27;: &#x27;Alaska&#x27;,
   &#x27;04&#x27;: &#x27;Arizona&#x27;,
@@ -159,36 +105,6 @@ const stateNameHash &#x3D; {
   54: &#x27;West Virginia&#x27;,
   55: &#x27;Wisconsin&#x27;,
   56: &#x27;Wyoming&#x27;,
-}
-
-/**
- * 
- * @param {string} stateFips
- * @returns {string} - The state name
- * @throws {Error} - If the state fips code is invalid.
- * @example
- * getStateNameFromStateFips(&#x27;01&#x27;)
- * // returns &#x27;Alabama&#x27;
- * 
- */
-
-export function stateFipsToName(stateFips) {
-  return stateNameHash[stateFips]
-}
-
-/**
- * 
- * @param {string} stateName 
- * @returns {string} - The state fips code
- * @throws {Error} - If the state name is invalid.
- * @example
- * getStateFipsFromStateName(&#x27;Alabama&#x27;)
- * // returns &#x27;01&#x27;
- */
-export function stateNameToFips(stateName) {
-  return Object.keys(stateNameHash).find(
-    (key) &#x3D;&gt; stateNameHash[key] &#x3D;&#x3D;&#x3D; stateName
-  )
 }
 
 /**
@@ -265,7 +181,262 @@ export function stateAbbrToName(stateAbbr) {
   }
   return stateAbbrHash[stateAbbr]
 }
-</code></pre>
+
+
+/**
+ * 
+ * @param {string} stateFips - The state fips code.
+ * @returns {string} - The state abbreviation
+ * @throws {Error} - If the state fips code is invalid.
+ * @example
+ * getStateAbbrFromStateFips(&#x27;01&#x27;)
+ * // returns &#x27;AL&#x27;
+ * 
+ * @example
+ * getStateAbbrFromStateFips(&#x27;36&#x27;)
+ * // returns &#x27;NY&#x27;
+ * 
+ * @example
+ * getStateAbbrFromStateFips(&#x27;XX&#x27;)
+ * // throws an error
+ */
+
+export function getStateAbbrFromStateFips(stateFips) {
+  if (!stateFips) {
+    throw new Error(&#x27;stateFips is required&#x27;)
+  }
+  if (stateFips.length !&#x3D;&#x3D; 2) {
+    throw new Error(&#x27;stateFips must be two characters&#x27;)
+  }
+  if (!stateNameHash[stateFips]) {
+    throw new Error(&#x27;stateFips is invalid&#x27;)
+  }
+  return stateFipsToAbbr(+stateFips)
+}
+
+
+export function stateFipsToAbbr(stateFips) {
+  const stateFipsHash &#x3D; {
+    1: &#x27;AL&#x27;,
+    2: &#x27;AK&#x27;,
+    4: &#x27;AZ&#x27;,
+    5: &#x27;AR&#x27;,
+    0: &#x27;CA&#x27;,
+    8: &#x27;CO&#x27;,
+    9: &#x27;CT&#x27;,
+    10: &#x27;DE&#x27;,
+    11: &#x27;DC&#x27;,
+    12: &#x27;FL&#x27;,
+    13: &#x27;GA&#x27;,
+    15: &#x27;HI&#x27;,
+    16: &#x27;ID&#x27;,
+    17: &#x27;IL&#x27;,
+    18: &#x27;IN&#x27;,
+    19: &#x27;IA&#x27;,
+    20: &#x27;KS&#x27;,
+    21: &#x27;KY&#x27;,
+    22: &#x27;LA&#x27;,
+    23: &#x27;ME&#x27;,
+    24: &#x27;MD&#x27;,
+    25: &#x27;MA&#x27;,
+    26: &#x27;MI&#x27;,
+    27: &#x27;MN&#x27;,
+    28: &#x27;MS&#x27;,
+    29: &#x27;MO&#x27;,
+    30: &#x27;MT&#x27;,
+    31: &#x27;NE&#x27;,
+    32: &#x27;NV&#x27;,
+    33: &#x27;NH&#x27;,
+    34: &#x27;NJ&#x27;,
+    35: &#x27;NM&#x27;,
+    36: &#x27;NY&#x27;,
+    37: &#x27;NC&#x27;,
+    38: &#x27;ND&#x27;,
+    39: &#x27;OH&#x27;,
+    40: &#x27;OK&#x27;,
+    41: &#x27;OR&#x27;,
+    42: &#x27;PA&#x27;,
+    44: &#x27;RI&#x27;,
+    45: &#x27;SC&#x27;,
+    46: &#x27;SD&#x27;,
+    47: &#x27;TN&#x27;,
+    48: &#x27;TX&#x27;,
+    49: &#x27;UT&#x27;,
+    50: &#x27;VT&#x27;,
+    51: &#x27;VA&#x27;,
+    53: &#x27;WA&#x27;,
+    54: &#x27;WV&#x27;,
+    55: &#x27;WI&#x27;,
+    56: &#x27;WY&#x27;,
+  }
+  return stateFipsHash[stateFips]
+}
+
+
+
+/**
+ * @description Get the state code from the county fips string
+ * @param {string} countyFips - The county fips code.
+ * @returns {string} - The state fips code.
+ * @example
+ * getStateCodeFromCountyFips(&#x27;01001&#x27;)
+ * // returns &#x27;01&#x27;
+ * @example
+ * getStateCodeFromCountyFips(01000)
+ * // throws Error
+ * @example
+ * getStateCodeFromCountyFips(&#x27;01&#x27;)
+ * // throws Error
+ * 
+ */
+export function getStateCodeFromCountyFips(countyFips) {
+  return countyFips.slice(0, 2)
+}
+
+/**
+ * @desc Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.
+ * @param {number} candidateVote - The number of votes the candidate has received.
+ * @param {number} totalVotes - The total number of votes in the election.
+ * @returns {number} - The percentage of votes the candidate has received.
+ * @example
+ * getPercentageOfVotes(100, 200)
+ * // returns 50
+ */
+export function candidateVotePercentage(candidateVote, totalVote) {
+  const rawPercentage &#x3D; (candidateVote / totalVote) * 100
+  return rawPercentage.toFixed(config.votePercentDecimalPlaces)
+}
+
+/**
+ * @desc Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
+ * 
+ * @param {Array} candidates - An array of candidate objects.
+ * @param {Function} sortFunction - The function to use to sort the candidates (like d3.descending)
+ * @returns {Array} - A sorted array of candidate objects.
+ * @throws {Error} - If the candidates array is invalid.
+
+ */
+export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
+  if (!raceCandidateArray)
+    return console.error(
+      &quot;Trying to sort candidates but didn&#x27;t get anything to sort&quot;,
+      {
+        raceCandidateArray,
+      }
+    )
+
+  if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 0)
+    return console.error(
+      &#x27;Trying to sort a candidate array with zero candidates&#x27;
+    )
+  if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 1)
+    return console.log(
+      &#x27;Trying to sort a candidate array with only one candidate, which seems kinda weird&#x27;
+    )
+  if(sortFunction) {
+    return raceCandidateArray.sort(function (x, y) {
+      return sortFunction(+x.candidatevotes, +y.candidatevotes)
+    })
+  } else {
+    return raceCandidateArray
+  }
+  
+}
+
+/**
+ * 
+ * @param {string} stateFips
+ * @returns {string} - The state name
+ * @throws {Error} - If the state fips code is invalid.
+ * @example
+ * stateFipsToName(&#x27;01&#x27;)
+ * // returns &#x27;Alabama&#x27;
+ * 
+ */
+
+export function stateFipsToName(stateFips) {
+  return stateNameHash[stateFips]
+}
+
+
+/**
+ * @description Get the state fips code from the abbreviation, like &#x27;NY&#x27; to &#x27;36&#x27;
+ * @param {string} stateAbbreviation - The state abbreviation.
+ * @returns {string} - The state fips code.
+ * @example
+ * getStateFipsFromAbbreviation(&#x27;NY&#x27;)
+ * // returns &#x27;36&#x27;
+*/
+export function stateAbbrToFips(stateAbbr) {
+  const stateFips &#x3D; Object.keys(stateNameHash).find(key &#x3D;&gt; stateNameHash[key] &#x3D;&#x3D;&#x3D; stateAbbr)
+  return stateFips
+}
+
+/**
+ * 
+ * @param {string} stateName 
+ * @returns {string} - The state fips code
+ * @throws {Error} - If the state name is invalid.
+ * @example
+ * getStateFipsFromStateName(&#x27;Alabama&#x27;)
+ * // returns &#x27;01&#x27;
+ */
+export function stateNameToFips(stateName) {
+  return Object.keys(stateNameHash).find(
+    (key) &#x3D;&gt; stateNameHash[key] &#x3D;&#x3D;&#x3D; stateName
+  )
+}
+
+/**
+ * @param {string} raceType
+ * @returns {array} - An array of the available district types
+ * @example
+ * boundariesAvailableForRaceType(&#x27;president&#x27;)
+ * // returns [&#x27;state&#x27;, &#x27;county&#x27;]
+ * @example
+ * boundariesAvailableForRaceType(&#x27;senate&#x27;)
+ * // returns [&#x27;state&#x27;]
+ * @example
+ * boundariesAvailableForRaceType(&#x27;house&#x27;)
+ * // returns [&#x27;district&#x27;]
+ * @example
+ * boundariesAvailableForRaceType(2016)
+ * // returns null
+ */
+
+export function boundariesAvailableForRaceType(raceType) {
+  const availableBoundaries &#x3D; []
+  if ( raceType &#x3D;&#x3D;&#x3D; &#x27;president&#x27; ) {
+    availableBoundaries.push(&#x27;state&#x27;)
+    availableBoundaries.push(&#x27;county&#x27;)
+  } else if ( raceType &#x3D;&#x3D;&#x3D; &#x27;senate&#x27; ) {
+    availableBoundaries.push(&#x27;county&#x27;)
+  }
+  else if ( raceType &#x3D;&#x3D;&#x3D; &#x27;house&#x27; ) {
+    availableBoundaries.push(&#x27;district&#x27;)
+  }
+  else return null
+  return availableBoundaries
+}
+
+/**
+ * @param {string} raceType - The race type, like &#x27;president&#x27;, &#x27;house&#x27;, or &#x27;senate&#x27;
+ * @param {string} boundaryType - The type of boundary, like &#x27;county&#x27;, &#x27;state&#x27;, or &#x27;district&#x27;
+ * @example
+ * isBoundaryAvailableForRaceType(&#x27;president&#x27;, &#x27;county&#x27;)
+ * // returns true
+ * @example
+ * isBoundaryAvailableForRaceType(&#x27;president&#x27;, &#x27;state&#x27;)
+ * // returns true
+ * @example
+ * isBoundaryAvailableForRaceType(&#x27;president&#x27;, &#x27;district&#x27;)
+ * // returns false
+ */
+export function isBoundaryAvailableForRaceType(raceType, boundaryType) {
+  const availableBoundaries &#x3D; boundariesAvailableForRaceType(raceType)
+  if(!availableBoundaries) return false
+  return availableBoundaries.includes(boundaryType)
+}</code></pre>
           </article>
         </div>
       </div>
@@ -275,7 +446,7 @@ export function stateAbbrToName(stateAbbr) {
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.10 on July 4, 2022.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.11 on October 11, 2022.
       </p>
     </div>
   </footer>
