@@ -1,6 +1,6 @@
 {
   "name": "election-helpers",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Election helpers",
   "main": "index.js",
   "scripts": {
