@@ -20,9 +20,6 @@
 <dt><a href="#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a> ⇒ <code>string</code></dt>
 <dd><p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
 </dd>
-<dt><a href="#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a> ⇒ <code>Array</code></dt>
-<dd><p>Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.</p>
-</dd>
 <dt><a href="#stateFipsToName">stateFipsToName(stateFips)</a> ⇒ <code>string</code></dt>
 <dd></dd>
 <dt><a href="#stateAbbrToFips">stateAbbrToFips(stateAbbr)</a> ⇒ <code>string</code></dt>
@@ -34,6 +31,19 @@
 <dd></dd>
 <dt><a href="#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
 <dd></dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#Candidate">Candidate</a> ⇒ <code><a href="#Candidate">Array.&lt;Candidate&gt;</a></code></dt>
+<dd><p>Sort an array of candidate objects by vote count.</p>
+<p>Each candidate <strong>must</strong> contain a <code>candidatevotes</code> property that can be coerced
+to a number. Any extra properties are preserved.</p>
+<p>By default the list is sorted descending (highest → lowest).  Pass a custom
+<code>sortFunction</code> if you need a different order – its contract is identical to
+<code>Array.prototype.sort</code>.</p>
+</dd>
 </dl>
 
 <a name="stateNameHash"></a>
@@ -165,23 +175,6 @@ Given the absolute number of votes a candidate has received, and the total numbe
 candidateVotePercentage(100, 200)
 // returns '50.0'
 ```
-<a name="sortCandidatesByVotes"></a>
-
-## sortCandidatesByVotes(candidates, sortFunction) ⇒ <code>Array</code>
-Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
-
-**Kind**: global function  
-**Returns**: <code>Array</code> - - A sorted array of candidate objects.  
-**Throws**:
-
-- <code>Error</code> - If the candidates array is invalid.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| candidates | <code>Array</code> | An array of candidate objects. |
-| sortFunction | <code>function</code> | The function to use to sort the candidates (like d3.descending) |
-
 <a name="stateFipsToName"></a>
 
 ## stateFipsToName(stateFips) ⇒ <code>string</code>
@@ -291,4 +284,54 @@ isBoundaryAvailableForRaceType('president', 'state')
 ```js
 isBoundaryAvailableForRaceType('president', 'district')
 // returns false
+```
+<a name="Candidate"></a>
+
+## Candidate ⇒ [<code>Array.&lt;Candidate&gt;</code>](#Candidate)
+Sort an array of candidate objects by vote count.
+
+Each candidate **must** contain a `candidatevotes` property that can be coerced
+to a number. Any extra properties are preserved.
+
+By default the list is sorted descending (highest → lowest).  Pass a custom
+`sortFunction` if you need a different order – its contract is identical to
+`Array.prototype.sort`.
+
+**Kind**: global typedef  
+**Returns**: [<code>Array.&lt;Candidate&gt;</code>](#Candidate) - The **same** array instance, ordered according to the
+compare logic.  
+**Throws**:
+
+- <code>TypeError</code> If `raceCandidateArray` is not a valid array.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| raceCandidateArray | [<code>Array.&lt;Candidate&gt;</code>](#Candidate) | – Candidates to sort (mutated in-place). |
+| [sortFunction] | <code>function</code> | – Optional compare function.  Defaults to `(a, b) => b - a` for descending order. |
+
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| candidatevotes | <code>number</code> \| <code>string</code> | – Vote total for the candidate. |
+| [*] | <code>any</code> | – Additional properties are allowed and untouched. |
+
+**Example**  
+```js
+// Default (descending)
+sortCandidatesByVotes(candidates)
+```
+**Example**  
+```js
+// Ascending order
+sortCandidatesByVotes(candidates, (a, b) => a - b)
+```
+**Example**  
+```js
+// Custom tie-breaker: descending votes then alphabetical by name
+sortCandidatesByVotes(candidates, (a, b) => {
+  const diff = b - a
+  return diff !== 0 ? diff : a.name.localeCompare(b.name)
+})
 ```

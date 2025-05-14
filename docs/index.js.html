@@ -39,38 +39,38 @@
  * // &#x3D;&gt; &#x27;36&#x27;
  */
 export function getStateFipsFromStateAbbr(stateAbbr) {
-  if (!stateAbbr || typeof stateAbbr !&#x3D;&#x3D; &#x27;string&#x27;) {
-    console.error(&#x27;Invalid state abbreviation provided:&#x27;, {
+  if (!stateAbbr || typeof stateAbbr !&#x3D;&#x3D; &quot;string&quot;) {
+    console.error(&quot;Invalid state abbreviation provided:&quot;, {
       value: stateAbbr,
       type: typeof stateAbbr,
       expected: &#x27;two-letter state code string (e.g., &quot;NY&quot;)&#x27;,
       hint: &quot;Make sure you&#x27;re passing a valid state abbreviation string&quot;,
-    })
-    return undefined
+    });
+    return undefined;
   }
-  const cleanAbbr &#x3D; stateAbbr.trim().toUpperCase()
+  const cleanAbbr &#x3D; stateAbbr.trim().toUpperCase();
   if (cleanAbbr.length !&#x3D;&#x3D; 2) {
-    console.error(&#x27;State abbreviation must be exactly 2 characters:&#x27;, {
+    console.error(&quot;State abbreviation must be exactly 2 characters:&quot;, {
       value: stateAbbr,
       cleanedValue: cleanAbbr,
       length: cleanAbbr.length,
       expected: 2,
       hint: &#x27;State codes should be exactly two letters, like &quot;NY&quot; or &quot;CA&quot;&#x27;,
-    })
-    return undefined
+    });
+    return undefined;
   }
-  const focusStateName &#x3D; stateAbbrHash[cleanAbbr]
-  const focusStateFips &#x3D; stateNameToFips(focusStateName)
+  const focusStateName &#x3D; stateAbbrHash[cleanAbbr];
+  const focusStateFips &#x3D; stateNameToFips(focusStateName);
   if (!focusStateFips) {
-    console.error(&#x27;Could not convert state abbreviation to FIPS:&#x27;, {
+    console.error(&quot;Could not convert state abbreviation to FIPS:&quot;, {
       input: stateAbbr,
       cleaned: cleanAbbr,
       stateName: focusStateName,
-      validCodes: Object.keys(stateAbbrHash).join(&#x27;, &#x27;),
-      hint: &#x27;Check if the state abbreviation is valid&#x27;,
-    })
+      validCodes: Object.keys(stateAbbrHash).join(&quot;, &quot;),
+      hint: &quot;Check if the state abbreviation is valid&quot;,
+    });
   }
-  return focusStateFips
+  return focusStateFips;
 }
 
 /**
@@ -83,121 +83,121 @@ export function getStateFipsFromStateAbbr(stateAbbr) {
  *
  */
 export const stateNameHash &#x3D; {
-  &#x27;01&#x27;: &#x27;Alabama&#x27;,
-  &#x27;02&#x27;: &#x27;Alaska&#x27;,
-  &#x27;04&#x27;: &#x27;Arizona&#x27;,
-  &#x27;05&#x27;: &#x27;Arkansas&#x27;,
-  &#x27;06&#x27;: &#x27;California&#x27;,
-  &#x27;08&#x27;: &#x27;Colorado&#x27;,
-  &#x27;09&#x27;: &#x27;Connecticut&#x27;,
-  10: &#x27;Delaware&#x27;,
-  11: &#x27;District of Columbia&#x27;,
-  12: &#x27;Florida&#x27;,
-  13: &#x27;Georgia&#x27;,
-  15: &#x27;Hawaii&#x27;,
-  16: &#x27;Idaho&#x27;,
-  17: &#x27;Illinois&#x27;,
-  18: &#x27;Indiana&#x27;,
-  19: &#x27;Iowa&#x27;,
-  20: &#x27;Kansas&#x27;,
-  21: &#x27;Kentucky&#x27;,
-  22: &#x27;Louisiana&#x27;,
-  23: &#x27;Maine&#x27;,
-  24: &#x27;Maryland&#x27;,
-  25: &#x27;Massachusetts&#x27;,
-  26: &#x27;Michigan&#x27;,
-  27: &#x27;Minnesota&#x27;,
-  28: &#x27;Mississippi&#x27;,
-  29: &#x27;Missouri&#x27;,
-  30: &#x27;Montana&#x27;,
-  31: &#x27;Nebraska&#x27;,
-  32: &#x27;Nevada&#x27;,
-  33: &#x27;New Hampshire&#x27;,
-  34: &#x27;New Jersey&#x27;,
-  35: &#x27;New Mexico&#x27;,
-  36: &#x27;New York&#x27;,
-  37: &#x27;North Carolina&#x27;,
-  38: &#x27;North Dakota&#x27;,
-  39: &#x27;Ohio&#x27;,
-  40: &#x27;Oklahoma&#x27;,
-  41: &#x27;Oregon&#x27;,
-  42: &#x27;Pennsylvania&#x27;,
-  44: &#x27;Rhode Island&#x27;,
-  45: &#x27;South Carolina&#x27;,
-  46: &#x27;South Dakota&#x27;,
-  47: &#x27;Tennessee&#x27;,
-  48: &#x27;Texas&#x27;,
-  49: &#x27;Utah&#x27;,
-  50: &#x27;Vermont&#x27;,
-  51: &#x27;Virginia&#x27;,
-  53: &#x27;Washington&#x27;,
-  54: &#x27;West Virginia&#x27;,
-  55: &#x27;Wisconsin&#x27;,
-  56: &#x27;Wyoming&#x27;,
-}
+  &quot;01&quot;: &quot;Alabama&quot;,
+  &quot;02&quot;: &quot;Alaska&quot;,
+  &quot;04&quot;: &quot;Arizona&quot;,
+  &quot;05&quot;: &quot;Arkansas&quot;,
+  &quot;06&quot;: &quot;California&quot;,
+  &quot;08&quot;: &quot;Colorado&quot;,
+  &quot;09&quot;: &quot;Connecticut&quot;,
+  10: &quot;Delaware&quot;,
+  11: &quot;District of Columbia&quot;,
+  12: &quot;Florida&quot;,
+  13: &quot;Georgia&quot;,
+  15: &quot;Hawaii&quot;,
+  16: &quot;Idaho&quot;,
+  17: &quot;Illinois&quot;,
+  18: &quot;Indiana&quot;,
+  19: &quot;Iowa&quot;,
+  20: &quot;Kansas&quot;,
+  21: &quot;Kentucky&quot;,
+  22: &quot;Louisiana&quot;,
+  23: &quot;Maine&quot;,
+  24: &quot;Maryland&quot;,
+  25: &quot;Massachusetts&quot;,
+  26: &quot;Michigan&quot;,
+  27: &quot;Minnesota&quot;,
+  28: &quot;Mississippi&quot;,
+  29: &quot;Missouri&quot;,
+  30: &quot;Montana&quot;,
+  31: &quot;Nebraska&quot;,
+  32: &quot;Nevada&quot;,
+  33: &quot;New Hampshire&quot;,
+  34: &quot;New Jersey&quot;,
+  35: &quot;New Mexico&quot;,
+  36: &quot;New York&quot;,
+  37: &quot;North Carolina&quot;,
+  38: &quot;North Dakota&quot;,
+  39: &quot;Ohio&quot;,
+  40: &quot;Oklahoma&quot;,
+  41: &quot;Oregon&quot;,
+  42: &quot;Pennsylvania&quot;,
+  44: &quot;Rhode Island&quot;,
+  45: &quot;South Carolina&quot;,
+  46: &quot;South Dakota&quot;,
+  47: &quot;Tennessee&quot;,
+  48: &quot;Texas&quot;,
+  49: &quot;Utah&quot;,
+  50: &quot;Vermont&quot;,
+  51: &quot;Virginia&quot;,
+  53: &quot;Washington&quot;,
+  54: &quot;West Virginia&quot;,
+  55: &quot;Wisconsin&quot;,
+  56: &quot;Wyoming&quot;,
+};
 
 // Move stateAbbrHash to module scope
 export const stateAbbrHash &#x3D; {
-  AL: &#x27;Alabama&#x27;,
-  AK: &#x27;Alaska&#x27;,
-  AS: &#x27;American Samoa&#x27;,
-  AZ: &#x27;Arizona&#x27;,
-  AR: &#x27;Arkansas&#x27;,
-  CA: &#x27;California&#x27;,
-  CO: &#x27;Colorado&#x27;,
-  CT: &#x27;Connecticut&#x27;,
-  DE: &#x27;Delaware&#x27;,
-  DC: &#x27;District Of Columbia&#x27;,
-  FM: &#x27;Federated States Of Micronesia&#x27;,
-  FL: &#x27;Florida&#x27;,
-  GA: &#x27;Georgia&#x27;,
-  GU: &#x27;Guam&#x27;,
-  HI: &#x27;Hawaii&#x27;,
-  ID: &#x27;Idaho&#x27;,
-  IL: &#x27;Illinois&#x27;,
-  IN: &#x27;Indiana&#x27;,
-  IA: &#x27;Iowa&#x27;,
-  KS: &#x27;Kansas&#x27;,
-  KY: &#x27;Kentucky&#x27;,
-  LA: &#x27;Louisiana&#x27;,
-  ME: &#x27;Maine&#x27;,
-  MH: &#x27;Marshall Islands&#x27;,
-  MD: &#x27;Maryland&#x27;,
-  MA: &#x27;Massachusetts&#x27;,
-  MI: &#x27;Michigan&#x27;,
-  MN: &#x27;Minnesota&#x27;,
-  MS: &#x27;Mississippi&#x27;,
-  MO: &#x27;Missouri&#x27;,
-  MT: &#x27;Montana&#x27;,
-  NE: &#x27;Nebraska&#x27;,
-  NV: &#x27;Nevada&#x27;,
-  NH: &#x27;New Hampshire&#x27;,
-  NJ: &#x27;New Jersey&#x27;,
-  NM: &#x27;New Mexico&#x27;,
-  NY: &#x27;New York&#x27;,
-  NC: &#x27;North Carolina&#x27;,
-  ND: &#x27;North Dakota&#x27;,
-  MP: &#x27;Northern Mariana Islands&#x27;,
-  OH: &#x27;Ohio&#x27;,
-  OK: &#x27;Oklahoma&#x27;,
-  OR: &#x27;Oregon&#x27;,
-  PW: &#x27;Palau&#x27;,
-  PA: &#x27;Pennsylvania&#x27;,
-  PR: &#x27;Puerto Rico&#x27;,
-  RI: &#x27;Rhode Island&#x27;,
-  SC: &#x27;South Carolina&#x27;,
-  SD: &#x27;South Dakota&#x27;,
-  TN: &#x27;Tennessee&#x27;,
-  TX: &#x27;Texas&#x27;,
-  UT: &#x27;Utah&#x27;,
-  VT: &#x27;Vermont&#x27;,
-  VI: &#x27;Virgin Islands&#x27;,
-  VA: &#x27;Virginia&#x27;,
-  WA: &#x27;Washington&#x27;,
-  WV: &#x27;West Virginia&#x27;,
-  WI: &#x27;Wisconsin&#x27;,
-  WY: &#x27;Wyoming&#x27;,
-}
+  AL: &quot;Alabama&quot;,
+  AK: &quot;Alaska&quot;,
+  AS: &quot;American Samoa&quot;,
+  AZ: &quot;Arizona&quot;,
+  AR: &quot;Arkansas&quot;,
+  CA: &quot;California&quot;,
+  CO: &quot;Colorado&quot;,
+  CT: &quot;Connecticut&quot;,
+  DE: &quot;Delaware&quot;,
+  DC: &quot;District Of Columbia&quot;,
+  FM: &quot;Federated States Of Micronesia&quot;,
+  FL: &quot;Florida&quot;,
+  GA: &quot;Georgia&quot;,
+  GU: &quot;Guam&quot;,
+  HI: &quot;Hawaii&quot;,
+  ID: &quot;Idaho&quot;,
+  IL: &quot;Illinois&quot;,
+  IN: &quot;Indiana&quot;,
+  IA: &quot;Iowa&quot;,
+  KS: &quot;Kansas&quot;,
+  KY: &quot;Kentucky&quot;,
+  LA: &quot;Louisiana&quot;,
+  ME: &quot;Maine&quot;,
+  MH: &quot;Marshall Islands&quot;,
+  MD: &quot;Maryland&quot;,
+  MA: &quot;Massachusetts&quot;,
+  MI: &quot;Michigan&quot;,
+  MN: &quot;Minnesota&quot;,
+  MS: &quot;Mississippi&quot;,
+  MO: &quot;Missouri&quot;,
+  MT: &quot;Montana&quot;,
+  NE: &quot;Nebraska&quot;,
+  NV: &quot;Nevada&quot;,
+  NH: &quot;New Hampshire&quot;,
+  NJ: &quot;New Jersey&quot;,
+  NM: &quot;New Mexico&quot;,
+  NY: &quot;New York&quot;,
+  NC: &quot;North Carolina&quot;,
+  ND: &quot;North Dakota&quot;,
+  MP: &quot;Northern Mariana Islands&quot;,
+  OH: &quot;Ohio&quot;,
+  OK: &quot;Oklahoma&quot;,
+  OR: &quot;Oregon&quot;,
+  PW: &quot;Palau&quot;,
+  PA: &quot;Pennsylvania&quot;,
+  PR: &quot;Puerto Rico&quot;,
+  RI: &quot;Rhode Island&quot;,
+  SC: &quot;South Carolina&quot;,
+  SD: &quot;South Dakota&quot;,
+  TN: &quot;Tennessee&quot;,
+  TX: &quot;Texas&quot;,
+  UT: &quot;Utah&quot;,
+  VT: &quot;Vermont&quot;,
+  VI: &quot;Virgin Islands&quot;,
+  VA: &quot;Virginia&quot;,
+  WA: &quot;Washington&quot;,
+  WV: &quot;West Virginia&quot;,
+  WI: &quot;Wisconsin&quot;,
+  WY: &quot;Wyoming&quot;,
+};
 
 /**
  *
@@ -210,9 +210,9 @@ export const stateAbbrHash &#x3D; {
  *
  */
 export function stateAbbrToName(stateAbbr) {
-  if (!stateAbbr || typeof stateAbbr !&#x3D;&#x3D; &#x27;string&#x27;) return undefined
-  const cleanAbbr &#x3D; stateAbbr.trim().toUpperCase()
-  return stateAbbrHash[cleanAbbr]
+  if (!stateAbbr || typeof stateAbbr !&#x3D;&#x3D; &quot;string&quot;) return undefined;
+  const cleanAbbr &#x3D; stateAbbr.trim().toUpperCase();
+  return stateAbbrHash[cleanAbbr];
 }
 
 /**
@@ -235,100 +235,100 @@ export function stateAbbrToName(stateAbbr) {
 
 export function getStateAbbrFromStateFips(stateFips) {
   if (!stateFips) {
-    console.error(&#x27;Missing FIPS code:&#x27;, {
+    console.error(&quot;Missing FIPS code:&quot;, {
       value: stateFips,
       type: typeof stateFips,
-      expected: &#x27;string or number FIPS code&#x27;,
-      hint: &#x27;FIPS code is required and cannot be null/undefined&#x27;,
-    })
-    throw new Error(&#x27;stateFips is required&#x27;)
+      expected: &quot;string or number FIPS code&quot;,
+      hint: &quot;FIPS code is required and cannot be null/undefined&quot;,
+    });
+    throw new Error(&quot;stateFips is required&quot;);
   }
 
   // Convert number to string if needed
-  const fipsStr &#x3D; String(stateFips)
+  const fipsStr &#x3D; String(stateFips);
   // Pad single digit with leading zero
-  const paddedFips &#x3D; fipsStr.padStart(2, &#x27;0&#x27;)
+  const paddedFips &#x3D; fipsStr.padStart(2, &quot;0&quot;);
 
   if (paddedFips.length !&#x3D;&#x3D; 2) {
-    console.error(&#x27;Invalid FIPS code length:&#x27;, {
+    console.error(&quot;Invalid FIPS code length:&quot;, {
       input: stateFips,
       asString: fipsStr,
       padded: paddedFips,
       length: paddedFips.length,
       expected: 2,
       hint: &#x27;FIPS codes should be exactly 2 digits, like &quot;06&quot; for California&#x27;,
-    })
-    throw new Error(&#x27;stateFips must be two characters&#x27;)
+    });
+    throw new Error(&quot;stateFips must be two characters&quot;);
   }
 
   if (!stateNameHash[paddedFips]) {
-    console.error(&#x27;Invalid FIPS code:&#x27;, {
+    console.error(&quot;Invalid FIPS code:&quot;, {
       input: stateFips,
       processed: paddedFips,
-      validCodes: Object.keys(stateNameHash).join(&#x27;, &#x27;),
-      hint: &#x27;Check if the FIPS code exists in the state database&#x27;,
-    })
-    throw new Error(&#x27;stateFips is invalid&#x27;)
+      validCodes: Object.keys(stateNameHash).join(&quot;, &quot;),
+      hint: &quot;Check if the FIPS code exists in the state database&quot;,
+    });
+    throw new Error(&quot;stateFips is invalid&quot;);
   }
 
-  return stateFipsToAbbr(+paddedFips)
+  return stateFipsToAbbr(+paddedFips);
 }
 
 export function stateFipsToAbbr(stateFips) {
   const stateFipsHash &#x3D; {
-    1: &#x27;AL&#x27;,
-    2: &#x27;AK&#x27;,
-    4: &#x27;AZ&#x27;,
-    5: &#x27;AR&#x27;,
-    6: &#x27;CA&#x27;,
-    8: &#x27;CO&#x27;,
-    9: &#x27;CT&#x27;,
-    10: &#x27;DE&#x27;,
-    11: &#x27;DC&#x27;,
-    12: &#x27;FL&#x27;,
-    13: &#x27;GA&#x27;,
-    15: &#x27;HI&#x27;,
-    16: &#x27;ID&#x27;,
-    17: &#x27;IL&#x27;,
-    18: &#x27;IN&#x27;,
-    19: &#x27;IA&#x27;,
-    20: &#x27;KS&#x27;,
-    21: &#x27;KY&#x27;,
-    22: &#x27;LA&#x27;,
-    23: &#x27;ME&#x27;,
-    24: &#x27;MD&#x27;,
-    25: &#x27;MA&#x27;,
-    26: &#x27;MI&#x27;,
-    27: &#x27;MN&#x27;,
-    28: &#x27;MS&#x27;,
-    29: &#x27;MO&#x27;,
-    30: &#x27;MT&#x27;,
-    31: &#x27;NE&#x27;,
-    32: &#x27;NV&#x27;,
-    33: &#x27;NH&#x27;,
-    34: &#x27;NJ&#x27;,
-    35: &#x27;NM&#x27;,
-    36: &#x27;NY&#x27;,
-    37: &#x27;NC&#x27;,
-    38: &#x27;ND&#x27;,
-    39: &#x27;OH&#x27;,
-    40: &#x27;OK&#x27;,
-    41: &#x27;OR&#x27;,
-    42: &#x27;PA&#x27;,
-    44: &#x27;RI&#x27;,
-    45: &#x27;SC&#x27;,
-    46: &#x27;SD&#x27;,
-    47: &#x27;TN&#x27;,
-    48: &#x27;TX&#x27;,
-    49: &#x27;UT&#x27;,
-    50: &#x27;VT&#x27;,
-    51: &#x27;VA&#x27;,
-    53: &#x27;WA&#x27;,
-    54: &#x27;WV&#x27;,
-    55: &#x27;WI&#x27;,
-    56: &#x27;WY&#x27;,
-  }
-  return stateFipsHash[stateFips]
+    1: &quot;AL&quot;,
+    2: &quot;AK&quot;,
+    4: &quot;AZ&quot;,
+    5: &quot;AR&quot;,
+    6: &quot;CA&quot;,
+    8: &quot;CO&quot;,
+    9: &quot;CT&quot;,
+    10: &quot;DE&quot;,
+    11: &quot;DC&quot;,
+    12: &quot;FL&quot;,
+    13: &quot;GA&quot;,
+    15: &quot;HI&quot;,
+    16: &quot;ID&quot;,
+    17: &quot;IL&quot;,
+    18: &quot;IN&quot;,
+    19: &quot;IA&quot;,
+    20: &quot;KS&quot;,
+    21: &quot;KY&quot;,
+    22: &quot;LA&quot;,
+    23: &quot;ME&quot;,
+    24: &quot;MD&quot;,
+    25: &quot;MA&quot;,
+    26: &quot;MI&quot;,
+    27: &quot;MN&quot;,
+    28: &quot;MS&quot;,
+    29: &quot;MO&quot;,
+    30: &quot;MT&quot;,
+    31: &quot;NE&quot;,
+    32: &quot;NV&quot;,
+    33: &quot;NH&quot;,
+    34: &quot;NJ&quot;,
+    35: &quot;NM&quot;,
+    36: &quot;NY&quot;,
+    37: &quot;NC&quot;,
+    38: &quot;ND&quot;,
+    39: &quot;OH&quot;,
+    40: &quot;OK&quot;,
+    41: &quot;OR&quot;,
+    42: &quot;PA&quot;,
+    44: &quot;RI&quot;,
+    45: &quot;SC&quot;,
+    46: &quot;SD&quot;,
+    47: &quot;TN&quot;,
+    48: &quot;TX&quot;,
+    49: &quot;UT&quot;,
+    50: &quot;VT&quot;,
+    51: &quot;VA&quot;,
+    53: &quot;WA&quot;,
+    54: &quot;WV&quot;,
+    55: &quot;WI&quot;,
+    56: &quot;WY&quot;,
+  };
+  return stateFipsHash[stateFips];
 }
 
 /**
@@ -347,38 +347,38 @@ export function stateFipsToAbbr(stateFips) {
  *
  */
 export function getStateCodeFromCountyFips(countyFips) {
-  if (!countyFips || typeof countyFips !&#x3D;&#x3D; &#x27;string&#x27;) {
-    console.error(&#x27;Invalid county FIPS code:&#x27;, {
+  if (!countyFips || typeof countyFips !&#x3D;&#x3D; &quot;string&quot;) {
+    console.error(&quot;Invalid county FIPS code:&quot;, {
       value: countyFips,
       type: typeof countyFips,
-      expected: &#x27;string of 5 digits&#x27;,
+      expected: &quot;string of 5 digits&quot;,
       hint: &#x27;County FIPS should be a string like &quot;36001&quot;&#x27;,
-    })
-    throw new Error(&#x27;Invalid county FIPS code&#x27;)
+    });
+    throw new Error(&quot;Invalid county FIPS code&quot;);
   }
 
   // Only allow digits
   if (!/^\d+$/.test(countyFips)) {
-    console.error(&#x27;County FIPS contains non-digits:&#x27;, {
+    console.error(&quot;County FIPS contains non-digits:&quot;, {
       value: countyFips,
       match: countyFips.match(/\D+/g),
-      expected: &#x27;only digits 0-9&#x27;,
-      hint: &#x27;Remove any special characters, letters, or spaces&#x27;,
-    })
-    throw new Error(&#x27;County FIPS code must contain only digits&#x27;)
+      expected: &quot;only digits 0-9&quot;,
+      hint: &quot;Remove any special characters, letters, or spaces&quot;,
+    });
+    throw new Error(&quot;County FIPS code must contain only digits&quot;);
   }
 
   if (countyFips.length &amp;lt; 2) {
-    console.error(&#x27;County FIPS code too short:&#x27;, {
+    console.error(&quot;County FIPS code too short:&quot;, {
       value: countyFips,
       length: countyFips.length,
-      expected: &#x27;5 digits (minimum 2)&#x27;,
+      expected: &quot;5 digits (minimum 2)&quot;,
       hint: &#x27;County FIPS should be 5 digits, like &quot;36001&quot;&#x27;,
-    })
-    throw new Error(&#x27;Invalid county FIPS code length&#x27;)
+    });
+    throw new Error(&quot;Invalid county FIPS code length&quot;);
   }
 
-  return countyFips.slice(0, 2)
+  return countyFips.slice(0, 2);
 }
 
 /**
@@ -393,183 +393,220 @@ export function getStateCodeFromCountyFips(countyFips) {
 export function candidateVotePercentage(candidateVote, totalVote) {
   // Handle null/undefined inputs
   if (candidateVote &#x3D;&#x3D; null || totalVote &#x3D;&#x3D; null) {
-    console.warn(&#x27;Null or undefined vote values:&#x27;, {
+    console.warn(&quot;Null or undefined vote values:&quot;, {
       candidateVote,
       totalVote,
-    })
-    return &#x27;NaN&#x27;
+    });
+    return &quot;NaN&quot;;
   }
 
   // Convert inputs to numbers
-  const candidateNum &#x3D; Number(candidateVote)
-  const totalNum &#x3D; Number(totalVote)
+  const candidateNum &#x3D; Number(candidateVote);
+  const totalNum &#x3D; Number(totalVote);
 
   // Handle NaN after conversion
   if (isNaN(candidateNum) || isNaN(totalNum)) {
-    console.warn(&#x27;Non-numeric vote values:&#x27;, {
+    console.warn(&quot;Non-numeric vote values:&quot;, {
       candidateVote,
       totalVote,
-    })
-    return &#x27;NaN&#x27;
+    });
+    return &quot;NaN&quot;;
   }
 
   // Handle zero total votes
   if (totalNum &#x3D;&#x3D;&#x3D; 0) {
-    console.warn(&#x27;Division by zero:&#x27;, {
+    console.warn(&quot;Division by zero:&quot;, {
       candidateVote,
       totalVote,
-    })
-    return &#x27;NaN&#x27;
+    });
+    return &quot;NaN&quot;;
   }
 
   // Handle negative values
   if (candidateNum &amp;lt; 0 || totalNum &amp;lt; 0) {
-    console.warn(&#x27;Negative vote values:&#x27;, {
+    console.warn(&quot;Negative vote values:&quot;, {
       candidateVote,
       totalVote,
-    })
-    return &#x27;NaN&#x27;
+    });
+    return &quot;NaN&quot;;
   }
 
   // Calculate percentage (allow negative values)
-  const percentage &#x3D; (candidateNum / totalNum) * 100
-  return percentage.toFixed(1)
+  const percentage &#x3D; (candidateNum / totalNum) * 100;
+  return percentage.toFixed(1);
 }
 
 /**
  * @desc Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
- * 
+ *
  * @param {Array} candidates - An array of candidate objects.
- * @param {Function} sortFunction - The function to use to sort the candidates (like d3.descending)
+ * @param {function(number, number): number} [sortFunction] - The function to use to sort the candidates (like d3.descending)
  * @returns {Array} - A sorted array of candidate objects.
  * @throws {Error} - If the candidates array is invalid.
-
+ */
+/**
+ * Sort an array of candidate objects by vote count.
+ *
+ * Each candidate **must** contain a &#x60;candidatevotes&#x60; property that can be coerced
+ * to a number. Any extra properties are preserved.
+ *
+ * By default the list is sorted descending (highest → lowest).  Pass a custom
+ * &#x60;sortFunction&#x60; if you need a different order – its contract is identical to
+ * &#x60;Array.prototype.sort&#x60;.
+ *
+ * @typedef {Object} Candidate
+ * @property {number|string} candidatevotes – Vote total for the candidate.
+ * @property {any} [*] – Additional properties are allowed and untouched.
+ *
+ * @param {Candidate[]} raceCandidateArray – Candidates to sort (mutated in-place).
+ * @param {function(number, number): number} [sortFunction] – Optional compare
+ * function.  Defaults to &#x60;(a, b) &#x3D;&gt; b - a&#x60; for descending order.
+ *
+ * @returns {Candidate[]} The **same** array instance, ordered according to the
+ * compare logic.
+ *
+ * @throws {TypeError} If &#x60;raceCandidateArray&#x60; is not a valid array.
+ *
+ * @example
+ * // Default (descending)
+ * sortCandidatesByVotes(candidates)
+ *
+ * @example
+ * // Ascending order
+ * sortCandidatesByVotes(candidates, (a, b) &#x3D;&gt; a - b)
+ *
+ * @example
+ * // Custom tie-breaker: descending votes then alphabetical by name
+ * sortCandidatesByVotes(candidates, (a, b) &#x3D;&gt; {
+ *   const diff &#x3D; b - a
+ *   return diff !&#x3D;&#x3D; 0 ? diff : a.name.localeCompare(b.name)
+ * })
  */
 export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
   if (!raceCandidateArray) {
-    console.error(&#x27;Invalid candidates array:&#x27;, {
+    console.error(&quot;Invalid candidates array:&quot;, {
       value: raceCandidateArray,
       type: typeof raceCandidateArray,
-      expected: &#x27;array of candidate objects&#x27;,
+      expected: &quot;array of candidate objects&quot;,
       hint: &quot;Make sure you&#x27;re passing a valid array of candidates&quot;,
-    })
-    return undefined
+    });
+    return undefined;
   }
 
   if (!Array.isArray(raceCandidateArray)) {
-    console.error(&#x27;Candidates must be an array:&#x27;, {
+    console.error(&quot;Candidates must be an array:&quot;, {
       value: raceCandidateArray,
       type: typeof raceCandidateArray,
-      expected: &#x27;array&#x27;,
-      hint: &#x27;Convert your data to an array before sorting&#x27;,
-    })
-    return undefined
+      expected: &quot;array&quot;,
+      hint: &quot;Convert your data to an array before sorting&quot;,
+    });
+    return undefined;
   }
 
   if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 0) {
-    console.error(&#x27;Empty candidates array:&#x27;, {
+    console.error(&quot;Empty candidates array:&quot;, {
       value: raceCandidateArray,
       length: 0,
-      expected: &#x27;at least one candidate&#x27;,
-      hint: &#x27;Check why your candidates array is empty&#x27;,
-    })
-    return undefined
+      expected: &quot;at least one candidate&quot;,
+      hint: &quot;Check why your candidates array is empty&quot;,
+    });
+    return undefined;
   }
 
   if (raceCandidateArray.length &#x3D;&#x3D;&#x3D; 1) {
-    console.warn(&#x27;Single candidate array:&#x27;, {
+    console.warn(&quot;Single candidate array:&quot;, {
       candidate: raceCandidateArray[0],
-      hint: &#x27;Sorting a single candidate might indicate a data issue&#x27;,
-    })
-    return raceCandidateArray
+      hint: &quot;Sorting a single candidate might indicate a data issue&quot;,
+    });
+    return raceCandidateArray;
   }
 
   // Default descending sort if no function provided or if function is invalid
   const safeSortFunction &#x3D;
-    typeof sortFunction &#x3D;&#x3D;&#x3D; &#x27;function&#x27; ? sortFunction : (a, b) &#x3D;&gt; b - a
+    typeof sortFunction &#x3D;&#x3D;&#x3D; &quot;function&quot; ? sortFunction : (a, b) &#x3D;&gt; b - a;
 
   try {
     return raceCandidateArray.sort(function (x, y) {
       // Log any candidates with missing or invalid vote counts
-      if (!(&#x27;candidatevotes&#x27; in x)) {
-        console.error(&#x27;Candidate missing votes:&#x27;, {
+      if (!(&quot;candidatevotes&quot; in x)) {
+        console.error(&quot;Candidate missing votes:&quot;, {
           candidate: x,
-          expected: &#x27;candidatevotes property&#x27;,
-          hint: &#x27;Each candidate must have a candidatevotes property&#x27;,
-        })
+          expected: &quot;candidatevotes property&quot;,
+          hint: &quot;Each candidate must have a candidatevotes property&quot;,
+        });
       }
-      if (!(&#x27;candidatevotes&#x27; in y)) {
-        console.error(&#x27;Candidate missing votes:&#x27;, {
+      if (!(&quot;candidatevotes&quot; in y)) {
+        console.error(&quot;Candidate missing votes:&quot;, {
           candidate: y,
-          expected: &#x27;candidatevotes property&#x27;,
-          hint: &#x27;Each candidate must have a candidatevotes property&#x27;,
-        })
+          expected: &quot;candidatevotes property&quot;,
+          hint: &quot;Each candidate must have a candidatevotes property&quot;,
+        });
       }
 
       // Safely convert to numbers, handling edge cases
-      const xVotes &#x3D; Number(x?.candidatevotes)
-      const yVotes &#x3D; Number(y?.candidatevotes)
+      const xVotes &#x3D; Number(x?.candidatevotes);
+      const yVotes &#x3D; Number(y?.candidatevotes);
 
       // Log problematic vote values
       if (isNaN(xVotes)) {
-        console.error(&#x27;Invalid vote count:&#x27;, {
+        console.error(&quot;Invalid vote count:&quot;, {
           candidate: x,
           voteValue: x?.candidatevotes,
           convertedTo: xVotes,
-          expected: &#x27;numeric value&#x27;,
-          hint: &#x27;Vote counts must be convertible to numbers&#x27;,
-        })
+          expected: &quot;numeric value&quot;,
+          hint: &quot;Vote counts must be convertible to numbers&quot;,
+        });
       }
       if (isNaN(yVotes)) {
-        console.error(&#x27;Invalid vote count:&#x27;, {
+        console.error(&quot;Invalid vote count:&quot;, {
           candidate: y,
           voteValue: y?.candidatevotes,
           convertedTo: yVotes,
-          expected: &#x27;numeric value&#x27;,
-          hint: &#x27;Vote counts must be convertible to numbers&#x27;,
-        })
+          expected: &quot;numeric value&quot;,
+          hint: &quot;Vote counts must be convertible to numbers&quot;,
+        });
       }
 
       // Handle NaN cases
-      if (isNaN(xVotes) &amp;amp;&amp;amp; isNaN(yVotes)) return 0
-      if (isNaN(xVotes)) return 1
-      if (isNaN(yVotes)) return -1
+      if (isNaN(xVotes) &amp;amp;&amp;amp; isNaN(yVotes)) return 0;
+      if (isNaN(xVotes)) return 1;
+      if (isNaN(yVotes)) return -1;
 
       // Handle Infinity cases
       if (!isFinite(xVotes) || !isFinite(yVotes)) {
-        console.warn(&#x27;Non-finite vote count:&#x27;, {
+        console.warn(&quot;Non-finite vote count:&quot;, {
           values: { x: xVotes, y: yVotes },
-          handling: &#x27;Using sign to determine order&#x27;,
-          hint: &#x27;Check for division by zero or very large numbers&#x27;,
-        })
+          handling: &quot;Using sign to determine order&quot;,
+          hint: &quot;Check for division by zero or very large numbers&quot;,
+        });
       }
-      if (!isFinite(xVotes) &amp;amp;&amp;amp; !isFinite(yVotes)) return 0
-      if (!isFinite(xVotes)) return xVotes &gt; 0 ? -1 : 1
-      if (!isFinite(yVotes)) return yVotes &gt; 0 ? 1 : -1
+      if (!isFinite(xVotes) &amp;amp;&amp;amp; !isFinite(yVotes)) return 0;
+      if (!isFinite(xVotes)) return xVotes &gt; 0 ? -1 : 1;
+      if (!isFinite(yVotes)) return yVotes &gt; 0 ? 1 : -1;
 
       try {
-        return safeSortFunction(xVotes, yVotes)
+        return safeSortFunction(xVotes, yVotes);
       } catch (err) {
-        console.error(&#x27;Sort function failed:&#x27;, {
+        console.error(&quot;Sort function failed:&quot;, {
           error: err.message,
           values: { x: xVotes, y: yVotes },
           sortFunction: sortFunction?.toString(),
-          fallback: &#x27;Using default descending sort&#x27;,
-          hint: &#x27;Check your sort function for errors&#x27;,
-        })
-        return yVotes - xVotes
+          fallback: &quot;Using default descending sort&quot;,
+          hint: &quot;Check your sort function for errors&quot;,
+        });
+        return yVotes - xVotes;
       }
-    })
+    });
   } catch (err) {
-    console.error(&#x27;Sorting failed:&#x27;, {
+    console.error(&quot;Sorting failed:&quot;, {
       error: err.message,
       array: raceCandidateArray,
       length: raceCandidateArray.length,
       sampleValues: raceCandidateArray.slice(0, 3),
-      handling: &#x27;Returning original array&#x27;,
-      hint: &#x27;Check array contents and sort function&#x27;,
-    })
-    return raceCandidateArray
+      handling: &quot;Returning original array&quot;,
+      hint: &quot;Check array contents and sort function&quot;,
+    });
+    return raceCandidateArray;
   }
 }
 
@@ -585,7 +622,7 @@ export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
  */
 
 export function stateFipsToName(stateFips) {
-  return stateNameHash[stateFips]
+  return stateNameHash[stateFips];
 }
 
 /**
@@ -597,12 +634,12 @@ export function stateFipsToName(stateFips) {
  * // returns &#x27;36&#x27;
  */
 export function stateAbbrToFips(stateAbbr) {
-  if (!stateAbbr) return undefined
-  const stateName &#x3D; stateAbbrToName(stateAbbr)
-  if (!stateName) return undefined
+  if (!stateAbbr) return undefined;
+  const stateName &#x3D; stateAbbrToName(stateAbbr);
+  if (!stateName) return undefined;
   return Object.keys(stateNameHash).find(
     (key) &#x3D;&gt; stateNameHash[key] &#x3D;&#x3D;&#x3D; stateName
-  )
+  );
 }
 
 /**
@@ -617,7 +654,7 @@ export function stateAbbrToFips(stateAbbr) {
 export function stateNameToFips(stateName) {
   return Object.keys(stateNameHash).find(
     (key) &#x3D;&gt; stateNameHash[key] &#x3D;&#x3D;&#x3D; stateName
-  )
+  );
 }
 
 /**
@@ -638,16 +675,16 @@ export function stateNameToFips(stateName) {
  */
 
 export function boundariesAvailableForRaceType(raceType) {
-  const availableBoundaries &#x3D; []
-  if (raceType &#x3D;&#x3D;&#x3D; &#x27;president&#x27;) {
-    availableBoundaries.push(&#x27;state&#x27;)
-    availableBoundaries.push(&#x27;county&#x27;)
-  } else if (raceType &#x3D;&#x3D;&#x3D; &#x27;senate&#x27;) {
-    availableBoundaries.push(&#x27;county&#x27;)
-  } else if (raceType &#x3D;&#x3D;&#x3D; &#x27;house&#x27;) {
-    availableBoundaries.push(&#x27;district&#x27;)
-  } else return null
-  return availableBoundaries
+  const availableBoundaries &#x3D; [];
+  if (raceType &#x3D;&#x3D;&#x3D; &quot;president&quot;) {
+    availableBoundaries.push(&quot;state&quot;);
+    availableBoundaries.push(&quot;county&quot;);
+  } else if (raceType &#x3D;&#x3D;&#x3D; &quot;senate&quot;) {
+    availableBoundaries.push(&quot;county&quot;);
+  } else if (raceType &#x3D;&#x3D;&#x3D; &quot;house&quot;) {
+    availableBoundaries.push(&quot;district&quot;);
+  } else return null;
+  return availableBoundaries;
 }
 
 /**
@@ -664,15 +701,15 @@ export function boundariesAvailableForRaceType(raceType) {
  * // returns false
  */
 export function isBoundaryAvailableForRaceType(raceType, boundaryType) {
-  const availableBoundaries &#x3D; boundariesAvailableForRaceType(raceType)
-  if (!availableBoundaries) return false
-  return availableBoundaries.includes(boundaryType)
+  const availableBoundaries &#x3D; boundariesAvailableForRaceType(raceType);
+  if (!availableBoundaries) return false;
+  return availableBoundaries.includes(boundaryType);
 }
 
 // Configuration
 const config &#x3D; {
   votePercentDecimalPlaces: 1,
-}
+};
 </code></pre>
           </article>
         </div>

@@ -32,165 +32,73 @@
           </header>
           <article>
             <h1>Election Helpers</h1>
-            <h2>Read <a href="https://github.com/ejfox/election-helpers/blob/master/docs.md">docs.md</a> or <a href="https://ejfox.github.io/election-helpers/global.html">GH pages</a> for documentation</h2>
-            <p><img src="https://img.shields.io/npm/v/election-helpers?color=%235B70D9" alt="npm">
-              <img src="https://github.com/ejfox/election-helpers/actions/workflows/test.yml/badge.svg" alt="Test Status">
+            <p><a href="https://www.npmjs.com/package/election-helpers"><img src="https://img.shields.io/npm/v/election-helpers?color=%235B70D9" alt="npm version"></a>
               <a href="https://codecov.io/gh/ejfox/election-helpers"><img src="https://codecov.io/gh/ejfox/election-helpers/branch/main/graph/badge.svg" alt="codecov"></a>
             </p>
             <p><a href="https://www.npmjs.com/package/election-helpers">View on NPM</a></p>
+            <h2>Overview</h2>
+            <p><code>election-helpers</code> is a lightweight JavaScript utility library that makes it easier to work with U.S. election data—FIPS codes, vote tallies, boundary checks, and more. Each helper is fully unit-tested and documented. If you need to turn messy election spreadsheets into clean insights, this package has your back.</p>
+            <hr>
+            <h2>Installation</h2>
+            <pre class="prettyprint source lang-bash"><code>npm install election-helpers --save
+</code></pre>
+            <hr>
+            <h2>Usage</h2>
+            <pre class="prettyprint source lang-js"><code>import {
+  getStateAbbrFromStateFips,
+  candidateVotePercentage,
+} from 'election-helpers';
+
+getStateAbbrFromStateFips('36'); // => 'NY'
+
+candidateVotePercentage(3490, 9876); // => 35.34 (rounded)
+</code></pre>
+            <p>For full examples, check the <a href="https://ejfox.github.io/election-helpers/global.html">documentation site</a>.</p>
+            <hr>
             <h2>Testing</h2>
-            <p>The project uses Vitest for testing. Each utility function has multiple test cases to ensure reliability.</p>
-            <p>To run tests:</p>
+            <p>The project uses <a href="https://vitest.dev/">Vitest</a> for fast, browser-like unit tests.</p>
             <pre class="prettyprint source lang-bash"><code># Run tests once
 npm test
 
-# Run tests in watch mode
+# Watch mode
 npm run test:watch
 
-# Run tests with coverage
+# Coverage report
 npm run test:coverage
 </code></pre>
-            <p>Test coverage reports are automatically generated and uploaded to Codecov on each push.</p>
-            <p>--</p>
-            <h2>Functions</h2>
-            <dl>
-              <dt><a href="#getStateFipsFromStateAbbr">getStateFipsFromStateAbbr(stateAbbr)</a> ⇒ <code>string</code></dt>
-              <dd></dd>
-              <dt><a href="#stateAbbrToName">stateAbbrToName(stateAbbr)</a> ⇒ <code>string</code></dt>
-              <dd></dd>
-              <dt><a href="#getStateAbbrFromStateFips">getStateAbbrFromStateFips(stateFips)</a> ⇒ <code>string</code></dt>
-              <dd></dd>
-              <dt><a href="#getStateCodeFromCountyFips">getStateCodeFromCountyFips(countyFips)</a> ⇒ <code>string</code></dt>
-              <dd>
-                <p>Get the state code from the county fips string</p>
-              </dd>
-              <dt><a href="#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a> ⇒ <code>number</code></dt>
-              <dd>
-                <p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
-              </dd>
-              <dt><a href="#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a> ⇒ <code>Array</code></dt>
-              <dd>
-                <p>Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.</p>
-              </dd>
-              <dt><a href="#stateFipsToName">stateFipsToName(stateFips)</a> ⇒ <code>string</code></dt>
-              <dd></dd>
-              <dt><a href="#stateAbbrToFips">stateAbbrToFips(stateAbbreviation)</a> ⇒ <code>string</code></dt>
-              <dd>
-                <p>Get the state fips code from the abbreviation, like 'NY' to '36'</p>
-              </dd>
-              <dt><a href="#stateNameToFips">stateNameToFips(stateName)</a> ⇒ <code>string</code></dt>
-              <dd></dd>
-              <dt><a href="#boundariesAvailableForRaceType">boundariesAvailableForRaceType(raceType)</a> ⇒ <code>array</code></dt>
-              <dd></dd>
-              <dt><a href="#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
-              <dd></dd>
-            </dl>
-            <p><a name="stateNameHash"></a></p>
-            <h2>stateNameHash ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>stateNameHash['01']
-// returns 'Alabama'
-</code></pre>
-            <p><a name="getStateFipsFromStateAbbr"></a></p>
-            <h2>getStateFipsFromStateAbbr(stateAbbr) ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateFipsFromStateAbbr('CA')
-// => '06'
-getStateFipsFromStateAbbr('NY')
-// => '36'
-</code></pre>
-            <p><a name="stateAbbrToName"></a></p>
-            <h2>stateAbbrToName(stateAbbr) ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateNameFromStateAbbr('AL')
-// returns 'Alabama'
-</code></pre>
-            <p><a name="getStateAbbrFromStateFips"></a></p>
-            <h2>getStateAbbrFromStateFips(stateFips) ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateAbbrFromStateFips('01')
-// returns 'AL'
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateAbbrFromStateFips('36')
-// returns 'NY'
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateAbbrFromStateFips('XX')
-// throws an error
-</code></pre>
-            <p><a name="getStateCodeFromCountyFips"></a></p>
-            <h2>getStateCodeFromCountyFips(countyFips) ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateCodeFromCountyFips('01001')
-// returns '01'
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateCodeFromCountyFips(01000)
-// throws Error
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateCodeFromCountyFips('01')
-// throws Error
-</code></pre>
-            <p><a name="candidateVotePercentage"></a></p>
-            <h2>candidateVotePercentage(candidateVote, totalVotes) ⇒ <code>number</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getPercentageOfVotes(100, 200)
-// returns 50
-</code></pre>
-            <p><a name="sortCandidatesByVotes"></a></p>
-            <h2>sortCandidatesByVotes(candidates, sortFunction) ⇒ <code>Array</code></h2>
-            <p><a name="stateFipsToName"></a></p>
-            <h2>stateFipsToName(stateFips) ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>stateFipsToName('01')
-// returns 'Alabama'
-</code></pre>
-            <p><a name="stateAbbrToFips"></a></p>
-            <h2>stateAbbrToFips(stateAbbreviation) ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateFipsFromAbbreviation('NY')
-// returns '36'
-</code></pre>
-            <p><a name="stateNameToFips"></a></p>
-            <h2>stateNameToFips(stateName) ⇒ <code>string</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>getStateFipsFromStateName('Alabama')
-// returns '01'
-</code></pre>
-            <p><a name="boundariesAvailableForRaceType"></a></p>
-            <h2>boundariesAvailableForRaceType(raceType) ⇒ <code>array</code></h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType('president')
-// returns ['state', 'county']
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType('senate')
-// returns ['state']
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType('house')
-// returns ['district']
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType(2016)
-// returns null
-</code></pre>
-            <p><a name="isBoundaryAvailableForRaceType"></a></p>
-            <h2>isBoundaryAvailableForRaceType(raceType, boundaryType)</h2>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>isBoundaryAvailableForRaceType('president', 'county')
-// returns true
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>isBoundaryAvailableForRaceType('president', 'state')
-// returns true
-</code></pre>
-            <p><strong>Example</strong></p>
-            <pre class="prettyprint source lang-js"><code>isBoundaryAvailableForRaceType('president', 'district')
-// returns false
-</code></pre>
+            <p>Coverage is automatically published to Codecov on every push.</p>
+            <hr>
+            <h2>API Reference</h2>
+            <p>Below is a quick look at the available helpers. Each link jumps to the generated JSDoc on the docs site.</p>
+            <ul>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#getStateFipsFromStateAbbr"><code>getStateFipsFromStateAbbr(stateAbbr)</code></a> → string</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#stateAbbrToName"><code>stateAbbrToName(stateAbbr)</code></a> → string</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#getStateAbbrFromStateFips"><code>getStateAbbrFromStateFips(stateFips)</code></a> → string</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#getStateCodeFromCountyFips"><code>getStateCodeFromCountyFips(countyFips)</code></a> → string</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#candidateVotePercentage"><code>candidateVotePercentage(candidateVote, totalVotes)</code></a> → number</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#sortCandidatesByVotes"><code>sortCandidatesByVotes(candidates, sortFn?)</code></a> → array</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#stateFipsToName"><code>stateFipsToName(stateFips)</code></a> → string</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#stateAbbrToFips"><code>stateAbbrToFips(stateAbbreviation)</code></a> → string</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#stateNameToFips"><code>stateNameToFips(stateName)</code></a> → string</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#boundariesAvailableForRaceType"><code>boundariesAvailableForRaceType(raceType)</code></a> → array</li>
+              <li><a href="https://ejfox.github.io/election-helpers/global.html#isBoundaryAvailableForRaceType"><code>isBoundaryAvailableForRaceType(raceType, boundaryType)</code></a></li>
+            </ul>
+            <hr>
+            <h2>Contributing</h2>
+            <ol>
+              <li>Fork &amp; clone the repo.</li>
+              <li><code>npm install</code> to grab dev deps.</li>
+              <li>Create a branch, write code <strong>and matching tests</strong>.</li>
+              <li><code>npm test</code> should pass and coverage should stay 💯.</li>
+              <li>Commit using Conventional Commits (<code>npm run cz</code>).</li>
+              <li>Open a PR—CI will handle the rest.</li>
+            </ol>
+            <blockquote>
+              <p><strong>Note:</strong> In true Room 302 fashion, we jokingly skip &quot;security features.&quot; Feel free to prove us wrong with a well-crafted PR.</p>
+            </blockquote>
+            <hr>
+            <h2>License</h2>
+            <p>MIT © <a href="https://ejfox.com">EJ Fox</a></p>
           </article>
           <div class="symbol-index">
           </div>

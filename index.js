@@ -407,12 +407,11 @@ export function candidateVotePercentage(candidateVote, totalVote) {
 
 /**
  * @desc Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.
- * 
+ *
  * @param {Array} candidates - An array of candidate objects.
- * @param {Function} sortFunction - The function to use to sort the candidates (like d3.descending)
+ * @param {function(number, number): number} [sortFunction] - The function to use to sort the candidates (like d3.descending)
  * @returns {Array} - A sorted array of candidate objects.
  * @throws {Error} - If the candidates array is invalid.
-
  */
 /**
  * Sort an array of candidate objects by vote count.
@@ -429,7 +428,7 @@ export function candidateVotePercentage(candidateVote, totalVote) {
  * @property {any} [*] – Additional properties are allowed and untouched.
  *
  * @param {Candidate[]} raceCandidateArray – Candidates to sort (mutated in-place).
- * @param {(a: number, b: number) => number} [sortFunction] – Optional compare
+ * @param {function(number, number): number} [sortFunction] – Optional compare
  * function.  Defaults to `(a, b) => b - a` for descending order.
  *
  * @returns {Candidate[]} The **same** array instance, ordered according to the
