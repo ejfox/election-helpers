@@ -1,7 +1,6 @@
 # Election Helpers
 
 [![npm version](https://img.shields.io/npm/v/election-helpers?color=%235B70D9)](https://www.npmjs.com/package/election-helpers)
-[![tests](https://github.com/ejfox/election-helpers/actions/workflows/test.yml/badge.svg)](https://github.com/ejfox/election-helpers/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/ejfox/election-helpers/branch/main/graph/badge.svg)](https://codecov.io/gh/ejfox/election-helpers)
 
 [View on NPM](https://www.npmjs.com/package/election-helpers)
