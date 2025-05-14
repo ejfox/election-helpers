@@ -2,9 +2,9 @@
 <html>
 
 <head>
-  <meta name="generator" content="JSDoc 3.6.11">
+  <meta name="generator" content="JSDoc 3.6.10">
   <meta charset="utf-8">
-  <title>election-helpers 0.0.5 &raquo; Home</title>
+  <title>election-helpers 0.1.0 &raquo; Home</title>
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
@@ -15,7 +15,7 @@
   <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
     <div id="jsdoc-navbar-container">
       <div id="jsdoc-navbar-content">
-        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>5</a>
+        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>1.<wbr>0</a>
       </div>
     </div>
   </nav>
@@ -27,7 +27,7 @@
         <div id="jsdoc-main" role="main">
           <header class="page-header">
             <h1>
-              election-helpers 0.0.5
+              election-helpers 0.1.0
             </h1>
           </header>
           <article>
@@ -35,6 +35,146 @@
             <h2>Read <a href="https://github.com/ejfox/election-helpers/blob/master/docs.md">docs.md</a> or <a href="https://ejfox.github.io/election-helpers/global.html">GH pages</a> for documentation</h2>
             <p><img src="https://img.shields.io/npm/v/election-helpers?color=%235B70D9" alt="npm"></p>
             <p><a href="https://www.npmjs.com/package/election-helpers">View on NPM</a></p>
+            <p>--</p>
+            <h2>Functions</h2>
+            <dl>
+              <dt><a href="#getStateFipsFromStateAbbr">getStateFipsFromStateAbbr(stateAbbr)</a> ⇒ <code>string</code></dt>
+              <dd></dd>
+              <dt><a href="#stateAbbrToName">stateAbbrToName(stateAbbr)</a> ⇒ <code>string</code></dt>
+              <dd></dd>
+              <dt><a href="#getStateAbbrFromStateFips">getStateAbbrFromStateFips(stateFips)</a> ⇒ <code>string</code></dt>
+              <dd></dd>
+              <dt><a href="#getStateCodeFromCountyFips">getStateCodeFromCountyFips(countyFips)</a> ⇒ <code>string</code></dt>
+              <dd>
+                <p>Get the state code from the county fips string</p>
+              </dd>
+              <dt><a href="#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a> ⇒ <code>number</code></dt>
+              <dd>
+                <p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
+              </dd>
+              <dt><a href="#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a> ⇒ <code>Array</code></dt>
+              <dd>
+                <p>Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.</p>
+              </dd>
+              <dt><a href="#stateFipsToName">stateFipsToName(stateFips)</a> ⇒ <code>string</code></dt>
+              <dd></dd>
+              <dt><a href="#stateAbbrToFips">stateAbbrToFips(stateAbbreviation)</a> ⇒ <code>string</code></dt>
+              <dd>
+                <p>Get the state fips code from the abbreviation, like 'NY' to '36'</p>
+              </dd>
+              <dt><a href="#stateNameToFips">stateNameToFips(stateName)</a> ⇒ <code>string</code></dt>
+              <dd></dd>
+              <dt><a href="#boundariesAvailableForRaceType">boundariesAvailableForRaceType(raceType)</a> ⇒ <code>array</code></dt>
+              <dd></dd>
+              <dt><a href="#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
+              <dd></dd>
+            </dl>
+            <p><a name="stateNameHash"></a></p>
+            <h2>stateNameHash ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>stateNameHash['01']
+// returns 'Alabama'
+</code></pre>
+            <p><a name="getStateFipsFromStateAbbr"></a></p>
+            <h2>getStateFipsFromStateAbbr(stateAbbr) ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateFipsFromStateAbbr('CA')
+// => '06'
+getStateFipsFromStateAbbr('NY')
+// => '36'
+</code></pre>
+            <p><a name="stateAbbrToName"></a></p>
+            <h2>stateAbbrToName(stateAbbr) ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateNameFromStateAbbr('AL')
+// returns 'Alabama'
+</code></pre>
+            <p><a name="getStateAbbrFromStateFips"></a></p>
+            <h2>getStateAbbrFromStateFips(stateFips) ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateAbbrFromStateFips('01')
+// returns 'AL'
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateAbbrFromStateFips('36')
+// returns 'NY'
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateAbbrFromStateFips('XX')
+// throws an error
+</code></pre>
+            <p><a name="getStateCodeFromCountyFips"></a></p>
+            <h2>getStateCodeFromCountyFips(countyFips) ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateCodeFromCountyFips('01001')
+// returns '01'
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateCodeFromCountyFips(01000)
+// throws Error
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateCodeFromCountyFips('01')
+// throws Error
+</code></pre>
+            <p><a name="candidateVotePercentage"></a></p>
+            <h2>candidateVotePercentage(candidateVote, totalVotes) ⇒ <code>number</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getPercentageOfVotes(100, 200)
+// returns 50
+</code></pre>
+            <p><a name="sortCandidatesByVotes"></a></p>
+            <h2>sortCandidatesByVotes(candidates, sortFunction) ⇒ <code>Array</code></h2>
+            <p><a name="stateFipsToName"></a></p>
+            <h2>stateFipsToName(stateFips) ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>stateFipsToName('01')
+// returns 'Alabama'
+</code></pre>
+            <p><a name="stateAbbrToFips"></a></p>
+            <h2>stateAbbrToFips(stateAbbreviation) ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateFipsFromAbbreviation('NY')
+// returns '36'
+</code></pre>
+            <p><a name="stateNameToFips"></a></p>
+            <h2>stateNameToFips(stateName) ⇒ <code>string</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>getStateFipsFromStateName('Alabama')
+// returns '01'
+</code></pre>
+            <p><a name="boundariesAvailableForRaceType"></a></p>
+            <h2>boundariesAvailableForRaceType(raceType) ⇒ <code>array</code></h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType('president')
+// returns ['state', 'county']
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType('senate')
+// returns ['state']
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType('house')
+// returns ['district']
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>boundariesAvailableForRaceType(2016)
+// returns null
+</code></pre>
+            <p><a name="isBoundaryAvailableForRaceType"></a></p>
+            <h2>isBoundaryAvailableForRaceType(raceType, boundaryType)</h2>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>isBoundaryAvailableForRaceType('president', 'county')
+// returns true
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>isBoundaryAvailableForRaceType('president', 'state')
+// returns true
+</code></pre>
+            <p><strong>Example</strong></p>
+            <pre class="prettyprint source lang-js"><code>isBoundaryAvailableForRaceType('president', 'district')
+// returns false
+</code></pre>
           </article>
           <div class="symbol-index">
           </div>
@@ -46,7 +186,7 @@
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.11 on October 11, 2022.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.10 on February 5, 2024.
       </p>
     </div>
   </footer>
