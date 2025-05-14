@@ -3,17 +3,13 @@
 <dl>
 <dt><a href="#stateNameHash">stateNameHash</a> ⇒ <code>string</code></dt>
 <dd></dd>
-<dt><a href="#usBounds">usBounds</a> : <code><a href="#USBounds">USBounds</a></code></dt>
-<dd><p>The bounds of the United States.</p>
-</dd>
 </dl>
 
 ## Functions
 
 <dl>
-<dt><a href="#partyNameNormalizer">partyNameNormalizer(partyNameString)</a> ⇒ <code>string</code></dt>
-<dd><p>Normalizes a party name string to a standardized format.</p>
-</dd>
+<dt><a href="#getStateFipsFromStateAbbr">getStateFipsFromStateAbbr(stateAbbr)</a> ⇒ <code>string</code></dt>
+<dd></dd>
 <dt><a href="#stateAbbrToName">stateAbbrToName(stateAbbr)</a> ⇒ <code>string</code></dt>
 <dd></dd>
 <dt><a href="#getStateAbbrFromStateFips">getStateAbbrFromStateFips(stateFips)</a> ⇒ <code>string</code></dt>
@@ -40,20 +36,6 @@
 <dd></dd>
 </dl>
 
-## Typedefs
-
-<dl>
-<dt><a href="#USBounds">USBounds</a> : <code>Object</code></dt>
-<dd><p>Represents the bounds of the United States.</p>
-</dd>
-<dt><a href="#StatePlaneProjections">StatePlaneProjections</a> : <code>Object</code></dt>
-<dd><p>Represents the state planes and bounds for every state.</p>
-</dd>
-<dt><a href="#County">County</a> : <code>Object</code></dt>
-<dd><p>An array of county names with their corresponding FIPS codes.</p>
-</dd>
-</dl>
-
 <a name="stateNameHash"></a>
 
 ## stateNameHash ⇒ <code>string</code>
@@ -73,30 +55,22 @@
 stateNameHash['01']
 // returns 'Alabama'
 ```
-<a name="usBounds"></a>
+<a name="getStateFipsFromStateAbbr"></a>
 
-## usBounds : [<code>USBounds</code>](#USBounds)
-The bounds of the United States.
-
-**Kind**: global constant  
-<a name="partyNameNormalizer"></a>
-
-## partyNameNormalizer(partyNameString) ⇒ <code>string</code>
-Normalizes a party name string to a standardized format.
-
+## getStateFipsFromStateAbbr(stateAbbr) ⇒ <code>string</code>
 **Kind**: global function  
-**Returns**: <code>string</code> - The normalized party name.  
+**Returns**: <code>string</code> - - The fips code for the state  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| partyNameString | <code>string</code> | The party name string to be normalized. |
+| Param | Type |
+| --- | --- |
+| stateAbbr | <code>string</code> | 
 
 **Example**  
 ```js
-const partyName = partyNameNormalizer('R') // returns 'rep'
-const partyName = partyNameNormalizer('REP') // returns 'rep'
-const partyName = partyNameNormalizer('Republican') // returns 'rep'
-const partyName = partyNameNormalizer('republican') // returns 'rep'
+getStateFipsFromStateAbbr('CA')
+// => '06'
+getStateFipsFromStateAbbr('NY')
+// => '36'
 ```
 <a name="stateAbbrToName"></a>
 
@@ -318,44 +292,3 @@ isBoundaryAvailableForRaceType('president', 'state')
 isBoundaryAvailableForRaceType('president', 'district')
 // returns false
 ```
-<a name="USBounds"></a>
-
-## USBounds : <code>Object</code>
-Represents the bounds of the United States.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| type | <code>string</code> | The type of the feature collection. |
-| features | <code>Array.&lt;Object&gt;</code> | The features of the collection. |
-
-<a name="StatePlaneProjections"></a>
-
-## StatePlaneProjections : <code>Object</code>
-Represents the state planes and bounds for every state.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| proj | <code>string</code> | The projection |
-| rotate | <code>Array.&lt;number&gt;</code> | The rotation of the projection. |
-| bounds | <code>Array.&lt;number&gt;</code> | The bounds of the projection. |
-| parallels | <code>Array.&lt;number&gt;</code> | The parallels of the projection. |
-
-<a name="County"></a>
-
-## County : <code>Object</code>
-An array of county names with their corresponding FIPS codes.
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| fips_code | <code>number</code> | The FIPS code of the county. |
-| name | <code>string</code> | The name of the county. |
-
