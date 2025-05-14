@@ -2,9 +2,9 @@
 <html>
 
 <head>
-  <meta name="generator" content="JSDoc 3.6.10">
+  <meta name="generator" content="JSDoc 3.6.11">
   <meta charset="utf-8">
-  <title>election-helpers 0.1.0 &raquo; Globals</title>
+  <title>election-helpers 0.0.8 &raquo; Globals</title>
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Karla:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Noto+Serif:400,400i,700,700i" type="text/css">
   <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Inconsolata:500" type="text/css">
@@ -15,7 +15,7 @@
   <nav id="jsdoc-navbar" role="navigation" class="jsdoc-navbar">
     <div id="jsdoc-navbar-container">
       <div id="jsdoc-navbar-content">
-        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>1.<wbr>0</a>
+        <a href="index.html" class="jsdoc-navbar-package-name">election-helpers 0.<wbr>0.<wbr>8</a>
       </div>
     </div>
   </nav>
@@ -26,7 +26,7 @@
           <h1>Globals</h1>
           <section id="summary">
             <div class="summary-callout">
-              <h2 class="summary-callout-heading">Properties</h2>
+              <h2 class="summary-callout-heading">Property</h2>
               <div class="summary-content">
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
@@ -36,11 +36,6 @@
                   </dl>
                 </div>
                 <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="global.html#usBounds">usBounds</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
                 </div>
                 <div class="summary-column">
                 </div>
@@ -67,16 +62,16 @@
                 </div>
                 <div class="summary-column">
                   <dl class="dl-summary-callout">
-                    <dt><a href="global.html#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
+                    <dt><a href="global.html#getStateFipsFromStateAbbr">getStateFipsFromStateAbbr(stateAbbr)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="global.html#partyNameNormalizer">partyNameNormalizer(partyNameString)</a></dt>
+                    <dt><a href="global.html#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
                     <dd>
                     </dd>
                     <dt><a href="global.html#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a></dt>
                     <dd>
                     </dd>
-                    <dt><a href="global.html#stateAbbrToFips">stateAbbrToFips(stateAbbreviation)</a></dt>
+                    <dt><a href="global.html#stateAbbrToFips">stateAbbrToFips(stateAbbr)</a></dt>
                     <dd>
                     </dd>
                   </dl>
@@ -96,35 +91,9 @@
                 </div>
               </div>
             </div>
-            <div class="summary-callout">
-              <h2 class="summary-callout-heading">Abstract types</h2>
-              <div class="summary-content">
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="global.html#County">County</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="global.html#StatePlaneProjections">StatePlaneProjections</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="summary-column">
-                  <dl class="dl-summary-callout">
-                    <dt><a href="global.html#USBounds">USBounds</a></dt>
-                    <dd>
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
           </section>
           <section>
-            <h2>Properties</h2>
+            <h2>Property</h2>
             <section>
               <div class="symbol-detail-labels"><span class="label label-constant">constant</span></div>
               <h3 id="stateNameHash"><span class="symbol-name">stateNameHash</span></h3>
@@ -183,12 +152,6 @@
                     <li>The state name</li>
                   </ul>
                 </dd>
-              </dl>
-              <div class="symbol-detail-labels"><span class="label label-constant">constant</span></div>
-              <h3 id="usBounds"><span class="symbol-name">usBounds</span><small class="property-type">
-                  &nbsp;<a href="global.html#USBounds">USBounds</a></small></h3>
-              <p>The bounds of the United States.</p>
-              <dl class="dl-compact">
               </dl>
             </section>
             <h2>Methods</h2>
@@ -253,15 +216,15 @@
                   </ul>
                 </dd>
               </dl>
-              <h3 id="candidateVotePercentage"><span class="symbol-name">candidateVotePercentage</span><span class="signature"><span class="signature-params">(candidateVote, totalVotes)</span>&nbsp;&rarr; <span class="signature-returns"> number</span></span></h3>
+              <h3 id="candidateVotePercentage"><span class="symbol-name">candidateVotePercentage</span><span class="signature"><span class="signature-params">(candidateVote, totalVotes)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
               <p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
               <section>
                 <h4>
                   Example
                 </h4>
                 <div>
-                  <pre class="prettyprint"><code>getPercentageOfVotes(100, 200)
-// returns 50</code></pre>
+                  <pre class="prettyprint"><code>candidateVotePercentage(100, 200)
+// returns &#x27;50.0&#x27;</code></pre>
                 </div>
               </section>
               <section>
@@ -310,10 +273,10 @@
               <dl class="dl-compact">
                 <dt>Returns</dt>
                 <dd>
-                  <p><code>number</code> 
+                  <p><code>string</code> 
                   <ul>
                     </p>
-                    <li>The percentage of votes the candidate has received.</li>
+                    <li>The percentage of votes the candidate has received, formatted to one decimal place.</li>
                   </ul>
                 </dd>
               </dl>
@@ -440,6 +403,56 @@
                   </ul>
                 </dd>
               </dl>
+              <h3 id="getStateFipsFromStateAbbr"><span class="symbol-name">getStateFipsFromStateAbbr</span><span class="signature"><span class="signature-params">(stateAbbr)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <section>
+                <h4>
+                  Example
+                </h4>
+                <div>
+                  <pre class="prettyprint"><code>getStateFipsFromStateAbbr(&#x27;CA&#x27;)
+// &#x3D;&gt; &#x27;06&#x27;
+getStateFipsFromStateAbbr(&#x27;NY&#x27;)
+// &#x3D;&gt; &#x27;36&#x27;</code></pre>
+                </div>
+              </section>
+              <section>
+                <h4>Parameter</h4>
+                <table class="jsdoc-details-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Optional</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p>stateAbbr</p>
+                      </td>
+                      <td>
+                        <p>string</p>
+                      </td>
+                      <td>
+                        <p>&nbsp;</p>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <dl class="dl-compact">
+                <dt>Returns</dt>
+                <dd>
+                  <p><code>string</code> 
+                  <ul>
+                    </p>
+                    <li>The fips code for the state</li>
+                  </ul>
+                </dd>
+              </dl>
               <h3 id="isBoundaryAvailableForRaceType"><span class="symbol-name">isBoundaryAvailableForRaceType</span><span class="signature"><span class="signature-params">(raceType, boundaryType)</span></span></h3>
               <section>
                 <h4>
@@ -502,56 +515,6 @@
                 </table>
               </section>
               <dl class="dl-compact">
-              </dl>
-              <h3 id="partyNameNormalizer"><span class="symbol-name">partyNameNormalizer</span><span class="signature"><span class="signature-params">(partyNameString)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
-              <p>Normalizes a party name string to a standardized format.</p>
-              <section>
-                <h4>
-                  Example
-                </h4>
-                <div>
-                  <pre class="prettyprint"><code>const partyName &#x3D; partyNameNormalizer(&#x27;R&#x27;) // returns &#x27;rep&#x27;
-const partyName &#x3D; partyNameNormalizer(&#x27;REP&#x27;) // returns &#x27;rep&#x27;
-const partyName &#x3D; partyNameNormalizer(&#x27;Republican&#x27;) // returns &#x27;rep&#x27;
-const partyName &#x3D; partyNameNormalizer(&#x27;republican&#x27;) // returns &#x27;rep&#x27;</code></pre>
-                </div>
-              </section>
-              <section>
-                <h4>Parameter</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>partyNameString</p>
-                      </td>
-                      <td>
-                        <p>string</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The party name string to be normalized.</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-                <dt>Returns</dt>
-                <dd>
-                  <p><code>string</code> 
-                  <p>The normalized party name.</p>
-                  </p>
-                </dd>
               </dl>
               <h3 id="sortCandidatesByVotes"><span class="symbol-name">sortCandidatesByVotes</span><span class="signature"><span class="signature-params">(candidates, sortFunction)</span>&nbsp;&rarr; <span class="signature-returns"> Array</span></span></h3>
               <p>Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.</p>
@@ -616,14 +579,14 @@ const partyName &#x3D; partyNameNormalizer(&#x27;republican&#x27;) // returns &#
                   </ul>
                 </dd>
               </dl>
-              <h3 id="stateAbbrToFips"><span class="symbol-name">stateAbbrToFips</span><span class="signature"><span class="signature-params">(stateAbbreviation)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
+              <h3 id="stateAbbrToFips"><span class="symbol-name">stateAbbrToFips</span><span class="signature"><span class="signature-params">(stateAbbr)</span>&nbsp;&rarr; <span class="signature-returns"> string</span></span></h3>
               <p>Get the state fips code from the abbreviation, like 'NY' to '36'</p>
               <section>
                 <h4>
                   Example
                 </h4>
                 <div>
-                  <pre class="prettyprint"><code>getStateFipsFromAbbreviation(&#x27;NY&#x27;)
+                  <pre class="prettyprint"><code>stateAbbrToFips(&#x27;NY&#x27;)
 // returns &#x27;36&#x27;</code></pre>
                 </div>
               </section>
@@ -641,7 +604,7 @@ const partyName &#x3D; partyNameNormalizer(&#x27;republican&#x27;) // returns &#
                   <tbody>
                     <tr>
                       <td>
-                        <p>stateAbbreviation</p>
+                        <p>stateAbbr</p>
                       </td>
                       <td>
                         <p>string</p>
@@ -836,181 +799,6 @@ const partyName &#x3D; partyNameNormalizer(&#x27;republican&#x27;) // returns &#
                 </dd>
               </dl>
             </section>
-            <h2>Abstract types</h2>
-            <section>
-              <h3 id="County"><span class="symbol-name">County</span><small class="property-type">
-                  &nbsp;Object</small></h3>
-              <p>An array of county names with their corresponding FIPS codes.</p>
-              <section>
-                <h4>Properties</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>fips_code</p>
-                      </td>
-                      <td>
-                        <p>number</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The FIPS code of the county.</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>name</p>
-                      </td>
-                      <td>
-                        <p>string</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The name of the county.</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-              </dl>
-              <h3 id="StatePlaneProjections"><span class="symbol-name">StatePlaneProjections</span><small class="property-type">
-                  &nbsp;Object</small></h3>
-              <p>Represents the state planes and bounds for every state.</p>
-              <section>
-                <h4>Properties</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>proj</p>
-                      </td>
-                      <td>
-                        <p>string</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The projection</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>rotate</p>
-                      </td>
-                      <td>
-                        <p>Array of number</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The rotation of the projection.</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>bounds</p>
-                      </td>
-                      <td>
-                        <p>Array of number</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The bounds of the projection.</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>parallels</p>
-                      </td>
-                      <td>
-                        <p>Array of number</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The parallels of the projection.</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-              </dl>
-              <h3 id="USBounds"><span class="symbol-name">USBounds</span><small class="property-type">
-                  &nbsp;Object</small></h3>
-              <p>Represents the bounds of the United States.</p>
-              <section>
-                <h4>Properties</h4>
-                <table class="jsdoc-details-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Optional</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <p>type</p>
-                      </td>
-                      <td>
-                        <p>string</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The type of the feature collection.</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>features</p>
-                      </td>
-                      <td>
-                        <p>Array of Object</p>
-                      </td>
-                      <td>
-                        <p>&nbsp;</p>
-                      </td>
-                      <td>
-                        <p>The features of the collection.</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <dl class="dl-compact">
-              </dl>
-            </section>
           </section>
         </div>
       </div>
@@ -1020,7 +808,7 @@ const partyName &#x3D; partyNameNormalizer(&#x27;republican&#x27;) // returns &#
   <footer id="jsdoc-footer" class="jsdoc-footer">
     <div id="jsdoc-footer-container">
       <p>
-        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.10 on February 5, 2024.
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc</a> 3.6.11 on May 14, 2025.
       </p>
     </div>
   </footer>

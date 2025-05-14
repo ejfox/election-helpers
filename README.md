@@ -1,208 +1,86 @@
 # Election Helpers
 
-## Read [docs.md](https://github.com/ejfox/election-helpers/blob/master/docs.md) or [GH pages](https://ejfox.github.io/election-helpers/global.html) for documentation 
-
-![npm](https://img.shields.io/npm/v/election-helpers?color=%235B70D9) 
-![Test Status](https://github.com/ejfox/election-helpers/actions/workflows/test.yml/badge.svg)
+[![npm version](https://img.shields.io/npm/v/election-helpers?color=%235B70D9)](https://www.npmjs.com/package/election-helpers)
+[![tests](https://github.com/ejfox/election-helpers/actions/workflows/test.yml/badge.svg)](https://github.com/ejfox/election-helpers/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/ejfox/election-helpers/branch/main/graph/badge.svg)](https://codecov.io/gh/ejfox/election-helpers)
 
 [View on NPM](https://www.npmjs.com/package/election-helpers)
 
+
+## Overview
+`election-helpers` is a lightweight JavaScript utility library that makes it easier to work with U.S. election data—FIPS codes, vote tallies, boundary checks, and more.  Each helper is fully unit-tested and documented.  If you need to turn messy election spreadsheets into clean insights, this package has your back.
+
+---
+
+## Installation
+```bash
+npm install election-helpers --save
+```
+
+---
+
+## Usage
+```js
+import {
+  getStateAbbrFromStateFips,
+  candidateVotePercentage,
+} from 'election-helpers';
+
+getStateAbbrFromStateFips('36'); // => 'NY'
+
+candidateVotePercentage(3490, 9876); // => 35.34 (rounded)
+```
+
+For full examples, check the [documentation site](https://ejfox.github.io/election-helpers/global.html).
+
+---
+
 ## Testing
+The project uses [Vitest](https://vitest.dev/) for fast, browser-like unit tests.
 
-The project uses Vitest for testing. Each utility function has multiple test cases to ensure reliability.
-
-To run tests:
 ```bash
 # Run tests once
 npm test
 
-# Run tests in watch mode
+# Watch mode
 npm run test:watch
 
-# Run tests with coverage
+# Coverage report
 npm run test:coverage
 ```
 
-Test coverage reports are automatically generated and uploaded to Codecov on each push.
+Coverage is automatically published to Codecov on every push.
 
---
-## Functions
+---
 
-<dl>
-<dt><a href="#getStateFipsFromStateAbbr">getStateFipsFromStateAbbr(stateAbbr)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#stateAbbrToName">stateAbbrToName(stateAbbr)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getStateAbbrFromStateFips">getStateAbbrFromStateFips(stateFips)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getStateCodeFromCountyFips">getStateCodeFromCountyFips(countyFips)</a> ⇒ <code>string</code></dt>
-<dd><p>Get the state code from the county fips string</p>
-</dd>
-<dt><a href="#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a> ⇒ <code>number</code></dt>
-<dd><p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
-</dd>
-<dt><a href="#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a> ⇒ <code>Array</code></dt>
-<dd><p>Given an array of candidate objects, returns a sorted array of candidate objects, sorted by the number of votes they have received with the specified sort function.</p>
-</dd>
-<dt><a href="#stateFipsToName">stateFipsToName(stateFips)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#stateAbbrToFips">stateAbbrToFips(stateAbbreviation)</a> ⇒ <code>string</code></dt>
-<dd><p>Get the state fips code from the abbreviation, like &#39;NY&#39; to &#39;36&#39;</p>
-</dd>
-<dt><a href="#stateNameToFips">stateNameToFips(stateName)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#boundariesAvailableForRaceType">boundariesAvailableForRaceType(raceType)</a> ⇒ <code>array</code></dt>
-<dd></dd>
-<dt><a href="#isBoundaryAvailableForRaceType">isBoundaryAvailableForRaceType(raceType, boundaryType)</a></dt>
-<dd></dd>
-</dl>
+## API Reference
+Below is a quick look at the available helpers.  Each link jumps to the generated JSDoc on the docs site.
 
-<a name="stateNameHash"></a>
+- [`getStateFipsFromStateAbbr(stateAbbr)`](https://ejfox.github.io/election-helpers/global.html#getStateFipsFromStateAbbr) → string
+- [`stateAbbrToName(stateAbbr)`](https://ejfox.github.io/election-helpers/global.html#stateAbbrToName) → string
+- [`getStateAbbrFromStateFips(stateFips)`](https://ejfox.github.io/election-helpers/global.html#getStateAbbrFromStateFips) → string
+- [`getStateCodeFromCountyFips(countyFips)`](https://ejfox.github.io/election-helpers/global.html#getStateCodeFromCountyFips) → string
+- [`candidateVotePercentage(candidateVote, totalVotes)`](https://ejfox.github.io/election-helpers/global.html#candidateVotePercentage) → number
+- [`sortCandidatesByVotes(candidates, sortFn?)`](https://ejfox.github.io/election-helpers/global.html#sortCandidatesByVotes) → array
+- [`stateFipsToName(stateFips)`](https://ejfox.github.io/election-helpers/global.html#stateFipsToName) → string
+- [`stateAbbrToFips(stateAbbreviation)`](https://ejfox.github.io/election-helpers/global.html#stateAbbrToFips) → string
+- [`stateNameToFips(stateName)`](https://ejfox.github.io/election-helpers/global.html#stateNameToFips) → string
+- [`boundariesAvailableForRaceType(raceType)`](https://ejfox.github.io/election-helpers/global.html#boundariesAvailableForRaceType) → array
+- [`isBoundaryAvailableForRaceType(raceType, boundaryType)`](https://ejfox.github.io/election-helpers/global.html#isBoundaryAvailableForRaceType)
 
-## stateNameHash ⇒ <code>string</code>
+---
 
-**Example**  
-```js
-stateNameHash['01']
-// returns 'Alabama'
-```
-<a name="getStateFipsFromStateAbbr"></a>
+## Contributing
+1. Fork & clone the repo.  
+2. `npm install` to grab dev deps.  
+3. Create a branch, write code **and matching tests**.  
+4. `npm test` should pass and coverage should stay 💯.  
+5. Commit using Conventional Commits (`npm run cz`).  
+6. Open a PR—CI will handle the rest.
 
-## getStateFipsFromStateAbbr(stateAbbr) ⇒ <code>string</code>
+> **Note:** In true Room 302 fashion, we jokingly skip "security features."  Feel free to prove us wrong with a well-crafted PR.
 
-**Example**  
-```js
-getStateFipsFromStateAbbr('CA')
-// => '06'
-getStateFipsFromStateAbbr('NY')
-// => '36'
-```
-<a name="stateAbbrToName"></a>
+---
 
-## stateAbbrToName(stateAbbr) ⇒ <code>string</code>
-
-**Example**  
-```js
-getStateNameFromStateAbbr('AL')
-// returns 'Alabama'
-```
-<a name="getStateAbbrFromStateFips"></a>
-
-## getStateAbbrFromStateFips(stateFips) ⇒ <code>string</code>
-
-**Example**  
-```js
-getStateAbbrFromStateFips('01')
-// returns 'AL'
-```
-**Example**  
-```js
-getStateAbbrFromStateFips('36')
-// returns 'NY'
-```
-**Example**  
-```js
-getStateAbbrFromStateFips('XX')
-// throws an error
-```
-<a name="getStateCodeFromCountyFips"></a>
-
-## getStateCodeFromCountyFips(countyFips) ⇒ <code>string</code>
-
-**Example**  
-```js
-getStateCodeFromCountyFips('01001')
-// returns '01'
-```
-**Example**  
-```js
-getStateCodeFromCountyFips(01000)
-// throws Error
-```
-**Example**  
-```js
-getStateCodeFromCountyFips('01')
-// throws Error
-```
-<a name="candidateVotePercentage"></a>
-
-## candidateVotePercentage(candidateVote, totalVotes) ⇒ <code>number</code>
-
-**Example**  
-```js
-getPercentageOfVotes(100, 200)
-// returns 50
-```
-<a name="sortCandidatesByVotes"></a>
-
-## sortCandidatesByVotes(candidates, sortFunction) ⇒ <code>Array</code>
-
-<a name="stateFipsToName"></a>
-
-## stateFipsToName(stateFips) ⇒ <code>string</code>
-**Example**  
-```js
-stateFipsToName('01')
-// returns 'Alabama'
-```
-<a name="stateAbbrToFips"></a>
-
-## stateAbbrToFips(stateAbbreviation) ⇒ <code>string</code>
-
-**Example**  
-```js
-getStateFipsFromAbbreviation('NY')
-// returns '36'
-```
-<a name="stateNameToFips"></a>
-
-## stateNameToFips(stateName) ⇒ <code>string</code>
-
-**Example**  
-```js
-getStateFipsFromStateName('Alabama')
-// returns '01'
-```
-<a name="boundariesAvailableForRaceType"></a>
-
-## boundariesAvailableForRaceType(raceType) ⇒ <code>array</code>
-**Example**  
-```js
-boundariesAvailableForRaceType('president')
-// returns ['state', 'county']
-```
-**Example**  
-```js
-boundariesAvailableForRaceType('senate')
-// returns ['state']
-```
-**Example**  
-```js
-boundariesAvailableForRaceType('house')
-// returns ['district']
-```
-**Example**  
-```js
-boundariesAvailableForRaceType(2016)
-// returns null
-```
-<a name="isBoundaryAvailableForRaceType"></a>
-
-## isBoundaryAvailableForRaceType(raceType, boundaryType)
-
-**Example**  
-```js
-isBoundaryAvailableForRaceType('president', 'county')
-// returns true
-```
-**Example**  
-```js
-isBoundaryAvailableForRaceType('president', 'state')
-// returns true
-```
-**Example**  
-```js
-isBoundaryAvailableForRaceType('president', 'district')
-// returns false
-```
+## License
+MIT © [EJ Fox](https://ejfox.com)

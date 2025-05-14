@@ -17,7 +17,7 @@
 <dt><a href="#getStateCodeFromCountyFips">getStateCodeFromCountyFips(countyFips)</a> ⇒ <code>string</code></dt>
 <dd><p>Get the state code from the county fips string</p>
 </dd>
-<dt><a href="#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a> ⇒ <code>number</code></dt>
+<dt><a href="#candidateVotePercentage">candidateVotePercentage(candidateVote, totalVotes)</a> ⇒ <code>string</code></dt>
 <dd><p>Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.</p>
 </dd>
 <dt><a href="#sortCandidatesByVotes">sortCandidatesByVotes(candidates, sortFunction)</a> ⇒ <code>Array</code></dt>
@@ -25,7 +25,7 @@
 </dd>
 <dt><a href="#stateFipsToName">stateFipsToName(stateFips)</a> ⇒ <code>string</code></dt>
 <dd></dd>
-<dt><a href="#stateAbbrToFips">stateAbbrToFips(stateAbbreviation)</a> ⇒ <code>string</code></dt>
+<dt><a href="#stateAbbrToFips">stateAbbrToFips(stateAbbr)</a> ⇒ <code>string</code></dt>
 <dd><p>Get the state fips code from the abbreviation, like &#39;NY&#39; to &#39;36&#39;</p>
 </dd>
 <dt><a href="#stateNameToFips">stateNameToFips(stateName)</a> ⇒ <code>string</code></dt>
@@ -149,11 +149,11 @@ getStateCodeFromCountyFips('01')
 ```
 <a name="candidateVotePercentage"></a>
 
-## candidateVotePercentage(candidateVote, totalVotes) ⇒ <code>number</code>
+## candidateVotePercentage(candidateVote, totalVotes) ⇒ <code>string</code>
 Given the absolute number of votes a candidate has received, and the total number of votes in the election, returns the percentage of votes the candidate has received.
 
 **Kind**: global function  
-**Returns**: <code>number</code> - - The percentage of votes the candidate has received.  
+**Returns**: <code>string</code> - - The percentage of votes the candidate has received, formatted to one decimal place.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -162,8 +162,8 @@ Given the absolute number of votes a candidate has received, and the total numbe
 
 **Example**  
 ```js
-getPercentageOfVotes(100, 200)
-// returns 50
+candidateVotePercentage(100, 200)
+// returns '50.0'
 ```
 <a name="sortCandidatesByVotes"></a>
 
@@ -203,7 +203,7 @@ stateFipsToName('01')
 ```
 <a name="stateAbbrToFips"></a>
 
-## stateAbbrToFips(stateAbbreviation) ⇒ <code>string</code>
+## stateAbbrToFips(stateAbbr) ⇒ <code>string</code>
 Get the state fips code from the abbreviation, like 'NY' to '36'
 
 **Kind**: global function  
@@ -211,11 +211,11 @@ Get the state fips code from the abbreviation, like 'NY' to '36'
 
 | Param | Type | Description |
 | --- | --- | --- |
-| stateAbbreviation | <code>string</code> | The state abbreviation. |
+| stateAbbr | <code>string</code> | The state abbreviation. |
 
 **Example**  
 ```js
-getStateFipsFromAbbreviation('NY')
+stateAbbrToFips('NY')
 // returns '36'
 ```
 <a name="stateNameToFips"></a>
