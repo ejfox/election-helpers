@@ -11,6 +11,10 @@ import {
   stateNameToFips,
   boundariesAvailableForRaceType,
   isBoundaryAvailableForRaceType,
+  parseVotes,
+  cleanCandidateName,
+  splitName,
+  formatNameForDisplay,
 } from '../index.js'
 
 describe('getStateFipsFromStateAbbr', () => {
@@ -479,6 +483,115 @@ describe('THE FINAL BOSS 🔥', () => {
     extremeVotes.forEach(([votes, total]) => {
       const result = candidateVotePercentage(votes, total)
       expect(typeof result === 'string').toBe(true)
+    })
+  })
+})
+
+describe('Universal Helpers', () => {
+  describe('parseVotes', () => {
+    it('should parse US format', () => {
+      expect(parseVotes('1,234,567')).toBe(1234567)
+    })
+    
+    it('should parse European format', () => {
+      expect(parseVotes('1.234.567')).toBe(1234567)
+    })
+    
+    it('should parse abbreviated format', () => {
+      expect(parseVotes('1.2M')).toBe(1200000)
+      expect(parseVotes('45K')).toBe(45000)
+    })
+    
+    it('should parse Indian format', () => {
+      expect(parseVotes('12,34,567')).toBe(1234567)
+      expect(parseVotes('2.5 lakh')).toBe(250000)
+    })
+    
+    it('should parse Arabic numerals', () => {
+      expect(parseVotes('١٢٣٤٥٦٧')).toBe(1234567)
+    })
+    
+    it('should handle invalid data', () => {
+      expect(parseVotes('N/A')).toBe(0)
+      expect(parseVotes('TBD')).toBe(0)
+      expect(parseVotes('')).toBe(0)
+      expect(parseVotes(null)).toBe(0)
+    })
+  })
+
+  describe('cleanCandidateName', () => {
+    let consoleWarnSpy
+
+    beforeEach(() => {
+      consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      consoleWarnSpy.mockRestore()
+    })
+
+    it('should clean basic names', () => {
+      expect(cleanCandidateName('JOHN SMITH')).toBe('John Smith')
+      expect(cleanCandidateName('smith, john')).toBe('John Smith')
+    })
+    
+    it('should handle titles and suffixes', () => {
+      expect(cleanCandidateName('Dr. John Smith Jr.')).toBe('Dr. John Smith Jr.')
+    })
+    
+    it('should detect non-candidates', () => {
+      expect(cleanCandidateName('TOTAL VOTES')).toBe(null)
+      expect(cleanCandidateName('Write-In')).toBe(null)
+    })
+
+    it('should detect profanity', () => {
+      cleanCandidateName('John Fuckface')
+      expect(consoleWarnSpy).toHaveBeenCalled()
+    })
+
+    it('should censor profanity when opted in', () => {
+      const result = cleanCandidateName('John Fuckface', { 
+        security: { censorProfanity: true } 
+      })
+      expect(result).toBe('John ********')
+    })
+  })
+
+  describe('splitName', () => {
+    it('should split basic names', () => {
+      const result = splitName('John Smith')
+      expect(result.first).toBe('John')
+      expect(result.last).toBe('Smith')
+      expect(result.confidence).toBeGreaterThan(0.8)
+    })
+    
+    it('should handle comma format', () => {
+      const result = splitName('Smith, John')
+      expect(result.first).toBe('John')
+      expect(result.last).toBe('Smith')
+    })
+    
+    it('should handle hyphenated names', () => {
+      const result = splitName('Mary-Jane Watson-Parker')
+      expect(result.first).toBe('Mary-Jane')
+      expect(result.last).toBe('Watson-Parker')
+    })
+
+    it('should handle errors gracefully', () => {
+      expect(() => splitName('')).toThrow()
+      expect(() => splitName(null)).toThrow()
+    })
+  })
+
+  describe('formatNameForDisplay', () => {
+    it('should format for graphics', () => {
+      const result = formatNameForDisplay('John Smith', 'last-first-initial')
+      expect(result).toBe('Smith, J.')
+    })
+    
+    it('should handle long names', () => {
+      const result = formatNameForDisplay('Alexandria Ocasio-Cortez', 'last-first-initial')
+      expect(result).toBe('Ocasio-Cortez, A.')
     })
   })
 })
