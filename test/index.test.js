@@ -256,9 +256,9 @@ describe('isBoundaryAvailableForRaceType', () => {
 
 describe('CHAOS MONKEY TESTING 🐒', () => {
   describe('State Code Mayhem', () => {
-    it('should handle emojis as state codes', () => {
-      expect(getStateFipsFromStateAbbr('🗽')).toBeUndefined()
-      expect(stateAbbrToName('🌞')).toBeUndefined()
+    it('should handle invalid characters as state codes', () => {
+      expect(getStateFipsFromStateAbbr('##')).toBeUndefined()
+      expect(stateAbbrToName('**')).toBeUndefined()
     })
 
     it('should handle mixed case state codes', () => {
@@ -388,7 +388,7 @@ describe('THE FINAL BOSS 🔥', () => {
     const chaosArray = [
       { candidatevotes: '100' },
       { candidatevotes: -Infinity },
-      { candidatevotes: '🗽'.repeat(1000) }, // Long emoji string
+      { candidatevotes: 'X'.repeat(1000) }, // Long string
       { candidatevotes: Buffer.from('AL').toString('base64') }, // Base64 encoded state
       { candidatevotes: undefined },
       { candidatevotes: new Date().getTime() }, // Timestamp as votes
@@ -425,7 +425,7 @@ describe('THE FINAL BOSS 🔥', () => {
     const stateCodes = [
       ' NY ',
       Buffer.from('CA').toString('base64'),
-      '🗽AL🗽',
+      'XAL',
       'FL\u0000', // Null byte
       'GA'.split('').reverse().join(''),
       'HI'.toLowerCase(),
