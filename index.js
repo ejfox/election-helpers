@@ -33,6 +33,43 @@ export {
   isThirdParty
 } from './src/party-normalizer.js';
 
+// Import normalize function for backward compatibility
+import { normalizeParty as _normalizeParty } from './src/party-normalizer.js';
+
+/**
+ * @deprecated Use normalizeParty() instead. This function is kept for backward compatibility.
+ * Legacy party normalizer that returns 'rep'/'dem' format (lowercase words)
+ * @param {string} partyNameString - Raw party name
+ * @returns {string} - Legacy format party code ('rep', 'dem', 'ind', etc.)
+ * @example
+ * const partyName = partyNameNormalizer('R') // returns 'rep'
+ * const partyName = partyNameNormalizer('REP') // returns 'rep'  
+ * const partyName = partyNameNormalizer('Republican') // returns 'rep'
+ * const partyName = partyNameNormalizer('republican') // returns 'rep'
+ */
+export function partyNameNormalizer(partyNameString) {
+  if (!partyNameString) return 'other';
+  
+  const normalized = _normalizeParty(partyNameString);
+  
+  // Convert new format to legacy format
+  const legacyMap = {
+    'R': 'rep',
+    'D': 'dem', 
+    'I': 'ind',
+    'G': 'green',
+    'L': 'lib',
+    'CONST': 'const',
+    'SOC': 'soc',
+    'WF': 'working',
+    'NP': 'nonpartisan',
+    'UA': 'unaffiliated',
+    'UNK': 'other'
+  };
+  
+  return legacyMap[normalized] || 'other';
+}
+
 // Re-export universal helpers
 export {
   parseVotes,
@@ -325,3 +362,312 @@ export function isBoundaryAvailableForRaceType(raceType, boundaryType) {
 const config = {
   votePercentDecimalPlaces: 1,
 };
+
+// ================================================================
+// INTERNATIONAL PARTY COLOR SYSTEM
+// ================================================================
+
+/**
+ * International Party Color System
+ * 
+ * Provides standardized colors for political parties across different countries
+ * based on established international color conventions and ideological spectrum.
+ * 
+ * Features:
+ * - Ideological spectrum-based color mapping
+ * - Country-specific party mappings for US, UK, DE, FR, CA, AU
+ * - Vote share intensity adjustments using HSL manipulation
+ * - Extensible for new countries and electoral systems
+ */
+
+/**
+ * Core party color definitions using established international conventions
+ */
+const PARTY_COLORS = {
+  // === IDEOLOGICAL SPECTRUM ===
+  // Left-wing parties (Social Democratic, Socialist, Communist)
+  'social-democratic': '#E53E3E',    // Red - International socialist color
+  'socialist': '#C53030',           // Darker red
+  'communist': '#9B2C2C',           // Deep red
+  'labour': '#E53E3E',              // Red (UK Labour, Australian Labor, etc.)
+  
+  // Center-left parties (Liberal, Progressive)
+  'liberal': '#3182CE',             // Blue - Liberal tradition
+  'progressive': '#2B6CB0',         // Blue-progressive
+  'democrat': '#3182CE',            // Blue (US Democratic tradition)
+  
+  // Center parties (Centrist, Independent)
+  'centrist': '#805AD5',            // Purple - Middle ground
+  'independent': '#718096',         // Gray - Non-partisan
+  'moderate': '#4A5568',            // Dark gray
+  
+  // Center-right parties (Conservative, Christian Democratic)
+  'conservative': '#1A365D',        // Dark blue (Conservative tradition)
+  'christian-democratic': '#2D3748', // Dark blue-gray
+  'republican': '#E53E3E',          // Red (US Republican tradition)
+  
+  // Right-wing parties (Nationalist, Populist)
+  'nationalist': '#744210',         // Brown - Traditional right-wing
+  'populist': '#F56500',            // Orange - Modern populist movements
+  'libertarian': '#ECC94B',         // Yellow-gold - Individual freedom
+  
+  // Green parties (Environmental)
+  'green': '#38A169',               // Green - Universal environmental color
+  'ecological': '#2F855A',          // Darker green
+  
+  // Other common party types
+  'other': '#A0AEC0',               // Light gray - Catch-all
+  'unknown': '#E2E8F0',             // Very light gray - No data
+}
+
+/**
+ * Country-specific party mappings
+ * Maps actual party names/abbreviations to ideological categories
+ */
+const COUNTRY_PARTY_MAPPINGS = {
+  'US': {
+    // United States
+    'dem': 'democrat',
+    'democratic': 'democrat', 
+    'democrat': 'democrat',
+    'd': 'democrat',              // Normalized Democratic party
+    'rep': 'republican',
+    'republican': 'republican',
+    'gop': 'republican',
+    'r': 'republican',            // Normalized Republican party
+    'green': 'green',
+    'grn': 'green',               // Green party abbreviation
+    'g': 'green',                 // Normalized Green party
+    'libertarian': 'libertarian',
+    'lib': 'libertarian',         // Libertarian abbreviation
+    'l': 'libertarian',           // Normalized Libertarian party  
+    'independent': 'independent',
+    'ind': 'independent',
+  },
+  
+  'UK': {
+    // United Kingdom
+    'labour': 'labour',
+    'lab': 'labour',
+    'conservative': 'conservative',
+    'con': 'conservative',
+    'tory': 'conservative',
+    'liberal-democrat': 'liberal',
+    'libdem': 'liberal',
+    'ld': 'liberal',
+    'green': 'green',
+    'snp': 'nationalist', // Scottish National Party
+    'ukip': 'populist',   // UK Independence Party
+    'brexit': 'populist', // Brexit Party
+  },
+  
+  'DE': {
+    // Germany
+    'spd': 'social-democratic',      // Social Democratic Party
+    'cdu': 'conservative',           // Christian Democratic Union
+    'csu': 'conservative',           // Christian Social Union
+    'fdp': 'liberal',                // Free Democratic Party  
+    'linke': 'socialist',            // The Left
+    'gruene': 'green',               // Alliance 90/The Greens
+    'afd': 'populist',               // Alternative for Germany
+  },
+  
+  'FR': {
+    // France
+    'ps': 'social-democratic',       // Socialist Party
+    'lr': 'conservative',            // The Republicans
+    'en-marche': 'centrist',         // En Marche (Macron)
+    'fn': 'populist',                // National Front
+    'rn': 'populist',                // National Rally
+    'fi': 'socialist',               // France Insoumise
+    'eelv': 'green',                 // Europe Ecology – The Greens
+  },
+  
+  'CA': {
+    // Canada
+    'liberal': 'liberal',
+    'conservative': 'conservative',
+    'ndp': 'social-democratic',      // New Democratic Party
+    'bloc': 'nationalist',           // Bloc Québécois
+    'green': 'green',
+  },
+  
+  'AU': {
+    // Australia
+    'labor': 'labour',               // Australian Labor Party
+    'alp': 'labour',
+    'liberal': 'conservative',       // Liberal Party (center-right in AU)
+    'nationals': 'conservative',     // National Party
+    'greens': 'green',
+    'one-nation': 'populist',        // One Nation
+  }
+}
+
+/**
+ * Get the appropriate color for a political party
+ * 
+ * @param {string} partyName - The party name or abbreviation
+ * @param {string} [country='US'] - ISO country code (default: US)
+ * @param {Object} [options={}] - Additional options
+ * @param {boolean} [options.normalize=true] - Whether to normalize party name first
+ * @returns {string} Hex color code for the party
+ * 
+ * @example
+ * getPartyColor('DEM') // Returns '#3182CE' (blue)
+ * getPartyColor('Conservative', 'UK') // Returns '#1A365D' (dark blue)
+ * getPartyColor('SPD', 'DE') // Returns '#E53E3E' (red)
+ */
+export function getPartyColor(partyName, country = 'US', options = {}) {
+  const { normalize = true } = options
+  
+  if (!partyName) return PARTY_COLORS['unknown']
+  
+  // Normalize party name if requested
+  let normalizedParty = partyName
+  if (normalize) {
+    normalizedParty = _normalizeParty(partyName)
+  }
+  
+  // Convert to lowercase for lookup
+  const lowerParty = normalizedParty.toLowerCase()
+  
+  // Check country-specific mappings first
+  const countryMappings = COUNTRY_PARTY_MAPPINGS[country.toUpperCase()] || {}
+  const ideologicalCategory = countryMappings[lowerParty]
+  
+  if (ideologicalCategory && PARTY_COLORS[ideologicalCategory]) {
+    return PARTY_COLORS[ideologicalCategory]
+  }
+  
+  // Try direct color lookup (for ideological categories)
+  if (PARTY_COLORS[lowerParty]) {
+    return PARTY_COLORS[lowerParty]
+  }
+  
+  // Fallback to 'other' color
+  return PARTY_COLORS['other']
+}
+
+/**
+ * Get color with vote share intensity
+ * Adjusts color saturation/brightness based on vote share for more nuanced visualization
+ * 
+ * @param {string} partyName - The party name or abbreviation  
+ * @param {number} voteShare - Vote share as decimal (0.0 to 1.0)
+ * @param {string} [country='US'] - ISO country code
+ * @returns {string} Hex color code adjusted for vote share
+ * 
+ * @example
+ * getPartyColorWithIntensity('DEM', 0.6) // Darker blue for 60% vote share
+ * getPartyColorWithIntensity('REP', 0.4) // Lighter red for 40% vote share
+ */
+export function getPartyColorWithIntensity(partyName, voteShare, country = 'US') {
+  const baseColor = getPartyColor(partyName, country)
+  
+  if (!voteShare || voteShare < 0 || voteShare > 1) {
+    return baseColor
+  }
+  
+  // Convert hex to HSL for easier manipulation
+  const hsl = hexToHsl(baseColor)
+  if (!hsl) return baseColor
+  
+  // Adjust lightness based on vote share
+  // Higher vote share = darker (more saturated) color
+  // Lower vote share = lighter (less saturated) color  
+  const minLightness = 20  // Darkest color at 100% vote share
+  const maxLightness = 70  // Lightest color at ~30% vote share
+  const adjustedLightness = maxLightness - (voteShare * (maxLightness - minLightness))
+  
+  return hslToHex(hsl.h, hsl.s, Math.max(minLightness, adjustedLightness))
+}
+
+/**
+ * Get all available party colors for a country
+ * Useful for generating legends or color palettes
+ * 
+ * @param {string} [country='US'] - ISO country code
+ * @returns {Object} Map of party names to colors
+ */
+export function getCountryPartyColors(country = 'US') {
+  const countryMappings = COUNTRY_PARTY_MAPPINGS[country.toUpperCase()] || {}
+  const result = {}
+  
+  for (const [partyName, ideologicalCategory] of Object.entries(countryMappings)) {
+    result[partyName] = PARTY_COLORS[ideologicalCategory] || PARTY_COLORS['other']
+  }
+  
+  return result
+}
+
+/**
+ * Helper function to convert hex color to HSL
+ * @private
+ */
+function hexToHsl(hex) {
+  // Remove # if present
+  hex = hex.replace('#', '')
+  
+  // Parse RGB values
+  const r = parseInt(hex.substr(0, 2), 16) / 255
+  const g = parseInt(hex.substr(2, 2), 16) / 255  
+  const b = parseInt(hex.substr(4, 2), 16) / 255
+  
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+  const diff = max - min
+  
+  let h = 0
+  let s = 0
+  let l = (max + min) / 2
+  
+  if (diff !== 0) {
+    s = l > 0.5 ? diff / (2 - max - min) : diff / (max + min)
+    
+    switch (max) {
+      case r: h = ((g - b) / diff) % 6; break
+      case g: h = (b - r) / diff + 2; break  
+      case b: h = (r - g) / diff + 4; break
+    }
+    h *= 60
+    if (h < 0) h += 360
+  }
+  
+  return { h: Math.round(h), s: Math.round(s * 100), l: Math.round(l * 100) }
+}
+
+/**
+ * Helper function to convert HSL to hex color
+ * @private  
+ */
+function hslToHex(h, s, l) {
+  h = h % 360
+  s = s / 100
+  l = l / 100
+  
+  const c = (1 - Math.abs(2 * l - 1)) * s
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1))
+  const m = l - c / 2
+  
+  let r = 0, g = 0, b = 0
+  
+  if (h >= 0 && h < 60) {
+    r = c; g = x; b = 0
+  } else if (h >= 60 && h < 120) {
+    r = x; g = c; b = 0
+  } else if (h >= 120 && h < 180) {
+    r = 0; g = c; b = x
+  } else if (h >= 180 && h < 240) {
+    r = 0; g = x; b = c
+  } else if (h >= 240 && h < 300) {
+    r = x; g = 0; b = c
+  } else if (h >= 300 && h < 360) {
+    r = c; g = 0; b = x
+  }
+  
+  r = Math.round((r + m) * 255)
+  g = Math.round((g + m) * 255)
+  b = Math.round((b + m) * 255)
+  
+  return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
+}
