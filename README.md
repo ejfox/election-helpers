@@ -69,13 +69,41 @@ Below is a quick look at the available helpers.  Each link jumps to the generate
 
 ---
 
+## Development
+
+### Quality Checks
+
+This project uses modern tooling to ensure code quality:
+
+```bash
+# Run all quality checks (format, lint, test)
+npm run check
+
+# Individual checks
+npm run format:check  # Check code formatting
+npm run lint          # Run ESLint
+npm run lint:fix      # Auto-fix linting issues
+npm run format        # Format all code
+npm test              # Run tests
+```
+
+### TypeScript Support
+
+TypeScript type definitions are included for better IDE support and autocomplete, even though the library is written in JavaScript.
+
+---
+
 ## Contributing
-1. Fork & clone the repo.  
-2. `npm install` to grab dev deps.  
-3. Create a branch, write code **and matching tests**.  
-4. `npm test` should pass and coverage should stay 💯.  
-5. Commit using Conventional Commits (`npm run cz`).  
-6. Open a PR—CI will handle the rest.
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+**Quick start:**
+1. Fork & clone the repo
+2. `npm install` to grab dev deps
+3. Create a branch, write code **and matching tests**
+4. `npm run check` to ensure quality standards
+5. Commit using Conventional Commits (`npm run cz`)
+6. Open a PR—CI will handle the rest
 
 > **Note:** In true Room 302 fashion, we jokingly skip "security features."  Feel free to prove us wrong with a well-crafted PR.
 
