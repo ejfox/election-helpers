@@ -1,0 +1,7 @@
+node_modules/
+docs/
+coverage/
+dist/
+*.md
+package-lock.json
+yarn.lock
