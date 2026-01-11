@@ -3,17 +3,27 @@
   "version": "0.0.8",
   "description": "Election helpers",
   "main": "index.js",
+  "types": "index.d.ts",
   "type": "module",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md}\"",
+    "check": "npm run format:check && npm run lint && npm test",
     "docs": "npx jsdoc index.js -c ./jsdoc.config.json -d ./docs --verbose;npm run markdown",
     "serve": "npx http-serve docs",
     "watch": "watch 'npm run docs' .",
     "markdown": "npx jsdoc-to-markdown index.js > docs.md",
     "publish": "npm docs;gh-pages -d docs -b gh-pages",
     "release": "npx release-it"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "repository": {
     "type": "git",
@@ -30,12 +40,17 @@
   },
   "homepage": "https://github.com/ejfox/election-helpers#readme",
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@vitest/coverage-v8": "^1.4.0",
     "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsdoc": "^62.0.0",
     "gh-pages": "^4.0.0",
     "jsdoc-baseline": "^0.1.5",
     "jsdoc-template": "^1.2.0",
     "jsdoc-to-markdown": "^7.1.1",
+    "prettier": "^3.7.4",
     "vitest": "^1.4.0",
     "watch": "^1.0.2"
   },
