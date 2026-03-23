@@ -8,10 +8,10 @@
  * Helps catch obvious trolling/hacking in candidate names
  */
 const PROFANITY_PATTERNS = [
-  // Basic English profanity (keep it simple)
-  /\b(fuck|shit|damn|hell|ass|bitch|bastard|crap)\b/i,
+  // Basic English profanity — match at word start, allow compounds like "Fuckface"
+  /\b(fuck|shit|damn|hell|ass|bitch|bastard|crap)/i,
   // Common variations
-  /\b(f+u+c+k+|s+h+i+t+|d+a+m+n+)\b/i,
+  /\b(f+u+c+k+|s+h+i+t+|d+a+m+n+)/i,
   // Leetspeak variations
   /\b(fvck|sh1t|d4mn|h3ll)\b/i,
   // Obvious trolling patterns
@@ -34,13 +34,20 @@ function detectProfanity(text) {
   for (const pattern of PROFANITY_PATTERNS) {
     const found = text.match(pattern);
     if (found) {
-      matches.push(...found.map((m) => m.toLowerCase()));
+      // Find the full word containing the match for better censoring
+      const matchIndex = found.index;
+      const fullWord = text.slice(matchIndex).match(/^\S+/);
+      if (fullWord) {
+        matches.push(fullWord[0].toLowerCase());
+      } else {
+        matches.push(found[0].toLowerCase());
+      }
     }
   }
 
   return {
     hasProfanity: matches.length > 0,
-    matches: [...new Set(matches)], // Remove duplicates
+    matches: [...new Set(matches)],
   };
 }
 
@@ -200,29 +207,29 @@ const DEFAULT_NAME_CONFIG = {
  * Common non-candidate patterns (case insensitive)
  */
 const NON_CANDIDATE_PATTERNS = [
-  /^total\s*(votes?|ballots?)?$/,
-  /^sum\s*(of\s*)?(votes?|ballots?)?$/,
-  /^invalid\s*(votes?|ballots?)?$/,
-  /^blank\s*(votes?|ballots?)?$/,
-  /^spoiled\s*(votes?|ballots?)?$/,
-  /^rejected\s*(votes?|ballots?)?$/,
-  /^abstentions?$/,
-  /^no\s*vote$/,
-  /^undervotes?$/,
-  /^overvotes?$/,
-  /^write.?ins?$/,
-  /^others?$/,
-  /^candidates?\s*total$/,
-  /^all\s*candidates$/,
-  /^remaining\s*candidates$/,
-  /^\d+$/, // Just numbers
-  /^n\/a$/,
-  /^tbd$/,
-  /^pending$/,
-  /^unknown$/,
-  /^-+$/, // Just dashes
-  /^\.+$/, // Just dots
-  /^\?+$/, // Just question marks
+  /^total\s*(votes?|ballots?)?$/i,
+  /^sum\s*(of\s*)?(votes?|ballots?)?$/i,
+  /^invalid\s*(votes?|ballots?)?$/i,
+  /^blank\s*(votes?|ballots?)?$/i,
+  /^spoiled\s*(votes?|ballots?)?$/i,
+  /^rejected\s*(votes?|ballots?)?$/i,
+  /^abstentions?$/i,
+  /^no\s*vote$/i,
+  /^undervotes?$/i,
+  /^overvotes?$/i,
+  /^write.?ins?$/i,
+  /^others?$/i,
+  /^candidates?\s*total$/i,
+  /^all\s*candidates$/i,
+  /^remaining\s*candidates$/i,
+  /^\d+$/,
+  /^n\/a$/i,
+  /^tbd$/i,
+  /^pending$/i,
+  /^unknown$/i,
+  /^-+$/,
+  /^\.+$/,
+  /^\?+$/,
 ];
 
 /**

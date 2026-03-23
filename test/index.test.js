@@ -51,20 +51,28 @@ describe('getStateAbbrFromStateFips', () => {
   it('should return NY for 36', () => {
     expect(getStateAbbrFromStateFips('36')).toBe('NY');
   });
-  it('should throw error for invalid FIPS', () => {
-    expect(() => getStateAbbrFromStateFips('XX')).toThrow(
-      'stateFips is invalid'
-    );
+  it('should return undefined for invalid FIPS', () => {
+    expect(getStateAbbrFromStateFips('XX')).toBeUndefined();
   });
-  it('should throw error for null input', () => {
-    expect(() => getStateAbbrFromStateFips(null)).toThrow(
-      'stateFips is required'
-    );
+  it('should return undefined for null input', () => {
+    expect(getStateAbbrFromStateFips(null)).toBeUndefined();
   });
-  it('should throw error for wrong length', () => {
-    expect(() => getStateAbbrFromStateFips('123')).toThrow(
-      'stateFips must be two characters'
-    );
+  it('should return undefined for wrong length', () => {
+    expect(getStateAbbrFromStateFips('123')).toBeUndefined();
+  });
+  it('should handle numeric input', () => {
+    expect(getStateAbbrFromStateFips(36)).toBe('NY');
+    expect(getStateAbbrFromStateFips(6)).toBe('CA');
+  });
+  it('should handle US territories', () => {
+    expect(getStateAbbrFromStateFips('72')).toBe('PR');
+    expect(getStateAbbrFromStateFips('66')).toBe('GU');
+    expect(getStateAbbrFromStateFips('78')).toBe('VI');
+    expect(getStateAbbrFromStateFips('60')).toBe('AS');
+    expect(getStateAbbrFromStateFips('69')).toBe('MP');
+  });
+  it('should handle DC', () => {
+    expect(getStateAbbrFromStateFips('11')).toBe('DC');
   });
 });
 
