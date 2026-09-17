@@ -1,5 +1,6 @@
 // Re-export geographic functions
 export {
+  US_STATES,
   getStateFipsFromStateAbbr,
   stateNameHash,
   stateAbbrHash,
@@ -11,6 +12,25 @@ export {
   stateAbbrToFips,
   stateNameToFips,
 } from './src/geographic.js';
+
+// Re-export canonical geo-unit ID functions
+export {
+  GEO_UNIT_TYPE,
+  RETIRED_COUNTY_FIPS,
+  normalizeStateFips,
+  geoUnitType,
+  stateFipsOf,
+  isStateId,
+  isCountyId,
+  isDistrictId,
+  buildStateId,
+  buildCountyId,
+  buildDistrictId,
+  parseGeoUnitId,
+  normalizeGeoUnitId,
+  isCanonicalGeoUnitId,
+  geoUnitLabel,
+} from './src/geo-units.js';
 
 // Re-export election date functions
 export {
@@ -28,6 +48,7 @@ export {
 // Re-export party normalization functions
 export {
   normalizeParty,
+  partyBucket,
   getDefaultPartyMap,
   isMajorParty,
   isThirdParty,
@@ -316,10 +337,13 @@ export function sortCandidatesByVotes(raceCandidateArray, sortFunction) {
  * // returns ['state', 'county']
  * @example
  * boundariesAvailableForRaceType('senate')
- * // returns ['state']
+ * // returns ['county']
  * @example
  * boundariesAvailableForRaceType('house')
  * // returns ['district']
+ * @example
+ * boundariesAvailableForRaceType('governor')
+ * // returns ['state', 'county']
  * @example
  * boundariesAvailableForRaceType(2016)
  * // returns null
@@ -334,6 +358,9 @@ export function boundariesAvailableForRaceType(raceType) {
     availableBoundaries.push('county');
   } else if (raceType === 'house') {
     availableBoundaries.push('district');
+  } else if (raceType === 'governor') {
+    availableBoundaries.push('state');
+    availableBoundaries.push('county');
   } else return null;
   return availableBoundaries;
 }

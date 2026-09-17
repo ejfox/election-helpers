@@ -1,6 +1,129 @@
 /**
+ * geographic.js — US state/territory identity + FIPS ↔ abbr ↔ name conversions.
+ *
+ * SINGLE SOURCE OF TRUTH: the `US_STATES` table below. Everything else in this
+ * module — the exported `stateNameHash` / `stateAbbrHash` and every conversion
+ * function — is DERIVED from it, so the FIPS↔abbr↔name relationships can never
+ * drift apart. (That drift was the historical root cause of the "no DC entry"
+ * and "stateFipsToAbbr('06') → undefined" bugs that downstream apps had to work
+ * around; deriving everything from one table makes those classes of bug
+ * impossible.) Lookups are O(1) via maps built once at module load.
+ *
+ * i18n seam: this is the *US* scheme. A future non-US jurisdiction should get a
+ * sibling table of the same shape ({ fips/code, abbr, name }) and a parallel set
+ * of conversions, rather than being wedged into US_STATES. See geo-units.js for
+ * the matching note on the US id-scheme.
+ */
+
+/**
+ * The one canonical US table. `fips` is the 2-digit state/territory FIPS code;
+ * it is absent for the freely-associated states (FM, MH, PW), which have no FIPS
+ * but still appear in abbreviation-keyed data.
+ * @type {ReadonlyArray<{fips?: string, abbr: string, name: string}>}
+ */
+export const US_STATES = [
+  { fips: '01', abbr: 'AL', name: 'Alabama' },
+  { fips: '02', abbr: 'AK', name: 'Alaska' },
+  { fips: '04', abbr: 'AZ', name: 'Arizona' },
+  { fips: '05', abbr: 'AR', name: 'Arkansas' },
+  { fips: '06', abbr: 'CA', name: 'California' },
+  { fips: '08', abbr: 'CO', name: 'Colorado' },
+  { fips: '09', abbr: 'CT', name: 'Connecticut' },
+  { fips: '10', abbr: 'DE', name: 'Delaware' },
+  { fips: '11', abbr: 'DC', name: 'District of Columbia' },
+  { fips: '12', abbr: 'FL', name: 'Florida' },
+  { fips: '13', abbr: 'GA', name: 'Georgia' },
+  { fips: '15', abbr: 'HI', name: 'Hawaii' },
+  { fips: '16', abbr: 'ID', name: 'Idaho' },
+  { fips: '17', abbr: 'IL', name: 'Illinois' },
+  { fips: '18', abbr: 'IN', name: 'Indiana' },
+  { fips: '19', abbr: 'IA', name: 'Iowa' },
+  { fips: '20', abbr: 'KS', name: 'Kansas' },
+  { fips: '21', abbr: 'KY', name: 'Kentucky' },
+  { fips: '22', abbr: 'LA', name: 'Louisiana' },
+  { fips: '23', abbr: 'ME', name: 'Maine' },
+  { fips: '24', abbr: 'MD', name: 'Maryland' },
+  { fips: '25', abbr: 'MA', name: 'Massachusetts' },
+  { fips: '26', abbr: 'MI', name: 'Michigan' },
+  { fips: '27', abbr: 'MN', name: 'Minnesota' },
+  { fips: '28', abbr: 'MS', name: 'Mississippi' },
+  { fips: '29', abbr: 'MO', name: 'Missouri' },
+  { fips: '30', abbr: 'MT', name: 'Montana' },
+  { fips: '31', abbr: 'NE', name: 'Nebraska' },
+  { fips: '32', abbr: 'NV', name: 'Nevada' },
+  { fips: '33', abbr: 'NH', name: 'New Hampshire' },
+  { fips: '34', abbr: 'NJ', name: 'New Jersey' },
+  { fips: '35', abbr: 'NM', name: 'New Mexico' },
+  { fips: '36', abbr: 'NY', name: 'New York' },
+  { fips: '37', abbr: 'NC', name: 'North Carolina' },
+  { fips: '38', abbr: 'ND', name: 'North Dakota' },
+  { fips: '39', abbr: 'OH', name: 'Ohio' },
+  { fips: '40', abbr: 'OK', name: 'Oklahoma' },
+  { fips: '41', abbr: 'OR', name: 'Oregon' },
+  { fips: '42', abbr: 'PA', name: 'Pennsylvania' },
+  { fips: '44', abbr: 'RI', name: 'Rhode Island' },
+  { fips: '45', abbr: 'SC', name: 'South Carolina' },
+  { fips: '46', abbr: 'SD', name: 'South Dakota' },
+  { fips: '47', abbr: 'TN', name: 'Tennessee' },
+  { fips: '48', abbr: 'TX', name: 'Texas' },
+  { fips: '49', abbr: 'UT', name: 'Utah' },
+  { fips: '50', abbr: 'VT', name: 'Vermont' },
+  { fips: '51', abbr: 'VA', name: 'Virginia' },
+  { fips: '53', abbr: 'WA', name: 'Washington' },
+  { fips: '54', abbr: 'WV', name: 'West Virginia' },
+  { fips: '55', abbr: 'WI', name: 'Wisconsin' },
+  { fips: '56', abbr: 'WY', name: 'Wyoming' },
+  // US territories (have FIPS codes)
+  { fips: '60', abbr: 'AS', name: 'American Samoa' },
+  { fips: '66', abbr: 'GU', name: 'Guam' },
+  { fips: '69', abbr: 'MP', name: 'Northern Mariana Islands' },
+  { fips: '72', abbr: 'PR', name: 'Puerto Rico' },
+  { fips: '78', abbr: 'VI', name: 'Virgin Islands' },
+  // Freely-associated states (no FIPS, but appear in abbreviation-keyed data)
+  { abbr: 'FM', name: 'Federated States Of Micronesia' },
+  { abbr: 'MH', name: 'Marshall Islands' },
+  { abbr: 'PW', name: 'Palau' },
+];
+
+// --- Derived O(1) lookup maps (built once from US_STATES) --------------------
+const _nameByFips = new Map();
+const _abbrByFips = new Map();
+const _nameByAbbr = new Map();
+const _fipsByAbbr = new Map();
+const _fipsByName = new Map(); // EXACT-case, exact-spacing key (see stateNameToFips)
+for (const s of US_STATES) {
+  _nameByAbbr.set(s.abbr, s.name);
+  _fipsByAbbr.set(s.abbr, s.fips); // value is undefined for FM/MH/PW
+  if (s.fips) {
+    _nameByFips.set(s.fips, s.name);
+    _abbrByFips.set(s.fips, s.abbr);
+    _fipsByName.set(s.name, s.fips);
+  }
+}
+
+/**
+ * FIPS → state name. Derived from {@link US_STATES}; keys are 2-digit FIPS.
+ * @example stateNameHash['01'] // 'Alabama'
+ * @type {Readonly<Record<string, string>>}
+ */
+export const stateNameHash = Object.fromEntries(
+  US_STATES.filter((s) => s.fips).map((s) => [s.fips, s.name])
+);
+
+/**
+ * Abbreviation → state name. Derived from {@link US_STATES} (name-ordered).
+ * @example stateAbbrHash['NY'] // 'New York'
+ * @type {Readonly<Record<string, string>>}
+ */
+export const stateAbbrHash = Object.fromEntries(
+  [...US_STATES]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((s) => [s.abbr, s.name])
+);
+
+/**
  * @param {string} stateAbbr
- * @returns {string} - The fips code for the state
+ * @returns {string|undefined} - The fips code for the state
  * @example
  * getStateFipsFromStateAbbr('CA')
  * // => '06'
@@ -11,193 +134,47 @@ export function getStateFipsFromStateAbbr(stateAbbr) {
   if (!stateAbbr || typeof stateAbbr !== 'string') return undefined;
   const cleanAbbr = stateAbbr.trim().toUpperCase();
   if (cleanAbbr.length !== 2) return undefined;
-  const stateName = stateAbbrHash[cleanAbbr];
-  if (!stateName) return undefined;
-  return stateNameToFips(stateName);
+  return _fipsByAbbr.get(cleanAbbr);
 }
 
 /**
- * @param {string} stateFips - The state fips code.
- * @returns {string} - The state name
- * @throws {Error} - If the state fips code is invalid.
- * @example
- * stateNameHash['01']
- * // returns 'Alabama'
- *
- */
-export const stateNameHash = {
-  '01': 'Alabama',
-  '02': 'Alaska',
-  '04': 'Arizona',
-  '05': 'Arkansas',
-  '06': 'California',
-  '08': 'Colorado',
-  '09': 'Connecticut',
-  '10': 'Delaware',
-  '11': 'District of Columbia',
-  '12': 'Florida',
-  '13': 'Georgia',
-  '15': 'Hawaii',
-  '16': 'Idaho',
-  '17': 'Illinois',
-  '18': 'Indiana',
-  '19': 'Iowa',
-  '20': 'Kansas',
-  '21': 'Kentucky',
-  '22': 'Louisiana',
-  '23': 'Maine',
-  '24': 'Maryland',
-  '25': 'Massachusetts',
-  '26': 'Michigan',
-  '27': 'Minnesota',
-  '28': 'Mississippi',
-  '29': 'Missouri',
-  '30': 'Montana',
-  '31': 'Nebraska',
-  '32': 'Nevada',
-  '33': 'New Hampshire',
-  '34': 'New Jersey',
-  '35': 'New Mexico',
-  '36': 'New York',
-  '37': 'North Carolina',
-  '38': 'North Dakota',
-  '39': 'Ohio',
-  '40': 'Oklahoma',
-  '41': 'Oregon',
-  '42': 'Pennsylvania',
-  '44': 'Rhode Island',
-  '45': 'South Carolina',
-  '46': 'South Dakota',
-  '47': 'Tennessee',
-  '48': 'Texas',
-  '49': 'Utah',
-  '50': 'Vermont',
-  '51': 'Virginia',
-  '53': 'Washington',
-  '54': 'West Virginia',
-  '55': 'Wisconsin',
-  '56': 'Wyoming',
-  // US Territories
-  '60': 'American Samoa',
-  '66': 'Guam',
-  '69': 'Northern Mariana Islands',
-  '72': 'Puerto Rico',
-  '78': 'Virgin Islands',
-};
-
-export const stateAbbrHash = {
-  AL: 'Alabama',
-  AK: 'Alaska',
-  AS: 'American Samoa',
-  AZ: 'Arizona',
-  AR: 'Arkansas',
-  CA: 'California',
-  CO: 'Colorado',
-  CT: 'Connecticut',
-  DE: 'Delaware',
-  DC: 'District of Columbia',
-  FM: 'Federated States Of Micronesia',
-  FL: 'Florida',
-  GA: 'Georgia',
-  GU: 'Guam',
-  HI: 'Hawaii',
-  ID: 'Idaho',
-  IL: 'Illinois',
-  IN: 'Indiana',
-  IA: 'Iowa',
-  KS: 'Kansas',
-  KY: 'Kentucky',
-  LA: 'Louisiana',
-  ME: 'Maine',
-  MH: 'Marshall Islands',
-  MD: 'Maryland',
-  MA: 'Massachusetts',
-  MI: 'Michigan',
-  MN: 'Minnesota',
-  MS: 'Mississippi',
-  MO: 'Missouri',
-  MT: 'Montana',
-  NE: 'Nebraska',
-  NV: 'Nevada',
-  NH: 'New Hampshire',
-  NJ: 'New Jersey',
-  NM: 'New Mexico',
-  NY: 'New York',
-  NC: 'North Carolina',
-  ND: 'North Dakota',
-  MP: 'Northern Mariana Islands',
-  OH: 'Ohio',
-  OK: 'Oklahoma',
-  OR: 'Oregon',
-  PW: 'Palau',
-  PA: 'Pennsylvania',
-  PR: 'Puerto Rico',
-  RI: 'Rhode Island',
-  SC: 'South Carolina',
-  SD: 'South Dakota',
-  TN: 'Tennessee',
-  TX: 'Texas',
-  UT: 'Utah',
-  VT: 'Vermont',
-  VI: 'Virgin Islands',
-  VA: 'Virginia',
-  WA: 'Washington',
-  WV: 'West Virginia',
-  WI: 'Wisconsin',
-  WY: 'Wyoming',
-};
-
-/**
- *
  * @param {string} stateAbbr - Two letter state abbreviation
- * @returns {string} - The state name
- * @throws {Error} - If the state abbreviation is invalid.
+ * @returns {string|undefined} - The state name
  * @example
- * getStateNameFromStateAbbr('AL')
+ * stateAbbrToName('AL')
  * // returns 'Alabama'
- *
  */
 export function stateAbbrToName(stateAbbr) {
   if (!stateAbbr || typeof stateAbbr !== 'string') return undefined;
-  const cleanAbbr = stateAbbr.trim().toUpperCase();
-  return stateAbbrHash[cleanAbbr];
+  return _nameByAbbr.get(stateAbbr.trim().toUpperCase());
 }
 
 /**
- *
- * @param {string} stateFips - The state fips code.
- * @returns {string} - The state abbreviation
- * @throws {Error} - If the state fips code is invalid.
+ * @param {string|number} stateFips - The state fips code.
+ * @returns {string|undefined} - The state abbreviation
  * @example
  * getStateAbbrFromStateFips('01')
  * // returns 'AL'
- *
  * @example
  * getStateAbbrFromStateFips('36')
  * // returns 'NY'
- *
- * @example
- * getStateAbbrFromStateFips('XX')
- * // throws an error
  */
-
 export function getStateAbbrFromStateFips(stateFips) {
   if (!stateFips && stateFips !== 0) return undefined;
   const paddedFips = String(stateFips).padStart(2, '0');
   if (paddedFips.length !== 2) return undefined;
-  return stateFipsToAbbr(paddedFips);
+  return _abbrByFips.get(paddedFips);
 }
 
+/**
+ * @param {string|number} stateFips - The state fips code.
+ * @returns {string|undefined} - The state abbreviation, or undefined if unknown.
+ * @example
+ * stateFipsToAbbr('06') // 'CA'
+ * stateFipsToAbbr(6)    // 'CA'
+ */
 export function stateFipsToAbbr(stateFips) {
-  // Build reverse lookup from stateNameHash → stateAbbrHash
-  const name = stateNameHash[String(stateFips).padStart(2, '0')];
-  if (!name) return undefined;
-  // Find the abbreviation that maps to this name (case-insensitive)
-  const nameLower = name.toLowerCase();
-  for (const [abbr, n] of Object.entries(stateAbbrHash)) {
-    if (n.toLowerCase() === nameLower) return abbr;
-  }
-  return undefined;
+  return _abbrByFips.get(String(stateFips).padStart(2, '0'));
 }
 
 /**
@@ -251,48 +228,44 @@ export function getStateCodeFromCountyFips(countyFips) {
 }
 
 /**
- *
  * @param {string} stateFips
- * @returns {string} - The state name
- * @throws {Error} - If the state fips code is invalid.
+ * @returns {string|undefined} - The state name
  * @example
  * stateFipsToName('01')
  * // returns 'Alabama'
  *
+ * NOTE: Exact-match by design (no padding/coercion) — pass a canonical 2-digit
+ * FIPS string. Use normalizeStateFips() first if your input might be unpadded
+ * or a number.
  */
-
 export function stateFipsToName(stateFips) {
   return stateNameHash[stateFips];
 }
 
 /**
  * @description Get the state fips code from the abbreviation, like 'NY' to '36'
- * @param {string} stateAbbr - The state abbreviation.
- * @returns {string} - The state fips code.
+ * @param {string} stateAbbr - The state abbreviation (case-insensitive).
+ * @returns {string|undefined} - The state fips code.
  * @example
  * stateAbbrToFips('NY')
  * // returns '36'
  */
 export function stateAbbrToFips(stateAbbr) {
-  if (!stateAbbr) return undefined;
-  const stateName = stateAbbrToName(stateAbbr);
-  if (!stateName) return undefined;
-  return Object.keys(stateNameHash).find(
-    (key) => stateNameHash[key] === stateName
-  );
+  if (!stateAbbr || typeof stateAbbr !== 'string') return undefined;
+  return _fipsByAbbr.get(stateAbbr.trim().toUpperCase());
 }
 
 /**
- *
  * @param {string} stateName
- * @returns {string} - The state fips code
- * @throws {Error} - If the state name is invalid.
+ * @returns {string|undefined} - The state fips code
  * @example
- * getStateFipsFromStateName('Alabama')
+ * stateNameToFips('Alabama')
  * // returns '01'
+ *
+ * NOTE: Exact-match by design: the name must match the canonical spelling,
+ * casing, and spacing exactly (e.g. 'New York', not 'new york' or ' New York ').
+ * This strictness is part of the published contract.
  */
 export function stateNameToFips(stateName) {
-  return Object.keys(stateNameHash).find(
-    (key) => stateNameHash[key] === stateName
-  );
+  return _fipsByName.get(stateName);
 }

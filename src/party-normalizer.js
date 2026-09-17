@@ -369,3 +369,33 @@ export function isThirdParty(normalizedParty) {
     !major.includes(normalizedParty) && !nonPartisan.includes(normalizedParty)
   );
 }
+
+/**
+ * Collapse any party value to the 3-way bucket used by choropleths and
+ * two-party visualizations: `'dem'`, `'rep'`, or `'other'`. Built on
+ * {@link normalizeParty} but — unlike it — NEVER throws: anything unrecognized
+ * (null, undefined, non-strings, third parties, independents, junk) buckets to
+ * `'other'`. This is the safe entry point for map coloring where a bad row must
+ * degrade to a neutral fill rather than crash the render.
+ * @param {*} party - Raw party value from election data (any type).
+ * @returns {'dem'|'rep'|'other'}
+ * @example
+ * partyBucket('Republican') // 'rep'
+ * partyBucket('D')          // 'dem'
+ * partyBucket('🐘')         // 'rep'
+ * partyBucket('Green')      // 'other'
+ * partyBucket(null)         // 'other'
+ * partyBucket(42)           // 'other'
+ */
+export function partyBucket(party) {
+  if (party == null || typeof party !== 'string') return 'other';
+  let code;
+  try {
+    code = normalizeParty(party);
+  } catch {
+    return 'other';
+  }
+  if (code === 'R') return 'rep';
+  if (code === 'D') return 'dem';
+  return 'other';
+}
