@@ -55,6 +55,22 @@ export default [
     },
   },
   {
+    // Build scripts (codegen) run in Node with ESM.
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 2024,
+      sourceType: 'module',
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        URL: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
+  {
     ignores: ['node_modules/**', 'docs/**', 'coverage/**'],
   },
 ];
