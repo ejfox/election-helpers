@@ -58,6 +58,15 @@ export {
   isThirdParty,
 } from './src/party-normalizer.js';
 
+// Re-export seat apportionment functions
+export {
+  APPORTIONMENT_METHODS,
+  allocateSeats,
+  dHondt,
+  sainteLague,
+  huntingtonHill,
+} from './src/apportionment.js';
+
 // Import normalize function for backward compatibility
 import { normalizeParty as _normalizeParty } from './src/party-normalizer.js';
 

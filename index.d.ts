@@ -181,6 +181,26 @@ export function formatNameForDisplay(
   format?: string
 ): string;
 
+// Seat apportionment (highest-averages / divisor methods)
+export const APPORTIONMENT_METHODS: ReadonlyArray<string>;
+export function allocateSeats(
+  votes: Record<string, number>,
+  seats: number,
+  options?: { method?: string }
+): Record<string, number>;
+export function dHondt(
+  votes: Record<string, number>,
+  seats: number
+): Record<string, number>;
+export function sainteLague(
+  votes: Record<string, number>,
+  seats: number
+): Record<string, number>;
+export function huntingtonHill(
+  populations: Record<string, number>,
+  seats: number
+): Record<string, number>;
+
 // Deprecated - for backward compatibility
 /**
  * @deprecated Use normalizeParty() instead
