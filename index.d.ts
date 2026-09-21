@@ -201,6 +201,47 @@ export function huntingtonHill(
   seats: number
 ): Record<string, number>;
 
+// Text-fit (name-width) math
+export interface WidthTable {
+  fallback: number;
+  table: Record<string, number>;
+  adj?: Record<string, number>;
+}
+export const OSWALD_WIDTHS: WidthTable;
+export const DEFAULT_CHARSET: string;
+export function buildWidthTable(
+  measure: (text: string) => number,
+  options?: { chars?: string; adjustments?: boolean }
+): WidthTable;
+export function measureWithTable(
+  str: string,
+  size: number,
+  widthTable: WidthTable
+): number;
+export function measureOswald(str: string, size?: number): number;
+export function fitFontSize(
+  measuredWidth: number,
+  targetWidth: number,
+  fontSize: number,
+  options?: { minFontSize?: number; maxFontSize?: number }
+): number;
+export function justifyLetterSpacing(
+  measuredWidth: number,
+  targetWidth: number,
+  charCount: number
+): number;
+export function fitTextToWidth(
+  measuredWidth: number,
+  targetWidth: number,
+  charCount: number,
+  options?: {
+    fontSize?: number;
+    minFontSize?: number;
+    maxFontSize?: number;
+    maxLetterSpacing?: number;
+  }
+): { fontSize: number; letterSpacing: number; width: number };
+
 // Deprecated - for backward compatibility
 /**
  * @deprecated Use normalizeParty() instead

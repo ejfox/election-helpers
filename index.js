@@ -67,6 +67,18 @@ export {
   huntingtonHill,
 } from './src/apportionment.js';
 
+// Re-export text-fit (name-width) functions
+export {
+  OSWALD_WIDTHS,
+  DEFAULT_CHARSET,
+  buildWidthTable,
+  measureWithTable,
+  measureOswald,
+  fitFontSize,
+  justifyLetterSpacing,
+  fitTextToWidth,
+} from './src/text-fit.js';
+
 // Import normalize function for backward compatibility
 import { normalizeParty as _normalizeParty } from './src/party-normalizer.js';
 
