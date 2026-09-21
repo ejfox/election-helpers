@@ -73,6 +73,11 @@ export function getStateCodeFromCountyFips(
 export function stateFipsToName(stateFips: string): string | undefined;
 export function stateAbbrToFips(stateAbbreviation: string): string | undefined;
 export function stateNameToFips(stateName: string): string | undefined;
+// ISO 3166-2 subdivision codes ('US-CA'). undefined for FM/MH/PW (not US subdivisions).
+export function stateAbbrToIso(stateAbbr: string): string | undefined;
+export function isoToStateAbbr(isoCode: string): string | undefined;
+export function stateFipsToIso(stateFips: string): string | undefined;
+export function isoToStateFips(isoCode: string): string | undefined;
 
 // Canonical geo-unit ID system
 export type GeoUnitType = 'state' | 'county' | 'district';

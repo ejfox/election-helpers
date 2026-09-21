@@ -11,6 +11,10 @@ export {
   stateFipsToName,
   stateAbbrToFips,
   stateNameToFips,
+  stateAbbrToIso,
+  isoToStateAbbr,
+  stateFipsToIso,
+  isoToStateFips,
 } from './src/geographic.js';
 
 // Re-export canonical geo-unit ID functions
