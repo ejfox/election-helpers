@@ -9,7 +9,7 @@ import {
 
 const sum = (obj) => Object.values(obj).reduce((a, b) => a + b, 0);
 
-describe('allocateSeats — D\'Hondt', () => {
+describe("allocateSeats — D'Hondt", () => {
   // Canonical Wikipedia D'Hondt example.
   const votes = { A: 100, B: 80, C: 30, D: 20 };
 
@@ -31,7 +31,7 @@ describe('allocateSeats — D\'Hondt', () => {
 
 describe('allocateSeats — Sainte-Laguë', () => {
   const votes = { A: 100, B: 80, C: 30, D: 20 };
-  it('is more proportional than D\'Hondt (D wins a seat)', () => {
+  it("is more proportional than D'Hondt (D wins a seat)", () => {
     expect(sainteLague(votes, 8)).toEqual({ A: 3, B: 3, C: 1, D: 1 });
   });
   it('modified variant (first divisor 1.4) still totals seats', () => {

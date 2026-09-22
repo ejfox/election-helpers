@@ -26,13 +26,17 @@ describe('measureOswald / measureWithTable', () => {
     expect(measureOswald('Robert F. Kennedy Jr.', 32)).toBeCloseTo(237.06, 1);
   });
   it('scales linearly with size', () => {
-    expect(measureOswald('Harris', 64)).toBeCloseTo(measureOswald('Harris', 32) * 2, 4);
+    expect(measureOswald('Harris', 64)).toBeCloseTo(
+      measureOswald('Harris', 32) * 2,
+      4
+    );
   });
   it('applies pairwise kerning corrections (Tony Tata < naive sum)', () => {
-    const naive = [...'Tony Tata'].reduce(
-      (s, c) => s + (OSWALD_WIDTHS.table[c] ?? OSWALD_WIDTHS.fallback),
-      0
-    ) * 32;
+    const naive =
+      [...'Tony Tata'].reduce(
+        (s, c) => s + (OSWALD_WIDTHS.table[c] ?? OSWALD_WIDTHS.fallback),
+        0
+      ) * 32;
     expect(measureOswald('Tony Tata', 32)).toBeLessThan(naive);
   });
   it('treats combining marks as zero-width', () => {
@@ -64,7 +68,10 @@ describe('buildWidthTable', () => {
     expect(measureWithTable('AV', 10, wt)).toBeCloseTo(10, 6); // (0.6+0.6-0.2)*10
   });
   it('can skip adjustments for a smaller table', () => {
-    const wt = buildWidthTable((t) => t.length * 0.6, { chars: 'AV', adjustments: false });
+    const wt = buildWidthTable((t) => t.length * 0.6, {
+      chars: 'AV',
+      adjustments: false,
+    });
     expect(Object.keys(wt.adj)).toHaveLength(0);
   });
   it('throws if measure is not a function', () => {
@@ -111,7 +118,11 @@ describe('fitTextToWidth', () => {
     expect(r.width).toBeCloseTo(100, 6);
   });
   it('respects maxLetterSpacing (leaves a gap rather than over-spreading)', () => {
-    const r = fitTextToWidth(80, 200, 5, { fontSize: 16, maxFontSize: 16, maxLetterSpacing: 3 });
+    const r = fitTextToWidth(80, 200, 5, {
+      fontSize: 16,
+      maxFontSize: 16,
+      maxLetterSpacing: 3,
+    });
     expect(r.letterSpacing).toBe(3);
     expect(r.width).toBeLessThan(200);
   });

@@ -5,3 +5,4 @@ dist/
 *.md
 package-lock.json
 yarn.lock
+src/tables/oswald.js

@@ -72,7 +72,9 @@ function isZeroWidth(code) {
 export function buildWidthTable(measure, options = {}) {
   const { chars = DEFAULT_CHARSET, adjustments = true } = options;
   if (typeof measure !== 'function') {
-    throw new Error('buildWidthTable(measure): measure must be a (text) => width function');
+    throw new Error(
+      'buildWidthTable(measure): measure must be a (text) => width function'
+    );
   }
   const table = {};
   for (const c of chars) table[c] = measure(c);
@@ -89,7 +91,8 @@ export function buildWidthTable(measure, options = {}) {
 
   const vals = Object.values(table);
   const fallback =
-    table['n'] ?? (vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : 0.5);
+    table['n'] ??
+    (vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : 0.5);
   return { fallback, table, adj };
 }
 
@@ -151,10 +154,19 @@ export function measureOswald(str, size = 16) {
  * @param {number} [options.maxFontSize] - Upper clamp (default Infinity).
  * @returns {number} The fitted font size.
  */
-export function fitFontSize(measuredWidth, targetWidth, fontSize, options = {}) {
+export function fitFontSize(
+  measuredWidth,
+  targetWidth,
+  fontSize,
+  options = {}
+) {
   const { minFontSize = 0, maxFontSize = Infinity } = options;
   if (!(measuredWidth > 0)) return clamp(fontSize, minFontSize, maxFontSize);
-  return clamp(fontSize * (targetWidth / measuredWidth), minFontSize, maxFontSize);
+  return clamp(
+    fontSize * (targetWidth / measuredWidth),
+    minFontSize,
+    maxFontSize
+  );
 }
 
 /**
@@ -187,7 +199,12 @@ export function justifyLetterSpacing(measuredWidth, targetWidth, charCount) {
  * @returns {{ fontSize: number, letterSpacing: number, width: number }} The
  *   fitted font size, letter-spacing, and resulting laid-out width.
  */
-export function fitTextToWidth(measuredWidth, targetWidth, charCount, options = {}) {
+export function fitTextToWidth(
+  measuredWidth,
+  targetWidth,
+  charCount,
+  options = {}
+) {
   const {
     fontSize = 16,
     minFontSize = 1,
@@ -195,12 +212,19 @@ export function fitTextToWidth(measuredWidth, targetWidth, charCount, options = 
     maxLetterSpacing = Infinity,
   } = options;
 
-  const size = fitFontSize(measuredWidth, targetWidth, fontSize, { minFontSize, maxFontSize });
+  const size = fitFontSize(measuredWidth, targetWidth, fontSize, {
+    minFontSize,
+    maxFontSize,
+  });
   const widthAtSize = fontSize > 0 ? measuredWidth * (size / fontSize) : 0;
 
   let letterSpacing = justifyLetterSpacing(widthAtSize, targetWidth, charCount);
   if (letterSpacing > maxLetterSpacing) letterSpacing = maxLetterSpacing;
 
   const gaps = Math.max(0, charCount - 1);
-  return { fontSize: size, letterSpacing, width: widthAtSize + gaps * letterSpacing };
+  return {
+    fontSize: size,
+    letterSpacing,
+    width: widthAtSize + gaps * letterSpacing,
+  };
 }
