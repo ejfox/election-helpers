@@ -11,6 +11,10 @@ export {
   stateFipsToName,
   stateAbbrToFips,
   stateNameToFips,
+  stateAbbrToIso,
+  isoToStateAbbr,
+  stateFipsToIso,
+  isoToStateFips,
 } from './src/geographic.js';
 
 // Re-export canonical geo-unit ID functions
@@ -53,6 +57,27 @@ export {
   isMajorParty,
   isThirdParty,
 } from './src/party-normalizer.js';
+
+// Re-export seat apportionment functions
+export {
+  APPORTIONMENT_METHODS,
+  allocateSeats,
+  dHondt,
+  sainteLague,
+  huntingtonHill,
+} from './src/apportionment.js';
+
+// Re-export text-fit (name-width) functions
+export {
+  OSWALD_WIDTHS,
+  DEFAULT_CHARSET,
+  buildWidthTable,
+  measureWithTable,
+  measureOswald,
+  fitFontSize,
+  justifyLetterSpacing,
+  fitTextToWidth,
+} from './src/text-fit.js';
 
 // Import normalize function for backward compatibility
 import { normalizeParty as _normalizeParty } from './src/party-normalizer.js';

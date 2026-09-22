@@ -269,3 +269,71 @@ export function stateAbbrToFips(stateAbbr) {
 export function stateNameToFips(stateName) {
   return _fipsByName.get(stateName);
 }
+
+// --- ISO 3166-2 subdivision codes ('US-CA') ----------------------------------
+// The US already conforms to ISO 3166-2: each state/territory's subdivision code
+// is `US-<USPS abbr>` (California = 'US-CA', Puerto Rico = 'US-PR'). This is the
+// international standard for country subdivisions, so leaning on it — rather than
+// US-only FIPS — is a step toward helpers that also work outside the US.
+//
+// Only fips-bearing entries are real US subdivisions. FM/MH/PW (the Freely
+// Associated States) intentionally get no code here: their 2-letter codes are
+// ISO 3166-1 *country* codes (FM = Micronesia), so `US-FM` would be wrong.
+const ISO_COUNTRY = 'US';
+const _isoByAbbr = new Map();
+const _abbrByIso = new Map();
+for (const s of US_STATES) {
+  if (!s.fips) continue; // skip FM/MH/PW — sovereign nations, not US subdivisions
+  const iso = `${ISO_COUNTRY}-${s.abbr}`;
+  _isoByAbbr.set(s.abbr, iso);
+  _abbrByIso.set(iso, s.abbr);
+}
+
+/**
+ * State abbreviation → ISO 3166-2 subdivision code.
+ * @param {string} stateAbbr - USPS abbreviation, case-insensitive (e.g. 'ca')
+ * @returns {string|undefined} e.g. 'US-CA'; undefined for FM/MH/PW or unknown
+ * @example
+ * stateAbbrToIso('CA') // 'US-CA'
+ * stateAbbrToIso('pr') // 'US-PR'
+ */
+export function stateAbbrToIso(stateAbbr) {
+  if (!stateAbbr || typeof stateAbbr !== 'string') return undefined;
+  return _isoByAbbr.get(stateAbbr.trim().toUpperCase());
+}
+
+/**
+ * ISO 3166-2 subdivision code → state abbreviation.
+ * @param {string} isoCode - e.g. 'US-CA', case-insensitive
+ * @returns {string|undefined} e.g. 'CA'
+ * @example
+ * isoToStateAbbr('US-CA') // 'CA'
+ */
+export function isoToStateAbbr(isoCode) {
+  if (!isoCode || typeof isoCode !== 'string') return undefined;
+  return _abbrByIso.get(isoCode.trim().toUpperCase());
+}
+
+/**
+ * State FIPS → ISO 3166-2 subdivision code.
+ * @param {string} stateFips - 2-digit FIPS (e.g. '06')
+ * @returns {string|undefined} e.g. 'US-CA'
+ * @example
+ * stateFipsToIso('06') // 'US-CA'
+ */
+export function stateFipsToIso(stateFips) {
+  const abbr = getStateAbbrFromStateFips(stateFips);
+  return abbr ? stateAbbrToIso(abbr) : undefined;
+}
+
+/**
+ * ISO 3166-2 subdivision code → state FIPS.
+ * @param {string} isoCode - e.g. 'US-CA'
+ * @returns {string|undefined} e.g. '06'
+ * @example
+ * isoToStateFips('US-CA') // '06'
+ */
+export function isoToStateFips(isoCode) {
+  const abbr = isoToStateAbbr(isoCode);
+  return abbr ? getStateFipsFromStateAbbr(abbr) : undefined;
+}

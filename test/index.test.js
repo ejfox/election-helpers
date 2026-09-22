@@ -9,6 +9,10 @@ import {
   stateFipsToName,
   stateAbbrToFips,
   stateNameToFips,
+  stateAbbrToIso,
+  isoToStateAbbr,
+  stateFipsToIso,
+  isoToStateFips,
   boundariesAvailableForRaceType,
   isBoundaryAvailableForRaceType,
   parseVotes,
@@ -608,5 +612,46 @@ describe('Universal Helpers', () => {
       );
       expect(result).toBe('Ocasio-Cortez, A.');
     });
+  });
+});
+
+describe('ISO 3166-2 subdivision codes', () => {
+  it('maps state abbr -> ISO 3166-2 (US-CA)', () => {
+    expect(stateAbbrToIso('CA')).toBe('US-CA');
+    expect(stateAbbrToIso('NY')).toBe('US-NY');
+    expect(stateAbbrToIso('DC')).toBe('US-DC');
+  });
+  it('is case-insensitive and trims', () => {
+    expect(stateAbbrToIso('ca')).toBe('US-CA');
+    expect(stateAbbrToIso(' pr ')).toBe('US-PR');
+  });
+  it('maps US territories (they have FIPS)', () => {
+    expect(stateAbbrToIso('PR')).toBe('US-PR');
+    expect(stateAbbrToIso('GU')).toBe('US-GU');
+    expect(stateAbbrToIso('VI')).toBe('US-VI');
+  });
+  it('returns undefined for Freely-Associated States (not US subdivisions)', () => {
+    // FM/MH/PW 2-letter codes are ISO 3166-1 *countries*, so US-FM would be wrong
+    expect(stateAbbrToIso('FM')).toBeUndefined();
+    expect(stateAbbrToIso('MH')).toBeUndefined();
+    expect(stateAbbrToIso('PW')).toBeUndefined();
+  });
+  it('returns undefined for junk input', () => {
+    expect(stateAbbrToIso('XX')).toBeUndefined();
+    expect(stateAbbrToIso('')).toBeUndefined();
+    expect(stateAbbrToIso(null)).toBeUndefined();
+  });
+  it('round-trips ISO 3166-2 -> abbr', () => {
+    expect(isoToStateAbbr('US-CA')).toBe('CA');
+    expect(isoToStateAbbr('us-ny')).toBe('NY');
+    expect(isoToStateAbbr('US-ZZ')).toBeUndefined();
+    expect(isoToStateAbbr('CA')).toBeUndefined();
+  });
+  it('bridges FIPS <-> ISO 3166-2', () => {
+    expect(stateFipsToIso('06')).toBe('US-CA');
+    expect(stateFipsToIso('36')).toBe('US-NY');
+    expect(isoToStateFips('US-CA')).toBe('06');
+    expect(isoToStateFips('US-NY')).toBe('36');
+    expect(isoToStateFips('US-ZZ')).toBeUndefined();
   });
 });

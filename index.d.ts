@@ -73,6 +73,11 @@ export function getStateCodeFromCountyFips(
 export function stateFipsToName(stateFips: string): string | undefined;
 export function stateAbbrToFips(stateAbbreviation: string): string | undefined;
 export function stateNameToFips(stateName: string): string | undefined;
+// ISO 3166-2 subdivision codes ('US-CA'). undefined for FM/MH/PW (not US subdivisions).
+export function stateAbbrToIso(stateAbbr: string): string | undefined;
+export function isoToStateAbbr(isoCode: string): string | undefined;
+export function stateFipsToIso(stateFips: string): string | undefined;
+export function isoToStateFips(isoCode: string): string | undefined;
 
 // Canonical geo-unit ID system
 export type GeoUnitType = 'state' | 'county' | 'district';
@@ -175,6 +180,67 @@ export function formatNameForDisplay(
   lastName: string,
   format?: string
 ): string;
+
+// Seat apportionment (highest-averages / divisor methods)
+export const APPORTIONMENT_METHODS: ReadonlyArray<string>;
+export function allocateSeats(
+  votes: Record<string, number>,
+  seats: number,
+  options?: { method?: string }
+): Record<string, number>;
+export function dHondt(
+  votes: Record<string, number>,
+  seats: number
+): Record<string, number>;
+export function sainteLague(
+  votes: Record<string, number>,
+  seats: number
+): Record<string, number>;
+export function huntingtonHill(
+  populations: Record<string, number>,
+  seats: number
+): Record<string, number>;
+
+// Text-fit (name-width) math
+export interface WidthTable {
+  fallback: number;
+  table: Record<string, number>;
+  adj?: Record<string, number>;
+}
+export const OSWALD_WIDTHS: WidthTable;
+export const DEFAULT_CHARSET: string;
+export function buildWidthTable(
+  measure: (text: string) => number,
+  options?: { chars?: string; adjustments?: boolean }
+): WidthTable;
+export function measureWithTable(
+  str: string,
+  size: number,
+  widthTable: WidthTable
+): number;
+export function measureOswald(str: string, size?: number): number;
+export function fitFontSize(
+  measuredWidth: number,
+  targetWidth: number,
+  fontSize: number,
+  options?: { minFontSize?: number; maxFontSize?: number }
+): number;
+export function justifyLetterSpacing(
+  measuredWidth: number,
+  targetWidth: number,
+  charCount: number
+): number;
+export function fitTextToWidth(
+  measuredWidth: number,
+  targetWidth: number,
+  charCount: number,
+  options?: {
+    fontSize?: number;
+    minFontSize?: number;
+    maxFontSize?: number;
+    maxLetterSpacing?: number;
+  }
+): { fontSize: number; letterSpacing: number; width: number };
 
 // Deprecated - for backward compatibility
 /**

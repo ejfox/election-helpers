@@ -11,6 +11,14 @@
 
 ---
 
+## What's new in 0.3.0
+
+- **International standards — ISO 3166-2.** Convert between state abbreviations / FIPS and ISO 3166-2 subdivision codes (`US-CA`, `US-NY`, …) — the first step toward using the library outside a US-only context.
+- **Seat apportionment.** One highest-averages (divisor) engine, `allocateSeats(votes, seats, { method })`, plus named shortcuts `dHondt`, `sainteLague`, and `huntingtonHill`. Country-agnostic: the same math runs European party-list PR and US House apportionment.
+- **Name-fitting math (`text-fit`).** The "make BIDEN and ROBERT F. KENNEDY JR. fill the same column with no ragged gaps" problem, solved as pure math (never touches the DOM): compute font-size and letter-spacing to fit a target width, backed by a fast pre-computed per-character width table (with a prebuilt table for Oswald).
+
+---
+
 ## What's new in 0.2.0
 
 - **Single-source `US_STATES`.** Every state / abbreviation / FIPS / name lookup derives from one canonical table covering the 50 states, DC, and territories — no more drifting copies.
@@ -72,6 +80,13 @@ For full examples, check the [documentation site](https://ejfox.github.io/electi
 - `getStateCodeFromCountyFips(countyFips)` → state FIPS
 - `stateNameHash`, `stateAbbrHash` → lookup maps
 
+### ISO 3166-2 subdivision codes *(new in 0.3.0)*
+Convert between US state identifiers and ISO 3166-2 codes (e.g. `US-CA`). All return `undefined` for unknown input.
+- `stateAbbrToIso(abbr)` → ISO code (`'CA'` → `'US-CA'`)
+- `isoToStateAbbr(isoCode)` → abbr (`'US-CA'` → `'CA'`)
+- `stateFipsToIso(fips)` → ISO code (`'06'` → `'US-CA'`)
+- `isoToStateFips(isoCode)` → FIPS (`'US-CA'` → `'06'`)
+
 ### Canonical geo-unit IDs *(new in 0.2.0)*
 IDs are zero-padded FIPS strings: state `SS`, county `SSCCC`, district `SSDD` (at-large district `00`).
 - `geoUnitType(id)` → `'state' | 'county' | 'district' | null`
@@ -116,6 +131,27 @@ IDs are zero-padded FIPS strings: state `SS`, county `SSCCC`, district `SSDD` (a
 - `cleanCandidateNames(names, config?)` → `{ cleaned, conflicts, nonCandidates }`
 - `splitName(fullName)` → `{ first, last, middle?, suffix? }`
 - `formatNameForDisplay(firstName, lastName, format?)` → string
+
+### Seat apportionment *(new in 0.3.0)*
+Allocate a fixed number of seats across parties/entities in proportion to votes (or population), using a highest-averages divisor method. Input/output are plain `{ id: number }` maps.
+- `allocateSeats(votes, seats, { method? })` → `{ id: seats }` (sums to `seats`; `method` defaults to `'dhondt'`)
+- `dHondt(votes, seats)` / `sainteLague(votes, seats)` → named shortcuts
+- `huntingtonHill(populations, seats)` → US-House method (each entity seeded 1 seat)
+- `APPORTIONMENT_METHODS` → the supported method names (`'dhondt'`, `'sainte-lague'`, `'modified-sainte-lague'`, `'huntington-hill'`)
+
+```js
+allocateSeats({ A: 100, B: 80, C: 30, D: 20 }, 8);                          // => { A: 4, B: 3, C: 1, D: 0 }  (D'Hondt)
+allocateSeats({ A: 100, B: 80, C: 30, D: 20 }, 8, { method: 'sainte-lague' }); // => { A: 3, B: 3, C: 1, D: 1 }
+```
+
+### Text-fit / name-fitting math *(new in 0.3.0)*
+Pure math for laying out candidate names in fixed horizontal space — computes font-size and letter-spacing, never touches the DOM. Measure once (with the prebuilt Oswald table or your own `measure(text)` callback wrapping `canvas.measureText` / opentype.js), then fit.
+- `fitTextToWidth(measuredWidth, targetWidth, charCount, options?)` → `{ fontSize, letterSpacing, width }` (fill a column, no gaps)
+- `fitFontSize(measuredWidth, targetWidth, fontSize, options?)` → font size that spans `targetWidth`
+- `justifyLetterSpacing(measuredWidth, targetWidth, charCount)` → tracking to spread text across `targetWidth`
+- `measureOswald(str, size?)` / `measureWithTable(str, size, table)` → estimated advance width from a width table
+- `buildWidthTable(measure, options?)` → build a reusable width table from any measurer
+- `OSWALD_WIDTHS` → prebuilt width table for Oswald 400; `DEFAULT_CHARSET` → printable ASCII + common Latin accents
 
 ---
 
