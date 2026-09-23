@@ -396,6 +396,9 @@ export function partyBucket(party) {
     return 'other';
   }
   if (code === 'R') return 'rep';
-  if (code === 'D') return 'dem';
+  // DFL = Minnesota's Democratic-Farmer-Labor party; DNL = North Dakota's
+  // Democratic-Nonpartisan League. Both ARE the state Democratic Party (their
+  // members caucus as Democrats), so they bucket 'dem' for two-party views.
+  if (code === 'D' || code === 'DFL' || code === 'DNL') return 'dem';
   return 'other';
 }

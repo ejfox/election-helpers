@@ -164,6 +164,12 @@ describe('partyBucket', () => {
     for (const p of ['D', 'd', 'DEM', 'dem', 'Democrat', 'Democratic', '🐴'])
       expect(partyBucket(p)).toBe('dem');
   });
+  it('buckets state Democratic affiliates (MN DFL, ND DNL) to dem', () => {
+    // Minnesota Democratic-Farmer-Labor and North Dakota Democratic-Nonpartisan
+    // League ARE the state Democratic Party — must not fall through to "other".
+    for (const p of ['DFL', 'DNL', 'Democratic-Farmer-Labor', 'DEMOCRATIC-NONPARTISAN LEAGUE'])
+      expect(partyBucket(p)).toBe('dem');
+  });
   it('buckets third parties, independents, and unknowns to other', () => {
     for (const p of [
       'Green',
