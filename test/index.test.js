@@ -238,7 +238,7 @@ describe('boundariesAvailableForRaceType', () => {
     ]);
   });
   it('should return correct boundaries for senate', () => {
-    expect(boundariesAvailableForRaceType('senate')).toEqual(['county']);
+    expect(boundariesAvailableForRaceType('senate')).toEqual(['state', 'county']);
   });
   it('should return correct boundaries for house', () => {
     expect(boundariesAvailableForRaceType('house')).toEqual(['district']);
@@ -263,6 +263,11 @@ describe('isBoundaryAvailableForRaceType', () => {
   });
   it('should return false for null boundary type', () => {
     expect(isBoundaryAvailableForRaceType('president', null)).toBe(false);
+  });
+  it('senate is a STATEwide race — state boundary must be available', () => {
+    expect(isBoundaryAvailableForRaceType('senate', 'state')).toBe(true);
+    expect(isBoundaryAvailableForRaceType('senate', 'county')).toBe(true);
+    expect(isBoundaryAvailableForRaceType('senate', 'district')).toBe(false);
   });
 });
 

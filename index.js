@@ -380,6 +380,10 @@ export function boundariesAvailableForRaceType(raceType) {
     availableBoundaries.push('state');
     availableBoundaries.push('county');
   } else if (raceType === 'senate') {
+    // Senate races are statewide — STATE is the natural boundary (a senate
+    // choropleth colors states by winner). County is also valid where a state
+    // reports senate returns by county.
+    availableBoundaries.push('state');
     availableBoundaries.push('county');
   } else if (raceType === 'house') {
     availableBoundaries.push('district');

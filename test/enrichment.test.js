@@ -217,7 +217,7 @@ describe('boundariesAvailableForRaceType (governor + existing)', () => {
       'state',
       'county',
     ]);
-    expect(boundariesAvailableForRaceType('senate')).toEqual(['county']);
+    expect(boundariesAvailableForRaceType('senate')).toEqual(['state', 'county']);
     expect(boundariesAvailableForRaceType('house')).toEqual(['district']);
     expect(boundariesAvailableForRaceType('governor')).toEqual([
       'state',
