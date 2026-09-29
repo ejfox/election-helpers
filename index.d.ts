@@ -242,6 +242,42 @@ export function fitTextToWidth(
   }
 ): { fontSize: number; letterSpacing: number; width: number };
 
+// Tallying — vote-mode aware candidate totals and margins
+export interface CandidateTally {
+  candidate: string;
+  name: unknown;
+  party: unknown;
+  parties: unknown[];
+  votes: number;
+  source: 'total' | 'modes';
+  modes: Record<string, number>;
+  warnings: string[];
+}
+export interface TallyOptions {
+  candidateKey?: string;
+  votesKey?: string;
+  modeKey?: string;
+  partyKey?: string;
+  nameKey?: string;
+  isTotal?: (mode: unknown) => boolean;
+}
+export function isTotalMode(mode: unknown): boolean;
+export function tallyByCandidate(
+  rows: object[] | null | undefined,
+  options?: TallyOptions
+): CandidateTally[];
+export function tallyByUnit(
+  rows: object[] | null | undefined,
+  options?: TallyOptions & { unitKey?: string }
+): Map<string, CandidateTally[]>;
+export function raceMargin(tally: CandidateTally[] | null | undefined): {
+  winner: CandidateTally;
+  runnerUp: CandidateTally | null;
+  voteMargin: number;
+  totalVotes: number;
+  marginPct: number;
+} | null;
+
 // Deprecated - for backward compatibility
 /**
  * @deprecated Use normalizeParty() instead
