@@ -79,6 +79,14 @@ export {
   fitTextToWidth,
 } from './src/text-fit.js';
 
+// Re-export tallying (vote-mode aware candidate totals + margins)
+export {
+  isTotalMode,
+  tallyByCandidate,
+  tallyByUnit,
+  raceMargin,
+} from './src/tally.js';
+
 // Import normalize function for backward compatibility
 import { normalizeParty as _normalizeParty } from './src/party-normalizer.js';
 
