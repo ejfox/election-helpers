@@ -179,4 +179,22 @@ describe('raceMargin', () => {
       raceMargin(tallyByCandidate([{ candidateid: 'A', votecount: 9 }]))
     ).toMatchObject({ voteMargin: 9, marginPct: 1, runnerUp: null });
   });
+
+  it('an unopposed seat left off the ballot (0 votes) is still a 100% margin', () => {
+    // FEC 2022: FL-05 Rutherford and LA-04 Johnson, unopposed, 0 votes.
+    expect(
+      raceMargin(tallyByCandidate([{ candidateid: 'A', votecount: 0 }]))
+    ).toMatchObject({ voteMargin: 0, totalVotes: 0, marginPct: 1 });
+  });
+
+  it('a contested race with no votes counted yet has no margin', () => {
+    expect(
+      raceMargin(
+        tallyByCandidate([
+          { candidateid: 'A', votecount: 0 },
+          { candidateid: 'B', votecount: 0 },
+        ])
+      ).marginPct
+    ).toBe(0);
+  });
 });

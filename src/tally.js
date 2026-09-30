@@ -155,6 +155,8 @@ export function raceMargin(tally) {
     runnerUp,
     voteMargin,
     totalVotes,
-    marginPct: totalVotes ? voteMargin / totalVotes : 0,
+    // Unopposed is a 100% margin even with no votes cast (seats left off the
+    // ballot, e.g. FL and LA, report 0 votes).
+    marginPct: !runnerUp ? 1 : totalVotes ? voteMargin / totalVotes : 0,
   };
 }
