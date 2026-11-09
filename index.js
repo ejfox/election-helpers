@@ -761,3 +761,12 @@ function hslToHex(h, s, l) {
 
   return '#' + [r, g, b].map((x) => x.toString(16).padStart(2, '0')).join('');
 }
+
+// Re-export display names for candidates and county-equivalents
+export {
+  nameCase,
+  commonName,
+  surnameOf,
+  countyEquivalentLabel,
+  COMMON_CANDIDATE_NAMES,
+} from './src/names.js';
