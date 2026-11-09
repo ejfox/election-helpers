@@ -13,7 +13,12 @@
  *   - if the candidate has TOTAL rows, their sum is the candidate's votes;
  *   - otherwise the sum of all of the candidate's rows is.
  * Several TOTAL rows for one candidate are distinct ballot lines (fusion voting,
- * an "OTHER" candidate carrying GREEN + OTHER lines) and are summed. Any mode
+ * an "OTHER" candidate carrying GREEN + OTHER lines) and are summed. The
+ * candidate's `party` is the line that carried the most votes (by the same
+ * TOTAL-else-modes rule), not whichever row came first: Jamaal Bowman (NY-16,
+ * 2022) won on DEMOCRAT 127,024 + WORKING FAMILIES 6,543 and is a Democrat even
+ * when the WFP row is delivered first. `parties` lists every line, most votes
+ * first (ties keep input order). Any mode
  * that isn't TOTAL is a component, so new mode vocabularies need no whitelist.
  * When both exist and the modes don't add up to the TOTAL, the TOTAL wins and the
  * candidate carries a `modes-mismatch` warning.
@@ -51,7 +56,8 @@ export function isTotalMode(mode) {
  * @param {(mode: any) => boolean} [options.isTotal=isTotalMode]
  * @returns {Array<{candidate: string, name: any, party: any, parties: any[], votes: number,
  *   source: 'total'|'modes', modes: Record<string, number>, warnings: string[]}>}
- *   sorted by votes, descending (ties keep input order).
+ *   sorted by votes, descending (ties keep input order). `party` is the ballot
+ *   line with the most votes; `parties` every line, most votes first.
  * @example
  * tallyByCandidate([
  *   { candidateid: 'B', votecount: 10, mode: 'ELECTION DAY' },
@@ -78,6 +84,9 @@ export function tallyByCandidate(rows, options = {}) {
         candidate: id,
         name: row[nameKey],
         parties: [],
+        // Votes per ballot line, split like the candidate's own votes.
+        lineTotal: new Map(),
+        lineModes: new Map(),
         total: 0,
         totalRows: 0,
         modes: {},
@@ -87,6 +96,8 @@ export function tallyByCandidate(rows, options = {}) {
     const votes = Number(row[votesKey]) || 0;
     const party = row[partyKey];
     if (party != null && !c.parties.includes(party)) c.parties.push(party);
+    const lines = isTotal(row[modeKey]) ? c.lineTotal : c.lineModes;
+    if (party != null) lines.set(party, (lines.get(party) || 0) + votes);
     if (isTotal(row[modeKey])) {
       c.total += votes;
       c.totalRows++;
@@ -102,11 +113,16 @@ export function tallyByCandidate(rows, options = {}) {
     const source = c.totalRows ? 'total' : 'modes';
     const warnings =
       c.totalRows && hasModes && modeSum !== c.total ? ['modes-mismatch'] : [];
+    // Most-voted ballot line first; Array#sort is stable, so ties keep input order.
+    const lines = c.totalRows ? c.lineTotal : c.lineModes;
+    const parties = [...c.parties].sort(
+      (a, b) => (lines.get(b) || 0) - (lines.get(a) || 0)
+    );
     return {
       candidate: c.candidate,
       name: c.name,
-      party: c.parties[0],
-      parties: c.parties,
+      party: parties[0],
+      parties,
       votes: c.totalRows ? c.total : modeSum,
       source,
       modes: c.modes,

@@ -246,7 +246,9 @@ export function fitTextToWidth(
 export interface CandidateTally {
   candidate: string;
   name: unknown;
+  /** The ballot line that carried the most votes (fusion voting: DEMOCRAT over WORKING FAMILIES). */
   party: unknown;
+  /** Every ballot line, most votes first; ties keep input order. */
   parties: unknown[];
   votes: number;
   source: 'total' | 'modes';
