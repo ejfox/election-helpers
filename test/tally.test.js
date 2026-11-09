@@ -155,6 +155,110 @@ describe('tallyByCandidate — synthetic edge cases', () => {
     expect(tallyByCandidate(undefined)).toEqual([]);
     expect(raceMargin([])).toBeNull();
   });
+
+  // NY-16, 2022, as delivered: the Working Families row comes first.
+  const bowman = [
+    {
+      geounitid: '3616',
+      candidateid: 'H0NY16143',
+      candidatename: 'JAMAAL BOWMAN',
+      party: 'WORKING FAMILIES',
+      votecount: 6543,
+      mode: 'TOTAL',
+    },
+    {
+      geounitid: '3616',
+      candidateid: 'H0NY16143',
+      candidatename: 'JAMAAL BOWMAN',
+      party: 'DEMOCRAT',
+      votecount: 127024,
+      mode: 'TOTAL',
+    },
+    {
+      geounitid: '3616',
+      candidateid: 'H2NY16115',
+      candidatename: 'MIRIAM FLISSER',
+      party: 'REPUBLICAN',
+      votecount: 74156,
+      mode: 'TOTAL',
+    },
+    {
+      geounitid: '3616',
+      candidateid: 'congress_2022_3616_SCATTERED',
+      candidatename: 'Scattered write-ins',
+      party: 'WRITE-IN',
+      votecount: 205,
+      mode: 'TOTAL',
+    },
+  ];
+
+  it('fusion: party is the ballot line with the most votes, not the first row (NY-16 2022)', () => {
+    const [winner] = tallyByCandidate(bowman);
+    expect(winner.name).toBe('JAMAAL BOWMAN');
+    expect(winner.votes).toBe(133567);
+    expect(winner.party).toBe('DEMOCRAT');
+    expect(winner.parties).toEqual(['DEMOCRAT', 'WORKING FAMILIES']);
+    expect(raceMargin(tallyByCandidate(bowman)).winner.party).toBe('DEMOCRAT');
+  });
+
+  it('fusion: the result does not depend on row order', () => {
+    const forward = tallyByCandidate(bowman);
+    const reversed = tallyByCandidate([...bowman].reverse());
+    expect(reversed[0].party).toBe(forward[0].party);
+    expect(reversed[0].parties).toEqual(forward[0].parties);
+  });
+
+  it('fusion with modes only: lines are weighed by their summed mode rows', () => {
+    const tally = tallyByCandidate([
+      {
+        candidateid: 'A',
+        party: 'CONSERVATIVE',
+        votecount: 40,
+        mode: 'ELECTION DAY',
+      },
+      {
+        candidateid: 'A',
+        party: 'REPUBLICAN',
+        votecount: 30,
+        mode: 'ELECTION DAY',
+      },
+      {
+        candidateid: 'A',
+        party: 'REPUBLICAN',
+        votecount: 30,
+        mode: 'ABSENTEE',
+      },
+    ]);
+    expect(tally[0].party).toBe('REPUBLICAN');
+    expect(tally[0].votes).toBe(100);
+  });
+
+  it('fusion with TOTAL and modes: the TOTAL rows decide the line', () => {
+    const tally = tallyByCandidate([
+      {
+        candidateid: 'A',
+        party: 'INDEPENDENCE',
+        votecount: 90,
+        mode: 'ELECTION DAY',
+      },
+      { candidateid: 'A', party: 'DEMOCRAT', votecount: 60, mode: 'TOTAL' },
+      { candidateid: 'A', party: 'INDEPENDENCE', votecount: 10, mode: 'TOTAL' },
+    ]);
+    expect(tally[0].party).toBe('DEMOCRAT');
+  });
+
+  it('a single-line candidate keeps its party; a tie keeps input order', () => {
+    expect(
+      tallyByCandidate([{ candidateid: 'A', party: 'GREEN', votecount: 5 }])[0]
+        .party
+    ).toBe('GREEN');
+    const tie = tallyByCandidate([
+      { candidateid: 'A', party: 'X', votecount: 5 },
+      { candidateid: 'A', party: 'Y', votecount: 5 },
+    ]);
+    expect(tie[0].party).toBe('X');
+    expect(tie[0].parties).toEqual(['X', 'Y']);
+  });
 });
 
 describe('raceMargin', () => {
