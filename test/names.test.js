@@ -37,6 +37,12 @@ describe('surnameOf', () => {
     expect(surnameOf('JOSEPH R JR BIDEN')).toBe('Biden');
     expect(surnameOf('Kamala Harris')).toBe('Harris');
   });
+
+  it('drops an undotted suffix in a mixed-case name', () => {
+    expect(surnameOf('Robert Reid Jr')).toBe('Reid');
+    expect(surnameOf('Joseph R Jr Biden')).toBe('Biden');
+    expect(commonName('Robert Reid Jr')).toBe('Robert Reid Jr');
+  });
 });
 
 describe('countyEquivalentLabel', () => {

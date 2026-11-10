@@ -88,7 +88,7 @@ export function commonName(raw) {
   if (COMMON_CANDIDATE_NAMES[cased]) return COMMON_CANDIDATE_NAMES[cased];
   if (PARTY_LABEL.test(cased) || /^all other/i.test(cased)) return cased;
   const words = cased.split(/\s+/);
-  const suffixes = words.filter((w) => /^(Jr\.|Sr\.)$/.test(w) || ROMAN.test(w));
+  const suffixes = words.filter((w) => SUFFIX.test(w) || ROMAN.test(w));
   const core = words.filter((w) => !suffixes.includes(w));
   if (core.length <= 2) return cased;
   return [core[0], core.at(-1), ...suffixes].join(' ');
@@ -104,7 +104,7 @@ export function commonName(raw) {
 export function surnameOf(raw) {
   const name = commonName(raw);
   if (PARTY_LABEL.test(name)) return name;
-  const words = name.split(/\s+/).filter((w) => !/^(Jr\.|Sr\.)$/.test(w) && !ROMAN.test(w));
+  const words = name.split(/\s+/).filter((w) => !SUFFIX.test(w) && !ROMAN.test(w));
   return words.at(-1) ?? name;
 }
 
